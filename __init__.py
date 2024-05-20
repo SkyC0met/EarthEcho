@@ -1,13 +1,13 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, render_template
 
 from chat import get_response
 
 app = Flask(__name__)
 
-
-@app.route('/')
-def home():
-    return "Hello, Flask!"
+#
+# @app.route('/')
+# def home():
+#     return "Hello, Flask!"
 
 
 # chatbot
@@ -19,5 +19,11 @@ def predict():
     return jsonify(message)
 
 
+@app.route('/')
+def homepage():
+    return render_template('customer/homepage.html')
+
+
+# remember to set to False when done with project
 if __name__ == "__main__":
-    app.run(debug=False)
+    app.run(debug=True)
