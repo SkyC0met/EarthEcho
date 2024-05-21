@@ -31,107 +31,62 @@
       "responses": ["Happy to help!", "Any time!", "My pleasure"]
     },
     {
-      "tag": "items",
+      "tag": "general_info",
       "patterns": [
-        "Which items do you have?",
-        "What kinds of items are there?",
-        "Which products do you sell?",
-        "Which items do Greenify have?"
+        "What is sustainable living?",
+        "Can you tell me about sustainability?",
+        "What does it mean to live sustainably?",
+        "Define sustainable living",
+        "Explain sustainability"
       ],
       "responses": [
-        "We sell a wide range of sustainable products, such as reusable cutlery, sustainable water bottles, tote bags etc",
-        "We offer a variety of eco-friendly products, such as reusable cutlery, sustainable water bottles, tote bags etc"
+        "It involves making choices that reduce your environmental impact.",
+        "It is about meeting our own needs without compromising the ability of future generations to meet theirs.",
+        "It means reducing your carbon footprint and conserving resources."
       ]
     },
     {
-      "tag": "payments",
+      "tag": "recycling",
       "patterns": [
-        "Do you take credit cards?",
-        "Do you accept Mastercard?",
-        "Can I pay with Paypal?",
-        "Are you cash only?"
+        "How do I recycle?",
+        "Can you tell me about recycling?",
+        "Tips for recycling",
+        "What items are recyclable?"
       ],
       "responses": [
-        "We accept VISA, Mastercard and Paypal",
-        "We accept majority of the credit cards, and Paypal"
+        "Common recyclables include paper, cardboard, glass, metal, and certain plastics.",
+        "To recycle effectively, clean and separate your recyclables according to local guidelines.",
+        "Not all plastics are recyclable. Check for the recycling symbol and number on the item."
       ]
     },
     {
-      "tag": "delivery",
+      "tag": "energy_conservation",
       "patterns": [
-        "How long does delivery take?",
-        "How long does shipping take?",
-        "When do I get my delivery?",
-        "When will I receive my order?"
+        "How can I save energy?",
+        "Tips for conserving energy",
+        "Ways to reduce energy consumption",
+        "Energy saving tips",
+        "How to use less electricity?"
       ],
       "responses": [
-        "Delivery takes 2-4 days from the order date",
-        "Shipping takes 2-4 days from the order date",
-        "You'll usually receive it after 2-4 days"
+        "By using energy-efficient appliances and turning off lights when not in use.",
+        "Consider using renewable energy sources such as solar or wind power.",
+        "Insulating your home can also help reduce energy consumption."
       ]
     },
     {
-      "tag": "offers",
+      "tag": "water_conservation",
       "patterns": [
-        "How do I earn points",
-        "Where can I get vouchers",
-        "How do I redeem points?",
-        "Where can I get discounts?",
-        "Where are the promo codes?"
+        "How can I conserve water?",
+        "Tips for saving water",
+        "Ways to reduce water usage",
+        "Water conservation tips",
+        "How to use less water?"
       ],
       "responses": [
-        "After earning points from the games, you can redeem them by clicking on the promo code button",
-        "Click on the games to earn points and redeem exclusive vouchers along the way"
-      ]
-    },
-    {
-      "tag": "contact_us",
-      "patterns": [
-        "What is your email address?",
-        "Where can I contact the staff?",
-        "How do I contact the customer support?",
-        "Can I talk to a human?",
-        "How can I contact you?",
-        "How do I contact Greenify?"
-      ],
-      "responses": [
-        "Contact us: enquiries@Greenify.com",
-        "Email us: enquiries@Greenify.com"
-      ]
-    },
-    {
-      "tag": "order_status",
-      "patterns": [
-        "Where is my order?",
-        "What's the status of my delivery?",
-        "Can you track my order?"
-      ],
-      "responses": [
-        "To check your order status, please log in to your account or email us with your order number.",
-        "To track your order, kindly log in to your account or email us with your order number."
-      ]
-    },
-    {
-      "tag": "return_policy",
-      "patterns": [
-        "Can I return a product?",
-        "What is your return policy?",
-        "How can I initiate a return?"
-      ],
-      "responses": [
-        "Our return policy allows returns within 14 days of delivery."
-      ]
-    },
-    {
-      "tag": "login",
-      "patterns": [
-        "How do I login?",
-        "Where can I register an account?",
-        "Where can I login to my account?",
-        "How do I register?"
-      ],
-      "responses": [
-        "Click on the user icon on the top right of the page to login/register."
+        "To conserve water, fix leaks, install water-efficient fixtures, and take shorter showers.",
+        "Collect rainwater for gardening and use drought-resistant plants in your landscaping.",
+        "Only run dishwashers and washing machines with full loads."
       ]
     }
   ]
