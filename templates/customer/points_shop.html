@@ -1,0 +1,111 @@
+<title>{% block title %}{% endblock %}Homepage</title> {% block body %}
+<!-- Include navbar -->
+{% include "navbar/cust_navbar.html" %}
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename='/css/points_shop.css') }}"
+/>
+<body class="light">
+  <!--POINTS SHOP TITLE-->
+  <div
+    class="container-title d-flex align-items-center justify-content-between"
+  >
+    <h4>POINTS SHOP</h4>
+    <div class="d-flex align-items-center" style="margin-right: 110px">
+      <i
+        class="fa-solid fa-clover fa-2xl mx-3"
+        style="color: #ffffff"
+        data-bs-toggle="dropdown"
+      ></i>
+      <div>
+        <p class="m-0">YOUR BALANCE</p>
+        <p class="m-0">2,700</p>
+      </div>
+    </div>
+  </div>
+  <!--POINTS SHOP TITLE-->
+
+  <!--POINTS SHOP DONATE SECTION-->
+  <div id="donate-container" class="container mt-5">
+    <!--DONATE TOP-->
+    <div class="container-top mb-4">
+      <div class="row align-items-center">
+        <div class="col-auto">
+          <h2 class="m-0">Donate to a worth cause</h2>
+        </div>
+        <div class="col-auto">
+          <button>See All (15)</button>
+        </div>
+        <div class="col"><hr /></div>
+        <div class="col-auto p-0">
+          <i class="fa-solid fa-caret-left fa-2xl"></i>
+        </div>
+        <div class="col-auto p-0">
+          <i class="fa-solid fa-caret-right fa-2xl"></i>
+        </div>
+      </div>
+      <p>Every point is worth $0.01, minimum $5 to donate</p>
+    </div>
+    <!--DONATE TOP-->
+    <div class="row row-cols-5">
+      <div class="col">
+        <div class="card" data-bs-toggle="modal" data-bs-target="#DonateModal1">
+          <img
+            src="../../static/images/ci.png"
+            class="card-img-top"
+            alt="..."
+          />
+          <div class="card-body p-2">
+            <h5 class="card-title">Conservation International</h5>
+            <p class="card-text m-0">
+              Empowering communities to care for and value nature's benefit to
+              people.
+            </p>
+            <div class="d-flex align-items-center justify-content-end">
+              <i
+                class="fa-solid fa-clover fa-xl mx-1"
+                style="color: #985f6f"
+                data-bs-toggle="dropdown"
+              ></i>
+              <p id="price" class="text-end m-0 fw-bold">500</p>
+            </div>
+          </div>
+        </div>
+
+        <div
+          class="modal fade"
+          id="DonateModal1"
+          tabindex="-1"
+          aria-labelledby="exampleModalLabel"
+          aria-hidden="true"
+        >
+          <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+              <div class="modal-header">
+                <img src="../../static/images/ci.png" alt="" />
+                <button
+                  type="button"
+                  class="btn-close"
+                  data-bs-dismiss="modal"
+                  aria-label="Close"
+                ></button>
+              </div>
+              <div class="modal-body">
+                <h4>Donate to Conservational International</h4>
+                <p>
+                  Empowering communities to care for and value nature's benefit
+                  to people
+                </p>
+              </div>
+              <div class="modal-footer d-grid justify-content-center">
+                <button type="button" class="btn btn-primary">Donate</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--POINTS SHOP DONATE SECTION-->
+</body>
+{% include "customer/customerBase.html" %} {% endblock %}
