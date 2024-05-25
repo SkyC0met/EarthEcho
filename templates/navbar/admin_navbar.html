@@ -11,10 +11,7 @@
       integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
       crossorigin="anonymous"
     />
-    <link
-      rel="stylesheet"
-      href="{{ url_for('static', filename='/css/navbar.css') }}"
-    />
+    <link rel="stylesheet" href="navbar.css" />
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -25,20 +22,79 @@
   </head>
   <nav class="navbar navbar-expand-lg">
     <div class="container-fluid">
-      <a class="navbar-brand ms-3 me-5" href="#">EarthEcho Admin</a>
-      <div class="mx-5 d-flex align-items-center">
-        <div class="dropdown text-center">
-          <i
-            class="fa-solid fa-user fa-2xl mx-3"
-            style="color: #ffffff; cursor: pointer"
-            data-bs-toggle="dropdown"
-          ></i>
-          <ul
-            class="dropdown-menu position-absolute start-50 translate-middle-x mt-3"
-          >
-            <li><a class="dropdown-item" href="#">Log out</a></li>
+      <a class="navbar-brand ms-3 me-5" href="#">EarthEcho</a>
+      <button
+        class="navbar-toggler"
+        style="box-shadow: none; background-color: #ffffff"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div
+        class="collapse navbar-collapse justify-content-between"
+        id="navbarSupportedContent"
+      >
+        <!--NOT DROPDOWN-->
+        <div class="order-last mx-5 d-lg-flex d-none align-items-center">
+          <div class="dropdown text-center">
+            <i
+              class="fa-solid fa-user fa-2xl mx-3"
+              style="color: #ffffff; cursor: pointer"
+              data-bs-toggle="dropdown"
+            ></i>
+            <ul
+              class="dropdown-menu position-absolute start-50 translate-middle-x mt-3"
+            >
+              <li><a class="dropdown-item" href="#">Logout</a></li>
+            </ul>
+          </div>
+        </div>
+        <!--NOT DROPDOWN-->
+
+        <!--DROPDOWN-->
+        <div class="d-lg-none my-3">
+          <ul class="navbar-nav gap-3">
+            <li class="nav-item dropdown">
+              <div
+                class="nav-link d-flex align-items-center"
+                role="button"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
+                <i
+                  class="fa-solid fa-user fa-2xl mx-3"
+                  style="color: #ffffff; cursor: pointer"
+                ></i>
+                <p style="color: #ffffff">Profile</p>
+                <i
+                  class="fa-solid fa-caret-down mx-2"
+                  style="color: #ffffff"
+                ></i>
+              </div>
+              <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="#">Logout</a></li>
+              </ul>
+            </li>
           </ul>
         </div>
+        <!--DROPDOWN-->
+
+        <!--SEARCHBAR-->
+        <div class="order-first search-container order-2">
+          <input
+            class="form-control rounded-pill"
+            type="search"
+            placeholder="Type here for search"
+            aria-label="Search"
+          />
+          <i class="fa-solid fa-magnifying-glass"></i>
+        </div>
+        <!--SEARCHBAR-->
       </div>
     </div>
   </nav>

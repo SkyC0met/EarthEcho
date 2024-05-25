@@ -28,6 +28,7 @@
       <a class="navbar-brand ms-3 me-5" href="#">EarthEcho</a>
       <button
         class="navbar-toggler"
+        style="box-shadow: none; background-color: #ffffff"
         type="button"
         data-bs-toggle="collapse"
         data-bs-target="#navbarSupportedContent"
@@ -38,20 +39,11 @@
         <span class="navbar-toggler-icon"></span>
       </button>
       <div
-        class="collapse navbar-collapse d-flex justify-content-between"
+        class="collapse navbar-collapse justify-content-between"
         id="navbarSupportedContent"
       >
-        <div class="search-container">
-          <input
-            class="form-control rounded-pill"
-            type="search"
-            placeholder="Type here for search"
-            aria-label="Search"
-          />
-          <i class="fa-solid fa-magnifying-glass"></i>
-        </div>
-
-        <div class="mx-5 d-flex align-items-center">
+        <!--NOT DROPDOWN-->
+        <div class="order-last mx-5 d-lg-flex d-none align-items-center">
           <i
             class="fa-solid fa-square-plus fa-2xl mx-3"
             style="color: #ffffff; cursor: pointer"
@@ -87,6 +79,81 @@
             </ul>
           </div>
         </div>
+        <!--NOT DROPDOWN-->
+
+        <!--DROPDOWN-->
+        <div class="d-lg-none my-3">
+          <ul class="navbar-nav gap-3">
+            <li class="nav-item d-flex align-items-center">
+              <i
+                class="fa-solid fa-square-plus fa-2xl mx-3"
+                style="color: #ffffff; cursor: pointer"
+              ></i>
+              <p style="color: #ffffff">Create new posts</p>
+            </li>
+            <li class="nav-item dropdown">
+              <div
+                class="nav-link d-flex align-items-center"
+                role="button"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
+                <i
+                  class="fa-solid fa-user fa-2xl mx-3"
+                  style="color: #ffffff"
+                ></i>
+                <p style="color: #ffffff">Profile</p>
+                <i
+                  class="fa-solid fa-caret-down mx-2"
+                  style="color: #ffffff"
+                ></i>
+              </div>
+              <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="#">Profile</a></li>
+                <li><a class="dropdown-item" href="#">My posts</a></li>
+                <li><a class="dropdown-item" href="#">Messages</a></li>
+                <li><a class="dropdown-item" href="#">Favourites</a></li>
+                <li><a class="dropdown-item" href="#">Unban request</a></li>
+                <li><a class="dropdown-item" href="#">Logout</a></li>
+              </ul>
+            </li>
+            <li class="nav-item dropdown">
+              <div
+                class="nav-link d-flex align-items-center"
+                role="button"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
+                <i
+                  class="fa-solid fa-clover fa-2xl mx-3"
+                  style="color: #ffffff; cursor: pointer"
+                ></i>
+                <p style="color: #ffffff">Points shop & Vouchers</p>
+                <i
+                  class="fa-solid fa-caret-down mx-2"
+                  style="color: #ffffff"
+                ></i>
+              </div>
+              <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="#">Points Shop</a></li>
+                <li><a class="dropdown-item" href="#">Vouchers</a></li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+        <!--DROPDOWN-->
+
+        <!--SEARCHBAR-->
+        <div class="order-first search-container order-2">
+          <input
+            class="form-control rounded-pill"
+            type="search"
+            placeholder="Type here for search"
+            aria-label="Search"
+          />
+          <i class="fa-solid fa-magnifying-glass"></i>
+        </div>
+        <!--SEARCHBAR-->
       </div>
     </div>
   </nav>

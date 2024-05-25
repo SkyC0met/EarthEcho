@@ -8,7 +8,10 @@ body {
 
 nav {
   background-color: #4e4c67;
-  height: 65px;
+}
+
+p {
+  margin: 0;
 }
 
 nav .navbar-brand,
@@ -22,7 +25,7 @@ nav .navbar-brand:active {
 
 .search-container {
   position: relative;
-  width: 750px;
+  width: 100%;
 }
 
 .search-container input[type="search"] {
@@ -38,6 +41,7 @@ nav .navbar-brand:active {
   -webkit-appearance: none;
   appearance: none;
 }
+
 .search-container input[type="search"]::-ms-clear {
   display: none;
   width: 0;
@@ -58,8 +62,10 @@ nav .navbar-brand:active {
   cursor: pointer;
 }
 
-.dropdown:hover .dropdown-menu {
-  display: block;
+@media only screen and (min-width: 992px) {
+  .dropdown:hover .dropdown-menu {
+    display: block;
+  }
 }
 
 .dropdown-menu {
