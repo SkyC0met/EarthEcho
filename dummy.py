@@ -4,9 +4,9 @@ def connect_and_fetch():
     try:
         # Establish the connection
         connection = mysql.connector.connect(
-            host='localhost',       # e.g., 'localhost' or '127.0.0.1'
-            user='Nichole',   # your MySQL username
-            password='skycomet', # your MySQL password
+            host='127.0.0.1',       # e.g., 'localhost' or '127.0.0.1'
+            user='skycomet',   # your MySQL username
+            password='password', # your MySQL password
             database='earthecho'    # name of the database
         )
 

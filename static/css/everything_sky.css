@@ -1,3 +1,13 @@
+/*body.dark {
+  background-color: #232946;
+  color: #b8c1ec;
+}
+
+body.light {
+  background-color: #dcd6f7;
+  color: #4e4c67;
+}*/
+
 * {
   font-family: Poppins;
 }
@@ -13,9 +23,75 @@ h3,
 h4,
 h5,
 h6 {
-  color: #4e4c67;
   margin-bottom: 0 !important;
+  color: #4e4c67;
 }
+
+/*NAVBAR CONTAINER*/
+nav {
+  background-color: #4e4c67;
+}
+
+nav .navbar-brand,
+nav .navbar-brand:hover,
+nav .navbar-brand:focus,
+nav .navbar-brand:active {
+  color: #ffffff;
+  font-weight: bold;
+  font-size: 40px;
+}
+
+.search-container {
+  position: relative;
+  width: 100%;
+}
+
+.search-container input[type="search"] {
+  padding: 10px 40px 10px 20px;
+  width: 100%;
+  border: black;
+  border-radius: 50px;
+  box-shadow: none;
+  appearance: none;
+}
+
+.search-container input[type="search"]::-webkit-search-cancel-button {
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.search-container input[type="search"]::-ms-clear {
+  display: none;
+  width: 0;
+  height: 0;
+}
+
+.search-container input[type="search"]::placeholder,
+.search-container .fa-solid,
+.dropdown-item {
+  color: #4e4c67;
+}
+
+.search-container .fa-solid {
+  position: absolute;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+}
+
+@media only screen and (min-width: 992px) {
+  .dropdown:hover .dropdown-menu {
+    display: block;
+  }
+}
+
+.dropdown-menu {
+  min-width: 0;
+  background-color: #a6b1e1;
+}
+
+/*NAVBAR CONTAINER*/
 
 /*POINTS SHOP CONTAINER*/
 .container-title {

@@ -24,9 +24,8 @@ def homepage():
     return render_template('customer/homepage.html')
 
 @app.route('/points')
-def test():
+def points():
     return render_template('customer/points_shop.html')
-
 
 # remember to set to False when done with project
 if __name__ == "__main__":

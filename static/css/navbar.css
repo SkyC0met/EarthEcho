@@ -6,12 +6,20 @@ body {
   background-color: #dcd6f7;
 }
 
-nav {
-  background-color: #4e4c67;
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin-bottom: 0 !important;
+  color: #4e4c67;
 }
 
-p {
-  margin: 0;
+/*NAVBAR CONTAINER*/
+nav {
+  background-color: #4e4c67;
 }
 
 nav .navbar-brand,
@@ -72,3 +80,5 @@ nav .navbar-brand:active {
   min-width: 0;
   background-color: #a6b1e1;
 }
+
+/*NAVBAR CONTAINER*/

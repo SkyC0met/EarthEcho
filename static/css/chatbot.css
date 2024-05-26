@@ -4,18 +4,16 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-  font-family: "Roboto", sans-serif;
+  /*font-family: "Roboto", sans-serif;*/
 }
 
 /* change color to match theme */
 *,
 html {
   --primaryGradient: linear-gradient(93.12deg, #26580f 0.52%, #3b7321 100%);
-  --secondaryGradient: linear-gradient(
-    268.91deg,
-    #26580f -2.14%,
-    #3b7321 99.69%
-  );
+  --secondaryGradient: linear-gradient(268.91deg,
+      #26580f -2.14%,
+      #3b7321 99.69%);
   --primaryBoxShadow: 0px 10px 15px rgba(0, 0, 0, 0.1);
   --secondaryBoxShadow: 0px -10px 15px rgba(0, 0, 0, 0.1);
   --primary: #26580f;
@@ -55,7 +53,8 @@ html {
   position: fixed;
   bottom: 30px;
   right: 30px;
-  z-index: 999; /* Ensure the chatbox icon appears above other elements */
+  z-index: 999;
+  /* Ensure the chatbox icon appears above other elements */
 }
 
 .send__button {
