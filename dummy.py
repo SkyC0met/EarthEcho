@@ -7,7 +7,7 @@ def connect_and_fetch():
             host='127.0.0.1',       # e.g., 'localhost' or '127.0.0.1'
             user='skycomet',   # your MySQL username
             password='password', # your MySQL password
-            database='earthecho'    # name of the database
+            database='remote_database'    # name of the database
         )
 
         if connection.is_connected():
@@ -17,7 +17,7 @@ def connect_and_fetch():
             cursor = connection.cursor()
 
             # Write the query
-            query = "SELECT * FROM user"
+            query = "SELECT * FROM person"
 
             # Execute the query
             cursor.execute(query)
