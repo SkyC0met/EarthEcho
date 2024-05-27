@@ -7,9 +7,10 @@ body.light {
   background-color: #dcd6f7;
   color: #4e4c67;
 }*/
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap");
 
 * {
-  font-family: Poppins;
+  font-family: "Roboto", sans-serif;
 }
 
 body {

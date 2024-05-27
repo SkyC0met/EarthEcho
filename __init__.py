@@ -23,9 +23,16 @@ def predict():
 def homepage():
     return render_template('customer/homepage.html')
 
+
+@app.route('/Blog')
+def blog():
+    return render_template('customer/blogpost.html')
+
+
 @app.route('/points')
 def points():
     return render_template('customer/points_shop.html')
+
 
 # remember to set to False when done with project
 if __name__ == "__main__":

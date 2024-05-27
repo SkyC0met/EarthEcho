@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/blogpost.css') }}" />
+    <script type="text/javascript" src="{{ url_for('static', filename='js/blog_base.js') }}"></script>
+    <title>Blog Post</title>
+</head>
+<body>
+    {% include "customer/customerBase.html" %}
+    {% include "navbar/cust_navbar.html" %}
+
+    <div class="content">
+        <h1><b>Blog Name</b></h1>
+        <p>Blog content</p>
+
+        <div class="item product-review">
+            <h3><b>Product Review</b></h3>
+            <div>
+                <div class="review">
+                    <p>Date: 29/5/2024</p>
+                    <p>Time: 12:00pm</p>
+                    <p>Review: very nice</p>
+                </div>
+            </div>
+
+            <div class="form-group mb-4">
+                <div class="rating-wrapper">
+                    <p>Rating:</p>
+                    <img id="1" src="{{ url_for('static', filename='images/star.png') }}" width="20">
+                    <img id="2" src="{{ url_for('static', filename='images/star.png') }}" width="20">
+                    <img id="3" src="{{ url_for('static', filename='images/star.png') }}" width="20">
+                    <img id="4" src="{{ url_for('static', filename='images/star.png') }}" width="20">
+                    <img id="5" src="{{ url_for('static', filename='images/star.png') }}" width="20">
+                    <button onclick="clearStarRating()" class="btn btn-primary">Clear</button>
+                </div>
+                <input type="hidden" id="rating" name="rating" value="">
+            </div>
+
+            <div class="form-group">
+                <label for="review">Write your review:</label>
+                <textarea name="review" id="review" rows="5" class="form-control" placeholder="Enter your review..." required></textarea>
+            </div>
+            <div class="pt-3">
+                <button type="button" class="btn btn-secondary">Submit</button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

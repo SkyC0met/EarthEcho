@@ -1,0 +1,100 @@
+.content {
+    width: 80%;
+    margin: 20px auto;
+    padding: 20px;
+}
+
+h1 {
+    font-size: 0.8em;
+    padding-bottom: 10px;
+}
+
+.item.product-review h3 {
+    font-size: 1.5em;
+    padding-bottom: 10px;
+}
+
+p {
+    font-size: 1em;
+    line-height: 1.6;
+}
+
+/* Product Review Section */
+.product-review {
+    margin-top: 30px;
+}
+
+.product-review h3 {
+    font-size: 2em;
+    margin-bottom: 10px;
+}
+
+.review {
+    padding: 10px;
+    background-color: #eee;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+/* Rating Section */
+.rating-wrapper {
+    display: flex;
+    align-items: center;
+}
+
+.rating-wrapper p {
+    margin-right: 10px;
+    font-weight: bold;
+}
+
+.rating-wrapper img {
+    cursor: pointer;
+    margin-right: 5px;
+    z-index: 1;
+    filter: invert(99%) sepia(1%) saturate(0%) hue-rotate(161deg) brightness(101%) contrast(104%);
+    padding-right: 3px;
+}
+
+.rating-checked {
+    filter: none !important;
+}
+
+.rating-wrapper button {
+    margin-left: 10px;
+    z-index: 1;
+}
+
+/* Form Styles */
+.form-group {
+    margin-top: 20px;
+}
+
+.form-group label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.form-group textarea {
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .container {
+        width: 95%;
+    }
+
+    .rating-wrapper {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .rating-wrapper button {
+        margin-top: 10px;
+        margin-left: 0;
+    }
+}
