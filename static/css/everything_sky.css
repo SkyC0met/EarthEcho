@@ -9,6 +9,10 @@ body.light {
 }*/
 @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap");
 
+* {
+  font-family: "Roboto", sans-serif;
+}
+
 body {
   background-color: #dcd6f7;
 }
@@ -22,6 +26,10 @@ h5,
 h6 {
   margin-bottom: 0 !important;
   color: #4e4c67;
+}
+
+a {
+  text-decoration: none;
 }
 
 /*NAVBAR CONTAINER*/
@@ -38,18 +46,26 @@ nav .navbar-brand:active {
   font-size: 40px;
 }
 
-.search-container {
+nav .search-container {
   position: relative;
   width: 100%;
 }
 
-.search-container input[type="search"] {
+nav .search-container input[type="search"] {
   padding: 10px 40px 10px 20px;
   width: 100%;
   border: black;
   border-radius: 50px;
   box-shadow: none;
   appearance: none;
+}
+
+nav .search-container .fa-solid {
+  position: absolute;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
 }
 
 .search-container input[type="search"]::-webkit-search-cancel-button {
@@ -69,16 +85,8 @@ nav .navbar-brand:active {
   color: #4e4c67;
 }
 
-.search-container .fa-solid {
-  position: absolute;
-  right: 20px;
-  top: 50%;
-  transform: translateY(-50%);
-  cursor: pointer;
-}
-
 @media only screen and (min-width: 992px) {
-  .dropdown:hover .dropdown-menu {
+  nav .dropdown:hover .dropdown-menu {
     display: block;
   }
 }
@@ -303,3 +311,224 @@ nav .navbar-brand:active {
 }
 
 /*CHECKMARK ANIMATION*/
+
+/*MESSAGE TOP*/
+#message-container .search-container {
+  position: relative;
+  width: 40%;
+}
+
+@media only screen and (max-width: 768px) {
+  #message-container .search-container {
+    position: relative;
+    width: 100%;
+    margin-bottom: 20px;
+  }
+}
+
+
+#message-container .search-container input[type="search"] {
+  padding: 10px 40px 10px 20px;
+  width: 100%;
+  border: black;
+  box-shadow: none;
+  appearance: none;
+}
+
+#message-container .search-container .fa-solid {
+  position: absolute;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+}
+
+#dm-dropdown {
+  background-color: #985f68;
+  color: #ffffff;
+  border: none;
+}
+
+#dm-dropdown-menu {
+  background-color: #985f68;
+  border: none;
+}
+
+#dm-dropdown-menu a {
+  color: #ffffff;
+}
+
+#dm-dropdown-menu a:hover {
+  background-color: #b4869f;
+}
+
+/*MESSAGE TOP*/
+
+/*MESSAGES CONTAINER*/
+#messages {
+  border: 1px solid black;
+  background-color: #ffffff;
+  margin-top: 100px;
+}
+
+#message {
+  padding: 20px;
+}
+
+#message p {
+  color: #4e4c67;
+}
+
+#message #message-short {
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+#message .btn {
+  border: 1px solid black;
+  color: #4e4c67;
+}
+
+@media only screen and (max-width: 768px) {
+  #messages {
+    margin-top: 20px;
+  }
+
+  #message #message-short {
+    margin-top: 10px;
+  }
+
+  #message .btn {
+    margin-top: 10px;
+  }
+}
+
+/*MESSAGES CONTAINER*/
+
+/*CHAT TOP*/
+#chat-top .btn {
+  border-radius: 0;
+  padding: 10px 20px;
+  color: #ffffff;
+  background-color: #985f68;
+}
+
+/*CHAT TOP*/
+
+/*CHAT CONTAINER*/
+#chat-btn-container {
+  background-color: #a6b1e1;
+  padding: 15px 10px;
+}
+
+#chat-btn-container .btn {
+  border-radius: 0;
+  margin-right: 10px;
+  padding: 5px 10px;
+}
+
+#archive-btn,
+#unread-btn {
+  color: #4e4c67;
+  background-color: #ffffff;
+}
+
+#spam-btn {
+  color: #ffffff;
+  background-color: #4e4c67;
+}
+
+/*CHAT CONTAINER*/
+
+/*MESSAGES CONTAINER*/
+#message {
+  padding: 20px;
+  background-color: #ffffff;
+}
+
+#message p {
+  color: #4e4c67;
+}
+
+#message #message-short {
+  margin-top: 20px;
+}
+
+/*MESSAGES CONTAINER*/
+
+/*CHAT REPLY CONTAINER*/
+#chat-reply-container {
+  background-color: #a6b1e1;
+}
+
+#reply-message .form-control:focus {
+  border: black;
+  box-shadow: none;
+  appearance: none;
+  outline: none;
+}
+
+#send-btn {
+  background-color: #985f68;
+  color: #ffffff;
+}
+
+/*CHAT REPLY CONTAINER*/
+
+/*FAVOURITES CONTAINER*/
+#fav-container .card {
+  height: 300px;
+  max-width: 200px;
+  cursor: pointer;
+}
+
+#fav-container .card img {
+  height: 200px;
+  object-fit: cover;
+  object-position: 50% 20%;
+}
+
+#fav-container .card-body {
+  background-color: transparent;
+}
+
+#fav-container .card-title {
+  color: #4e4c67;
+}
+
+.card-text {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/*FAVOURITES CONTAINER*/
+
+/*VOUCHERS CONTAINER*/
+#vou-container .card {
+  height: 300px;
+  max-width: 200px;
+  cursor: pointer;
+}
+
+#vou-container .card img {
+  height: 200px;
+  object-fit: cover;
+  object-position: 50% 20%;
+}
+
+#vou-container .card-body {
+  background-color: transparent;
+}
+
+#vou-container .card-title {
+  height: auto;
+  color: #4e4c67;
+}
+
+/*VOUCHERS CONTAINER*/

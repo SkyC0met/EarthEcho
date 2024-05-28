@@ -83,8 +83,16 @@
             >
               <li><a class="dropdown-item" href="#">Profile</a></li>
               <li><a class="dropdown-item" href="#">My posts</a></li>
-              <li><a class="dropdown-item" href="#">Messages</a></li>
-              <li><a class="dropdown-item" href="#">Favourites</a></li>
+              <li>
+                <a class="dropdown-item" href="{{ url_for('messages') }}"
+                  >Messages</a
+                >
+              </li>
+              <li>
+                <a class="dropdown-item" href="{{ url_for('favourites') }}"
+                  >Favourites</a
+                >
+              </li>
               <li><a class="dropdown-item" href="#">Unban request</a></li>
               <li><a class="dropdown-item" href="#">Logout</a></li>
             </ul>
@@ -98,8 +106,16 @@
             <ul
               class="dropdown-menu position-absolute start-50 translate-middle-x mt-1"
             >
-              <li><a class="dropdown-item" href="#">Points shop</a></li>
-              <li><a class="dropdown-item" href="#">Vouchers</a></li>
+              <li>
+                <a class="dropdown-item" href="{{ url_for('points') }}"
+                  >Points shop</a
+                >
+              </li>
+              <li>
+                <a class="dropdown-item" href="{{ url_for('vouchers') }}"
+                  >Vouchers</a
+                >
+              </li>
             </ul>
           </div>
         </div>
@@ -135,8 +151,16 @@
               <ul class="dropdown-menu">
                 <li><a class="dropdown-item" href="#">Profile</a></li>
                 <li><a class="dropdown-item" href="#">My posts</a></li>
-                <li><a class="dropdown-item" href="#">Messages</a></li>
-                <li><a class="dropdown-item" href="#">Favourites</a></li>
+                <li>
+                  <a class="dropdown-item" href="{{ url_for('messages') }}"
+                    >Messages</a
+                  >
+                </li>
+                <li>
+                  <a class="dropdown-item" href="{{ url_for('favourites') }}"
+                    >Favourites</a
+                  >
+                </li>
                 <li><a class="dropdown-item" href="#">Unban request</a></li>
                 <li><a class="dropdown-item" href="#">Logout</a></li>
               </ul>
@@ -159,8 +183,16 @@
                 ></i>
               </div>
               <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="#">Points Shop</a></li>
-                <li><a class="dropdown-item" href="#">Vouchers</a></li>
+                <li>
+                  <a class="dropdown-item" href="{{ url_for('points') }}"
+                    >Points Shop</a
+                  >
+                </li>
+                <li>
+                  <a class="dropdown-item" href="{{ url_for('vouchers') }}"
+                    >Vouchers</a
+                  >
+                </li>
               </ul>
             </li>
           </ul>

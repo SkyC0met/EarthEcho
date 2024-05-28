@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+
+  <body>
+    {% include "navbar/cust_navbar.html" %}
+    <!--VOUCHERS CONTAINER-->
+    <div class="container-md mt-sm-5 mt-4 mb-5">
+      <h2 class="fw-bold">Vouchers</h2>
+
+      <div id="vou-container" class="container mt-sm-5 mt-4 p-0">
+        <div class="row align-items-center">
+          <div class="col">
+            <div class="card">
+              <img
+                src="../../static/images/scaled.jpg"
+                class="card-img-top"
+                alt="..."
+              />
+              <div class="card-body p-2">
+                <h5 class="card-title mb-2">Scaled</h5>
+                <p class="card-text">10% OFF Dining Voucher</p>
+                <p class="card-text">Valid till 31 Dec 2024</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--VOUCHERS CONTAINER-->
+    {% include "customer/customerBase.html" %}
+  </body>
+</html>

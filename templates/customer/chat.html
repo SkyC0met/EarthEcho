@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+
+  <body>
+    {% include "navbar/cust_navbar.html" %}
+    <!--CHAT-->
+    <div class="container-md mt-sm-5 mt-4 mb-5">
+      <!--CHAT TOP-->
+      <div id="chat-top" class="container">
+        <h2 class="fw-bold mb-5">Messages</h2>
+
+        <button class="btn">
+          <i class="fa-solid fa-arrow-left-long me-2"></i>Back to inbox
+        </button>
+      </div>
+      <!--CHAT TOP-->
+
+      <div class="container-md mt-sm-5 mt-4">
+        <div
+          id="chat-btn-container"
+          class="container d-flex justify-content-end"
+        >
+          <button id="archive-btn" class="btn">Archive</button>
+          <button id="unread-btn" class="btn">Mark as unread</button>
+          <button id="spam-btn" class="btn">Report spam</button>
+        </div>
+
+        <div class="container">
+          <!--CHAT MESSAGE-->
+          <div id="message" class="row align-items-center px-md-5 px-2">
+            <div class="col-auto">
+              <i class="fa-solid fa-user fa-2xl" style="color: #4e4c67"></i>
+            </div>
+            <div class="col">
+              <div>
+                <p>Username</p>
+                <p>January 10, 2024</p>
+              </div>
+            </div>
+            <div class="col-12">
+              <p id="message-short">
+                Hey there! Just read your latest blog post on sustainability.
+                Really loved it!
+              </p>
+            </div>
+          </div>
+          <!--CHAT MESSAGE-->
+          <hr class="my-0" style="margin-left: -12px; margin-right: -12px" />
+          <!--CHAT MESSAGE-->
+          <div id="message" class="row align-items-center px-md-5 px-2">
+            <div class="col-auto">
+              <i class="fa-solid fa-user fa-2xl" style="color: #4e4c67"></i>
+            </div>
+            <div class="col">
+              <div>
+                <p>Username</p>
+                <p>January 10, 2024</p>
+              </div>
+            </div>
+            <div class="col-12">
+              <p id="message-short">
+                Oh, thank you so much! I'm glad you enjoyed it. Sustainability
+                is such an important topic.
+              </p>
+            </div>
+          </div>
+          <!--CHAT MESSAGE-->
+          <hr class="my-0" style="margin-left: -12px; margin-right: -12px" />
+          <!--CHAT MESSAGE-->
+          <div id="message" class="row align-items-center px-md-5 px-2">
+            <div class="col-auto">
+              <i class="fa-solid fa-user fa-2xl" style="color: #4e4c67"></i>
+            </div>
+            <div class="col">
+              <div>
+                <p>Username</p>
+                <p>January 10, 2024</p>
+              </div>
+            </div>
+            <div class="col-12">
+              <p id="message-short">
+                Absolutely! Your post was so insightful and well-written. You're
+                doing such a fantastic job spreading awareness.
+              </p>
+            </div>
+          </div>
+          <!--CHAT MESSAGE-->
+          <hr class="my-0" style="margin-left: -12px; margin-right: -12px" />
+          <!--CHAT MESSAGE-->
+          <div id="message" class="row align-items-center px-md-5 px-2">
+            <div class="col-auto">
+              <i class="fa-solid fa-user fa-2xl" style="color: #4e4c67"></i>
+            </div>
+            <div class="col">
+              <div>
+                <p>Username</p>
+                <p>January 10, 2024</p>
+              </div>
+            </div>
+            <div class="col-12">
+              <p id="message-short">
+                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Eius
+                adipisci autem, voluptates repellat repellendus animi minima
+                voluptas corporis reprehenderit magni temporibus voluptatibus
+                voluptate voluptatem, iste officia nemo id fugit ut!
+              </p>
+            </div>
+          </div>
+          <!--CHAT MESSAGE-->
+        </div>
+
+        <div id="chat-reply-container" class="p-4">
+          <div class="d-flex justify-content-center">
+            <div id="reply-message" class="input-group">
+              <textarea class="form-control"></textarea>
+            </div>
+          </div>
+
+          <div class="d-flex justify-content-start mt-3">
+            <button id="send-btn" class="btn">Send message</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--CHAT-->
+    {% include "customer/customerBase.html" %}
+  </body>
+</html>

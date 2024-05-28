@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+
+  <body>
+    {% include "navbar/cust_navbar.html" %}
+    <!--FAVOURITES-->
+    <div class="container-md mt-sm-5 mt-4 mb-5">
+      <h2 class="fw-bold">Favourites</h2>
+
+      <div id="fav-container" class="container mt-sm-5 mt-4 p-0">
+        <div class="row align-items-center">
+          <div class="col">
+            <div class="card">
+              <img
+                src="../../static/images/beach.png"
+                class="card-img-top"
+                alt="..."
+              />
+              <div class="card-body p-2">
+                <div
+                  class="d-flex align-items-center justify-content-between mb-2"
+                >
+                  <h5 class="card-title">Post Name</h5>
+                  <i
+                    class="fa-solid fa-heart fa-xl mx-3"
+                    style="color: #ff0000"
+                  ></i>
+                </div>
+                <p class="card-text">Description</p>
+                <p class="card-text">Written by: User</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--FAVOURITES-->
+    {% include "customer/customerBase.html" %}
+  </body>
+</html>

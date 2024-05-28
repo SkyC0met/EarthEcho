@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+
+  <body>
+    {% include "navbar/cust_navbar.html" %}
+    <!--MESSAGE-->
+    <div class="container-md mt-sm-5 mt-4">
+      <!--MESSAGE TOP-->
+      <div class="container">
+        <h2 class="fw-bold mb-5">Messages</h2>
+
+        <div
+          id="message-container"
+          class="d-md-flex d-block align-items-center justify-content-between"
+        >
+          <!--DM SEARCHBAR-->
+          <div class="order-first search-container">
+            <input
+              class="form-control"
+              type="search"
+              placeholder="Search messages"
+              aria-label="Search"
+            />
+            <i class="fa-solid fa-magnifying-glass"></i>
+          </div>
+          <!--DM SEARCHBAR-->
+
+          <!--DM DROPDOWN-->
+          <div class="dropdown-center">
+            <button
+              class="btn dropdown-toggle"
+              id="dm-dropdown"
+              type="button"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              Inbox
+            </button>
+            <ul id="dm-dropdown-menu" class="dropdown-menu">
+              <li><a class="dropdown-item" href="#">Inbox</a></li>
+              <li><a class="dropdown-item" href="#">Sent</a></li>
+              <li><a class="dropdown-item" href="#">Unread</a></li>
+              <li><a class="dropdown-item" href="#">Archive</a></li>
+              <li><a class="dropdown-item" href="#">Spam</a></li>
+              <li><a class="dropdown-item" href="#">All</a></li>
+            </ul>
+          </div>
+          <!--DM DROPDOWN-->
+        </div>
+      </div>
+      <!--MESSAGE TOP-->
+
+      <div id="messages" class="container">
+        <!--MESSAGE-->
+        <a href="{{ url_for('chat') }}">
+          <div id="message" class="row align-items-center px-md-5 px-2">
+            <div class="col-auto">
+              <i class="fa-solid fa-user fa-2xl" style="color: #4e4c67"></i>
+            </div>
+            <div class="col-md-auto col">
+              <div>
+                <p>Username</p>
+                <p>January 10, 2024</p>
+              </div>
+            </div>
+            <div class="col-md col-auto">
+              <p id="message-short">
+                Absolutely! Your post was so insightful and well-written. You're
+                doing such a fantastitic sharing about sustainable living.
+              </p>
+            </div>
+            <div class="col-auto">
+              <button class="btn">Archive</button>
+            </div>
+          </div></a
+        >
+        <!--MESSAGE-->
+        <hr class="my-0" style="margin-left: -12px; margin-right: -12px" />
+        <!--MESSAGE-->
+        <a href="#">
+          <div id="message" class="row align-items-center px-md-5 px-2">
+            <div class="col-auto">
+              <i class="fa-solid fa-user fa-2xl" style="color: #4e4c67"></i>
+            </div>
+            <div class="col-md-auto col">
+              <div>
+                <p>Username</p>
+                <p>January 10, 2024</p>
+              </div>
+            </div>
+            <div class="col-md col-auto">
+              <p id="message-short">
+                Lorem, ipsum dolor sit amet consectetur adipisicing elit. Neque
+                aut repudiandae a accusantium tempore non laborum cum magnam
+                voluptas! At aperiam, consequuntur nostrum ullam minus unde?
+                Itaque error animi labore.
+              </p>
+            </div>
+            <div class="col-auto">
+              <button class="btn">Archive</button>
+            </div>
+          </div></a
+        >
+        <!--MESSAGE-->
+        <hr class="my-0" style="margin-left: -12px; margin-right: -12px" />
+        <!--MESSAGE-->
+        <a href="#">
+          <div id="message" class="row align-items-center px-md-5 px-2">
+            <div class="col-auto">
+              <i class="fa-solid fa-user fa-2xl" style="color: #4e4c67"></i>
+            </div>
+            <div class="col-md-auto col">
+              <div>
+                <p>Username</p>
+                <p>January 10, 2024</p>
+              </div>
+            </div>
+            <div class="col-md col-auto">
+              <p id="message-short">
+                Lorem ipsum dolor sit, amet consectetur adipisicing elit.
+                Sapiente eos, quibusdam officia ab, repudiandae ullam ipsam
+                maiores libero, doloremque perspiciatis nam maxime
+                exercitationem accusantium animi. Expedita possimus praesentium
+                atque veniam.
+              </p>
+            </div>
+            <div class="col-auto">
+              <button class="btn">Archive</button>
+            </div>
+          </div></a
+        >
+        <!--MESSAGE-->
+      </div>
+    </div>
+    <!--MESSAGE-->
+    {% include "customer/customerBase.html" %}
+  </body>
+</html>
