@@ -28,10 +28,25 @@ def homepage():
 def blog():
     return render_template('customer/blogpost.html')
 
+@app.route('/message')
+def messages():
+    return render_template('customer/messages.html')
+
+@app.route('/chat')
+def chat():
+    return render_template('customer/chat.html')
+
+@app.route('/favourites')
+def favourites():
+    return render_template('customer/favourites.html')
 
 @app.route('/points')
 def points():
     return render_template('customer/points_shop.html')
+
+@app.route('/vouchers')
+def vouchers():
+    return render_template('customer/vouchers.html')
 
 
 # remember to set to False when done with project
