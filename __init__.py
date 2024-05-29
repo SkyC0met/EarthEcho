@@ -1,4 +1,7 @@
+import os
+
 from flask import Flask, request, jsonify, render_template, flash, url_for, redirect, abort
+from werkzeug.utils import secure_filename
 from wtforms.fields import datetime
 
 from chat import get_response
@@ -6,7 +9,7 @@ from chat import get_response
 from flask_wtf import FlaskForm
 from wtforms import StringField, TextAreaField, SubmitField, FileField, SelectField
 from datetime import datetime
-from wtforms.validators import DataRequired
+from wtforms.validators import DataRequired, Length
 from flask_wtf.file import FileAllowed
 
 app = Flask(__name__)
@@ -21,7 +24,8 @@ def Posts():
             'text': 'lorem ipsum adhdyj gdh gsshh hu gdh gsh asgasd sdivvvvFVUvjusd cgibsdjhbcu',
             'author': 'John Doe',
             'date_created': '23-01-2024',
-            'topic': 'Sustainability'
+            'topic': 'Sustainability',
+            'image': 'static/images/electricity.jpg'
         },
         {
             'id': 2,
@@ -29,7 +33,8 @@ def Posts():
             'text': 'lorem ipsum adhdyj gdh gsshh hu gdh gsh asgasd sdivvvvFVUvjusd cgibsdjhbcu',
             'author': 'John Doe',
             'date_created': '25-01-2024',
-            'topic': 'Pollution'
+            'topic': 'Pollution',
+            'image': 'static/images/electricity.jpg'
 
         },
         {
@@ -39,6 +44,8 @@ def Posts():
             'author': 'John Doe',
             'date_created': '26-01-2024',
             'topic': 'Electricity',
+            'image': 'static/images/electricity.jpg'
+
         }
     ]
     return posts
@@ -47,10 +54,10 @@ Posts = Posts()
 
 class PostForm(FlaskForm):
     author = "John Doe"
-    title = StringField('Title', DataRequired())
-    text = TextAreaField('Text', DataRequired())
-    topic = SelectField('Topic', choices=[('1', "Sustainability"), ('2', "Electricity"),('3','Pollution'), ('4', 'recycling')])
-    image = FileField('Image', validators=[FileAllowed(['jpeg', 'png'])])
+    title = StringField('Title', validators=[DataRequired() , Length(min=1, max=100)])
+    text = TextAreaField('Text', validators=[DataRequired()])
+    topic = SelectField('Topic', choices=[('Sustainability', "Sustainability"), ('Electricity', "Electricity"),('Pollution','Pollution'), ('recycling', 'recycling')])
+    image = FileField('Image', validators=[DataRequired(),FileAllowed(['jpg', 'png'])])
     submit = SubmitField('Post!')
 
 #
@@ -105,16 +112,21 @@ def CreatePosts():
         title = form.title.data
         text = form.text.data
         topic = form.topic.data
-        flash("Post created!", "success")
+        image = form.image.data
+        filename = secure_filename(image.filename)
+        if filename:
+            image.save(os.path.join('static/images', filename))
+            image_path = os.path.join('static/images', filename)
         new_post = {
             'id': len(Posts) + 1,
             'title': title,
             'text': text,
             'author': author,
             'date_created': datetime.now().strftime('%d-%m-%Y'),
-            'topic': topic
+            'topic': topic,
         }
         Posts.append(new_post)
+        flash("Post created!", "success")
         return redirect(url_for('MyPosts'))
     return render_template("customer/createpost.html", form=form)
 

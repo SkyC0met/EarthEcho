@@ -10,13 +10,19 @@
   <body>
     {% include "navbar/cust_navbar.html" %} {% include
     "customer/customerBase.html" %}
-    <h1>{{ post.title }}</h1>
+    <div class="mx-5">
+
+          <h1 class="text-center">{{ post.title }}</h1>
+    <div class="d-flex">        <p>Topic: {{ post.topic }}</p>
+    <p class="mx-4">Date Created: {{ post.date_created }}</p></div>
+
     {% if post.image %}
-      <img src="{{ url_for('static', filename=post.image) }}" alt="Post Image">
+    <div class="d-flex justify-content-center my-3"><img src="../../static/images/electricity.jpg" alt="Post Image" style="width: 90%; height: 500px; object-fit: cover"></div>
+
     {% endif %}
     <p>Author: {{ post.author }}</p>
-    <p>Topic: {{ post.topic }}</p>
-    <p>Date Created: {{ post.date_created }}</p>
     <p>{{ post.text }}</p>
+    </div>
+
   </body>
 </html>
