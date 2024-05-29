@@ -12,8 +12,7 @@ from flask_wtf.file import FileAllowed
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'rzstxrdycfuvgibhnj'
 
-image_filename = 'example_image.png'  # replace with the actual filename of your image
-image_path = EarthEcho/static/images/electricity.jpg('images', image_filename)
+
 def Posts():
     posts = [
         {
@@ -40,7 +39,6 @@ def Posts():
             'author': 'John Doe',
             'date_created': '26-01-2024',
             'topic': 'Electricity',
-            'image':
         }
     ]
     return posts
