@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Create Post</title>
+  </head>
+  <body>
+    {% include "navbar/cust_navbar.html" %} {% include
+    "customer/customerBase.html" %}
+    <form method="post" enctype="multipart/form-data">
+      {{ form.hidden_tag() }}
+      <label for="title">Header:</label>
+      {{ form.title(size=50) }}<br><br>
+      <label for="text">Text:</label>
+      {{ form.text }}<br><br>
+      <label for="topic">Topic:</label>
+      {{ form.topic() }}<br><br>
+      {{ form.image }}<br><br>
+      {{ form.submit }}
+    </form>
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <ul>
+          {% for message in messages %}
+            <li>{{ message }}</li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
+    <ul class="list-group">
+      {% for post in Posts %}
+          <li class="list-group-item">
+              <a href="{{ url_for('ViewPost', id=post.id) }}">{{ post.title }}</a>
+          </li>
+      {% endfor %}
+    </ul>
+  </body>
+
+</html>
