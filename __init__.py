@@ -84,6 +84,7 @@ def homepage():
 def blog():
     return render_template('customer/blogpost.html')
 
+# SKY ROUTES
 @app.route('/message')
 def messages():
     return render_template('customer/messages.html')
@@ -103,6 +104,21 @@ def points():
 @app.route('/vouchers')
 def vouchers():
     return render_template('customer/vouchers.html')
+# SKY ROUTES
+
+# LOGIN SIGNUP ROUTES
+@app.route('/login-admin')
+def login_admin():
+    return render_template('customer/login_admin.html')
+
+@app.route('/login-cust')
+def login_cust():
+    return render_template('customer/login_cust.html')
+
+@app.route('/signup')
+def signup():
+    return render_template('customer/signup.html')
+# LOGIN SIGNUP ROUTES
 
 @app.route('/createpost', methods=['GET', 'POST'])
 def CreatePosts():

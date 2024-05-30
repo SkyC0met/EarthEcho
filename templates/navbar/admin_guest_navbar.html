@@ -17,7 +17,7 @@
     <!--MY CSS-->
     <link
       rel="stylesheet"
-      href="{{ url_for('static', filename='css/everything_sky.css') }}"
+      href="{{ url_for('static', filename='css/admin_sky.css') }}"
     />
     <!--MY CSS-->
 
@@ -49,7 +49,9 @@
   </head>
   <nav class="navbar navbar-expand-lg">
     <div class="container-fluid">
-      <a class="navbar-brand ms-0 ms-sm-3 me-5" href="#">EarthEcho</a>
+      <a class="navbar-brand ms-0 ms-sm-3 me-5" href="{{ url_for('homepage') }}"
+        >EarthEcho</a
+      >
       <button
         class="navbar-toggler"
         style="box-shadow: none; background-color: #ffffff"
@@ -77,8 +79,16 @@
             <ul
               class="dropdown-menu position-absolute start-50 translate-middle-x mt-1"
             >
-              <li><a class="dropdown-item" href="#">Sign up</a></li>
-              <li><a class="dropdown-item" href="#">Login</a></li>
+              <li>
+                <a class="dropdown-item" href="{{ url_for('signup') }}"
+                  >Sign up</a
+                >
+              </li>
+              <li>
+                <a class="dropdown-item" href="{{ url_for('login_cust') }}"
+                  >Login</a
+                >
+              </li>
             </ul>
           </div>
         </div>
@@ -105,8 +115,16 @@
                 ></i>
               </div>
               <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="#">Sign up</a></li>
-                <li><a class="dropdown-item" href="#">Login</a></li>
+                <li>
+                  <a class="dropdown-item" href="{{ url_for('signup') }}"
+                    >Sign up</a
+                  >
+                </li>
+                <li>
+                  <a class="dropdown-item" href="{{ url_for('login_cust') }}"
+                    >Login</a
+                  >
+                </li>
               </ul>
             </li>
           </ul>

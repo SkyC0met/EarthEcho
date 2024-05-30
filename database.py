@@ -4,7 +4,8 @@ import mysql.connector
 db_config = {
     'user': 'myuser',
     'password': 'mypassword',
-    'host': '172.27.176.182',  # replace with the server's IP address, must update ip address
+    #'host': '172.27.176.182',  # replace with the server's IP address, must update ip address
+     'host': '192.168.81.226',
     'database': 'mydatabase'
 }
 

@@ -219,7 +219,7 @@ nav .search-container .fa-solid {
 /*MODEL CONTAINER*/
 
 /*CARD BUTTONS*/
-.form-check-input {
+#points-modals .form-check-input {
   display: none;
 }
 
@@ -532,3 +532,82 @@ nav .search-container .fa-solid {
 }
 
 /*VOUCHERS CONTAINER*/
+
+/*LOGIN CUST*/
+#login-top,
+#signup-top {
+  width: 100%;
+}
+
+#remember-me {
+  width: 100%;
+}
+
+@media only screen and (min-device-width : 992px) {
+
+  #login-top,
+  #signup-top {
+    width: 60%;
+  }
+
+}
+
+@media only screen and (min-device-width : 480px) and (max-device-width : 992px) {
+
+  #login-top,
+  #signup-top {
+    width: 70%;
+  }
+
+}
+
+#recaptcha {
+  width: 220px;
+  height: 60px;
+  background-color: #4e4c67;
+  color: #ffffff;
+}
+
+#login-btn,
+#signup-btn {
+  background-color: #985f6f;
+  color: #ffffff;
+  width: 200px;
+}
+
+#facebook-btn,
+#apple-btn,
+#microsoft-btn,
+#google-btn {
+  background-color: #4e4c67;
+  height: 60px;
+  width: 250px;
+}
+
+#apple-btn,
+#google-btn {
+  margin-left: auto;
+}
+
+#phone-input {
+  margin-left: 20px;
+  width: 60%;
+}
+
+@media only screen and (max-width: 578px) {
+
+  #facebook-btn,
+  #apple-btn,
+  #microsoft-btn,
+  #google-btn {
+    margin: auto;
+  }
+
+  #phone-input {
+    margin: auto;
+    width: 100%;
+  }
+
+}
+
+/*LOGIN CUST*/

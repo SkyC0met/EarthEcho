@@ -13,10 +13,11 @@
       crossorigin="anonymous"
     />
     <!--BOOTSTRAP CSS-->
+
     <!--MY CSS-->
     <link
       rel="stylesheet"
-      href="{{ url_for('static', filename='css/admin_sky.css') }}"
+      href="{{ url_for('static', filename='css/cust_sky.css') }}"
     />
     <!--MY CSS-->
 
@@ -78,7 +79,16 @@
             <ul
               class="dropdown-menu position-absolute start-50 translate-middle-x mt-1"
             >
-              <li><a class="dropdown-item" href="#">Logout</a></li>
+              <li>
+                <a class="dropdown-item" href="{{ url_for('signup') }}"
+                  >Sign up</a
+                >
+              </li>
+              <li>
+                <a class="dropdown-item" href="{{ url_for('login_cust') }}"
+                  >Login</a
+                >
+              </li>
             </ul>
           </div>
         </div>
@@ -105,7 +115,16 @@
                 ></i>
               </div>
               <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="#">Logout</a></li>
+                <li>
+                  <a class="dropdown-item" href="{{ url_for('signup') }}"
+                    >Sign up</a
+                  >
+                </li>
+                <li>
+                  <a class="dropdown-item" href="{{ url_for('login_cust') }}"
+                    >Login</a
+                  >
+                </li>
               </ul>
             </li>
           </ul>
