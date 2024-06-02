@@ -79,12 +79,21 @@ def predict():
 def homepage():
     return render_template('customer/homepage.html')
 
+# LOGIN SIGNUP ROUTES
+@app.route('/admin-login')
+def admin_login():
+    return render_template('admin/admin_login.html')
 
-@app.route('/Blog')
-def blog():
-    return render_template('customer/blogpost.html')
+@app.route('/cust-login')
+def cust_login():
+    return render_template('customer/cust_login.html')
 
-# SKY ROUTES
+@app.route('/signup')
+def signup():
+    return render_template('customer/signup.html')
+# LOGIN SIGNUP ROUTES
+
+# SKY CUST ROUTES
 @app.route('/message')
 def messages():
     return render_template('customer/messages.html')
@@ -104,21 +113,17 @@ def points():
 @app.route('/vouchers')
 def vouchers():
     return render_template('customer/vouchers.html')
-# SKY ROUTES
+# SKY CUST ROUTES
 
-# LOGIN SIGNUP ROUTES
-@app.route('/login-admin')
-def login_admin():
-    return render_template('customer/login_admin.html')
+#SKY ADMIN ROUTES
+@app.route('/user-management')
+def user_management():
+    return render_template('admin/user_management.html')
+#SKY ADMIN ROUTES
 
-@app.route('/login-cust')
-def login_cust():
-    return render_template('customer/login_cust.html')
-
-@app.route('/signup')
-def signup():
-    return render_template('customer/signup.html')
-# LOGIN SIGNUP ROUTES
+@app.route('/Blog')
+def blog():
+    return render_template('customer/blogpost.html')
 
 @app.route('/createpost', methods=['GET', 'POST'])
 def CreatePosts():

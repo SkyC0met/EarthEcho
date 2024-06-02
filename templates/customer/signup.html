@@ -84,7 +84,9 @@
           />
         </div>
 
-        <button id="signup-btn" class="btn">Create Account</button>
+        <a id="signup-btn" class="btn" href="{{ url_for('cust_login') }}"
+          >Create Account</a
+        >
       </div>
       <!--SIGNUP TOP-->
 
@@ -152,7 +154,7 @@
 
         <div class="d-flex justify-content-center mt-2">
           <p class="mx-1">Already have an account?</p>
-          <a href="{{ url_for('login_cust') }}">Login here!</a>
+          <a href="{{ url_for('cust_login') }}">Login here!</a>
         </div>
       </div>
     </div>

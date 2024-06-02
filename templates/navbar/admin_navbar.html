@@ -72,13 +72,27 @@
           <div class="dropdown text-center">
             <i
               class="fa-solid fa-user fa-2xl mx-3"
-              style="color: #ffffff; cursor: pointer"
+              style="color: #ffffff"
               data-bs-toggle="dropdown"
             ></i>
             <ul
               class="dropdown-menu position-absolute start-50 translate-middle-x mt-1"
             >
-              <li><a class="dropdown-item" href="#">Logout</a></li>
+              <li>
+                <a class="dropdown-item" href="#">Profile</a>
+              </li>
+              <li>
+                <a class="dropdown-item" href="{{ url_for('user_management') }}"
+                  >User management</a
+                >
+              </li>
+              <li><a class="dropdown-item" href="#">User Inquiry</a></li>
+              <li><a class="dropdown-item" href="#">Unban request</a></li>
+              <li>
+                <a class="dropdown-item" href="{{ url_for('cust_login') }}"
+                  >Logout</a
+                >
+              </li>
             </ul>
           </div>
         </div>
@@ -96,7 +110,7 @@
               >
                 <i
                   class="fa-solid fa-user fa-2xl mx-3"
-                  style="color: #ffffff; cursor: pointer"
+                  style="color: #ffffff"
                 ></i>
                 <p style="color: #ffffff">Profile</p>
                 <i
@@ -105,6 +119,16 @@
                 ></i>
               </div>
               <ul class="dropdown-menu">
+                <li>
+                  <a class="dropdown-item" href="#">Profile</a>
+                </li>
+                <li>
+                  <a class="dropdown-item" href="user-management"
+                    >User management</a
+                  >
+                </li>
+                <li><a class="dropdown-item" href="#">User Inquiry</a></li>
+                <li><a class="dropdown-item" href="#">Unban request</a></li>
                 <li><a class="dropdown-item" href="#">Logout</a></li>
               </ul>
             </li>

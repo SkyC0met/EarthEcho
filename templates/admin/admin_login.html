@@ -71,7 +71,9 @@
           />
         </div>
 
-        <button id="login-btn" class="btn">Login</button>
+        <a id="login-btn" class="btn" href="{{ url_for('user_management') }}"
+          >Login</a
+        >
       </div>
       <!--LOGIN TOP-->
 
@@ -137,7 +139,7 @@
         </div>
         <!--LOGIN BUTTONS-->
 
-        <a href="{{ url_for('login_cust') }}">Are you a user?</a>
+        <a href="{{ url_for('cust_login') }}">Are you a user?</a>
       </div>
     </div>
     <!--LOGIN ADMIN-->

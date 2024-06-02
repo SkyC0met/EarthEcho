@@ -23,6 +23,10 @@ a {
   text-decoration: none;
 }
 
+i {
+  cursor: pointer;
+}
+
 /*NAVBAR CONTAINER*/
 nav {
   background-color: #5d576b;
@@ -167,3 +171,10 @@ nav .search-container .fa-solid {
 }
 
 /*LOGIN ADMIN*/
+
+/*ADMIN USER MANAGEMENT*/
+.table-responsive {
+  max-width: 90%;
+}
+
+/*ADMIN USER MANAGEMENT*/

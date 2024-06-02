@@ -71,7 +71,7 @@
           />
         </div>
 
-        <button id="login-btn" class="btn">Login</button>
+        <a id="login-btn" class="btn" href="{{ url_for('homepage') }}">Login</a>
       </div>
       <!--LOGIN TOP-->
 
@@ -137,7 +137,7 @@
         </div>
         <!--LOGIN BUTTONS-->
 
-        <a href="{{ url_for('login_admin') }}">Are you an admin?</a>
+        <a href="{{ url_for('admin_login') }}">Are you an admin?</a>
       </div>
     </div>
     <!--LOGIN CUST-->
