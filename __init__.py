@@ -94,6 +94,10 @@ def signup():
 # LOGIN SIGNUP ROUTES
 
 # SKY CUST ROUTES
+@app.route('/profile')
+def profile():
+    return render_template('customer/profile.html')
+
 @app.route('/message')
 def messages():
     return render_template('customer/messages.html')

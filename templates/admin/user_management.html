@@ -7,13 +7,26 @@
   </head>
 
   <body>
-    {% include "navbar/admin_navbar.html" %}
-    <!--USER MANAGEMENT-->
-    <div class="container-md mt-sm-5 mt-4 mb-5">
-      <div class="table-responsive mx-auto">
-        <h1 class="fw-bold mb-5">User management</h1>
-        <!--TABLE-->
-        <table class="table table-striped overflow-x-scroll">
+    {% include "navbar/sidebar.html" %}
+
+    <div id="admin-content-wrapper">
+      <h1 class="fw-bold my-3">User management</h1>
+
+      <!--DM SEARCHBAR-->
+      <div class="search-container my-4">
+        <input
+          class="form-control"
+          type="search"
+          placeholder="Search users"
+          aria-label="Search"
+        />
+        <i class="fa-solid fa-magnifying-glass"></i>
+      </div>
+      <!--DM SEARCHBAR-->
+
+      <!--TABLE-->
+      <div class="table-responsive">
+        <table class="table table-striped">
           <thead>
             <tr>
               <th scope="col">ID</th>
@@ -34,7 +47,7 @@
               <td>Mark@123</td>
               <td>User</td>
               <td>
-                <div class="d-flex mt-1 justify-content-between">
+                <div class="d-flex justify-content-between">
                   <i class="fa-solid fa-pen-to-square"></i>
                   <i class="fa-solid fa-trash"></i>
                 </div>
@@ -48,7 +61,7 @@
               <td>jacob@123</td>
               <td>User</td>
               <td>
-                <div class="d-flex mt-1 justify-content-between">
+                <div class="d-flex justify-content-between">
                   <i class="fa-solid fa-pen-to-square"></i>
                   <i class="fa-solid fa-trash"></i>
                 </div>
@@ -62,7 +75,105 @@
               <td>johnny@123</td>
               <td>User</td>
               <td>
-                <div class="d-flex mt-1 justify-content-between">
+                <div class="d-flex justify-content-between">
+                  <i class="fa-solid fa-pen-to-square"></i>
+                  <i class="fa-solid fa-trash"></i>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <th scope="row">1</th>
+              <td>Mark</td>
+              <td>12345678</td>
+              <td>mark@gmail.com</td>
+              <td>Mark@123</td>
+              <td>User</td>
+              <td>
+                <div class="d-flex justify-content-between">
+                  <i class="fa-solid fa-pen-to-square"></i>
+                  <i class="fa-solid fa-trash"></i>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <th scope="row">2</th>
+              <td>Jacob</td>
+              <td>86554454</td>
+              <td>jacob@gmail.com</td>
+              <td>jacob@123</td>
+              <td>User</td>
+              <td>
+                <div class="d-flex justify-content-between">
+                  <i class="fa-solid fa-pen-to-square"></i>
+                  <i class="fa-solid fa-trash"></i>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <th scope="row">3</th>
+              <td>Johnny</td>
+              <td>95782944</td>
+              <td>johnny@gmail.com</td>
+              <td>johnny@123</td>
+              <td>User</td>
+              <td>
+                <div class="d-flex justify-content-between">
+                  <i class="fa-solid fa-pen-to-square"></i>
+                  <i class="fa-solid fa-trash"></i>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <th scope="row">1</th>
+              <td>Mark</td>
+              <td>12345678</td>
+              <td>mark@gmail.com</td>
+              <td>Mark@123</td>
+              <td>User</td>
+              <td>
+                <div class="d-flex justify-content-between">
+                  <i class="fa-solid fa-pen-to-square"></i>
+                  <i class="fa-solid fa-trash"></i>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <th scope="row">2</th>
+              <td>Jacob</td>
+              <td>86554454</td>
+              <td>jacob@gmail.com</td>
+              <td>jacob@123</td>
+              <td>User</td>
+              <td>
+                <div class="d-flex justify-content-between">
+                  <i class="fa-solid fa-pen-to-square"></i>
+                  <i class="fa-solid fa-trash"></i>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <th scope="row">3</th>
+              <td>Johnny</td>
+              <td>95782944</td>
+              <td>johnny@gmail.com</td>
+              <td>johnny@123</td>
+              <td>User</td>
+              <td>
+                <div class="d-flex justify-content-between">
+                  <i class="fa-solid fa-pen-to-square"></i>
+                  <i class="fa-solid fa-trash"></i>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <th scope="row">3</th>
+              <td>Johnny</td>
+              <td>95782944</td>
+              <td>johnny@gmail.com</td>
+              <td>johnny@123</td>
+              <td>User</td>
+              <td>
+                <div class="d-flex justify-content-between">
                   <i class="fa-solid fa-pen-to-square"></i>
                   <i class="fa-solid fa-trash"></i>
                 </div>
@@ -70,9 +181,8 @@
             </tr>
           </tbody>
         </table>
-        <!--TABLE-->
       </div>
+      <!--TABLE-->
     </div>
-    <!--USER MANAGEMENT-->
   </body>
 </html>

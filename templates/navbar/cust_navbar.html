@@ -54,7 +54,6 @@
       >
       <button
         class="navbar-toggler"
-        style="box-shadow: none; background-color: #ffffff"
         type="button"
         data-bs-toggle="collapse"
         data-bs-target="#navbarSupportedContent"
@@ -68,25 +67,29 @@
         class="collapse navbar-collapse justify-content-between"
         id="navbarSupportedContent"
       >
-        <!--NOT DROPDOWN-->
+        <!--NOT DROPDOWN BIG SCREEN-->
         <div class="order-last mx-5 d-lg-flex d-none align-items-center">
-          <a href="/createpost">
-            <i
-              class="fa-solid fa-square-plus fa-2xl mx-3"
-              style="color: #ffffff"
-            ></i>
+          <a href="{{ url_for('CreatePosts') }}">
+            <i class="fa-solid fa-square-plus fa-2xl mx-3"></i>
           </a>
           <div class="dropdown text-center">
             <i
               class="fa-solid fa-user fa-2xl mx-3"
-              style="color: #ffffff"
               data-bs-toggle="dropdown"
             ></i>
             <ul
               class="dropdown-menu position-absolute start-50 translate-middle-x mt-1"
             >
-              <li><a class="dropdown-item" href="#">Profile</a></li>
-              <li><a class="dropdown-item" href="/myposts">My posts</a></li>
+              <li>
+                <a class="dropdown-item" href="{{ url_for('profile') }}"
+                  >Profile</a
+                >
+              </li>
+              <li>
+                <a class="dropdown-item" href="{{ url_for('MyPosts') }}"
+                  >My posts</a
+                >
+              </li>
               <li>
                 <a class="dropdown-item" href="{{ url_for('messages') }}"
                   >Messages</a
@@ -104,7 +107,6 @@
           <div class="dropdown text-center">
             <i
               class="fa-solid fa-clover fa-2xl mx-3"
-              style="color: #ffffff"
               data-bs-toggle="dropdown"
             ></i>
             <ul
@@ -123,18 +125,21 @@
             </ul>
           </div>
         </div>
-        <!--NOT DROPDOWN-->
+        <!--NOT DROPDOWN BIG SCREEN-->
 
-        <!--DROPDOWN-->
-        <div class="d-lg-none my-3">
+        <!--DROPDOWN SMALL SCREEN-->
+        <div id="nav-small" class="d-lg-none my-3">
           <ul class="navbar-nav gap-3">
-            <li class="nav-item d-flex align-items-center">
-              <i
-                class="fa-solid fa-square-plus fa-2xl mx-3"
-                style="color: #ffffff"
-              ></i>
-              <p style="color: #ffffff">Create new posts</p>
+            <li class="nav-item">
+              <a
+                href="{{ url_for('CreatePosts') }}"
+                class="d-flex align-items-center"
+              >
+                <i class="fa-solid fa-square-plus fa-2xl mx-3"></i>
+                <p>Create new posts</p>
+              </a>
             </li>
+
             <li class="nav-item dropdown">
               <div
                 class="nav-link d-flex align-items-center"
@@ -142,19 +147,21 @@
                 data-bs-toggle="dropdown"
                 aria-expanded="false"
               >
-                <i
-                  class="fa-solid fa-user fa-2xl mx-3"
-                  style="color: #ffffff"
-                ></i>
-                <p style="color: #ffffff">Profile</p>
-                <i
-                  class="fa-solid fa-caret-down mx-2"
-                  style="color: #ffffff"
-                ></i>
+                <i class="fa-solid fa-user fa-2xl mx-3"></i>
+                <p>Profile</p>
+                <i class="fa-solid fa-caret-down mx-2"></i>
               </div>
               <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="#">Profile</a></li>
-                <li><a class="dropdown-item" href="/myposts">My posts</a></li>
+                <li>
+                  <a class="dropdown-item" href="{{ url_for('profile') }}"
+                    >Profile</a
+                  >
+                </li>
+                <li>
+                  <a class="dropdown-item" href="{{ url_for('MyPosts') }}"
+                    >My posts</a
+                  >
+                </li>
                 <li>
                   <a class="dropdown-item" href="{{ url_for('messages') }}"
                     >Messages</a
@@ -176,15 +183,9 @@
                 data-bs-toggle="dropdown"
                 aria-expanded="false"
               >
-                <i
-                  class="fa-solid fa-clover fa-2xl mx-3"
-                  style="color: #ffffff"
-                ></i>
-                <p style="color: #ffffff">Points shop & Vouchers</p>
-                <i
-                  class="fa-solid fa-caret-down mx-2"
-                  style="color: #ffffff"
-                ></i>
+                <i class="fa-solid fa-clover fa-2xl mx-3"></i>
+                <p>Points shop & Vouchers</p>
+                <i class="fa-solid fa-caret-down mx-2"></i>
               </div>
               <ul class="dropdown-menu">
                 <li>
@@ -201,7 +202,7 @@
             </li>
           </ul>
         </div>
-        <!--DROPDOWN-->
+        <!--DROPDOWN SMALL SCREEN-->
 
         <!--SEARCHBAR-->
         <div class="order-first search-container order-2">

@@ -50,6 +50,36 @@ nav .navbar-brand:active {
   font-size: 40px;
 }
 
+nav .navbar-toggler,
+nav .navbar-toggler:focus {
+  box-shadow: none;
+  background-color: #ffffff;
+}
+
+nav i {
+  color: #ffffff
+}
+
+nav .dropdown-menu {
+  min-width: 0;
+  background-color: #a6b1e1;
+}
+
+nav .dropdown-item:active {
+  color: #4e4c67;
+  background-color: #ffffff;
+}
+
+#nav-small p {
+  color: #ffffff;
+}
+
+@media only screen and (min-width: 992px) {
+  nav .dropdown:hover .dropdown-menu {
+    display: block;
+  }
+}
+
 nav .search-container {
   position: relative;
   width: 100%;
@@ -64,40 +94,18 @@ nav .search-container input[type="search"] {
   appearance: none;
 }
 
-nav .search-container .fa-solid {
+nav .search-container .fa-magnifying-glass {
   position: absolute;
   right: 20px;
   top: 50%;
   transform: translateY(-50%);
   cursor: pointer;
+  color: #4e4c67;
 }
 
 .search-container input[type="search"]::-webkit-search-cancel-button {
   -webkit-appearance: none;
   appearance: none;
-}
-
-.search-container input[type="search"]::-ms-clear {
-  display: none;
-  width: 0;
-  height: 0;
-}
-
-.search-container input[type="search"]::placeholder,
-.search-container .fa-solid,
-.dropdown-item {
-  color: #4e4c67;
-}
-
-@media only screen and (min-width: 992px) {
-  nav .dropdown:hover .dropdown-menu {
-    display: block;
-  }
-}
-
-.dropdown-menu {
-  min-width: 0;
-  background-color: #a6b1e1;
 }
 
 /*NAVBAR CONTAINER*/
@@ -468,11 +476,10 @@ nav .search-container .fa-solid {
   background-color: #a6b1e1;
 }
 
-#reply-message .form-control:focus {
+#chat-reply-container .form-control {
   border: black;
   box-shadow: none;
   appearance: none;
-  outline: none;
 }
 
 #send-btn {
@@ -615,3 +622,27 @@ nav .search-container .fa-solid {
 }
 
 /*LOGIN CUST*/
+
+/*PROFILE*/
+#profile-username-phone {
+  width: 70%;
+}
+
+@media only screen and (max-width: 768px) {
+
+  #profile-username-phone {
+    width: 100%;
+  }
+
+}
+
+#profile img {
+  width: 250px;
+}
+
+#profile p {
+  background-color: #ffffff;
+  color: #5d576b;
+}
+
+/*PROFILE*/
