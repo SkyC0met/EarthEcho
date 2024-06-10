@@ -27,6 +27,18 @@ i {
   cursor: pointer;
 }
 
+.admin-content-wrapper {
+  margin-left: 200px;
+  padding: 20px;
+}
+
+@media only screen and (max-width: 767px) {
+  .admin-content-wrapper {
+    margin-left: 0px;
+    padding: 20px;
+  }
+}
+
 /*NAVBAR CONTAINER*/
 nav {
   background-color: #5d576b;
@@ -120,7 +132,7 @@ nav .search-container .fa-magnifying-glass {
   background-color: #5d576b;
   min-height: 100vh;
   width: 200px;
-  position: absolute;
+  position: fixed;
 }
 
 #sidebar .btn {
@@ -135,38 +147,6 @@ nav .search-container .fa-magnifying-glass {
 
 #sidebar .logout-wrapper {
   margin-bottom: 10px;
-}
-
-#admin-content-wrapper {
-  margin-left: 200px;
-  padding: 20px;
-}
-
-@media only screen and (max-width: 767px) {
-  #admin-content-wrapper {
-    margin-left: 0px;
-    padding: 20px;
-  }
-}
-
-.search-container {
-  position: relative;
-}
-
-.search-container input[type="search"] {
-  padding: 10px 40px 10px 20px;
-  width: 100%;
-  border: black;
-  box-shadow: none;
-  appearance: none;
-}
-
-.search-container .fa-solid {
-  position: absolute;
-  right: 20px;
-  top: 50%;
-  transform: translateY(-50%);
-  cursor: pointer;
 }
 
 /*SIDEBAR CONTAINER*/
@@ -250,7 +230,176 @@ nav .search-container .fa-magnifying-glass {
 
 /*LOGIN ADMIN*/
 
-/*ADMIN USER MANAGEMENT*/
+/*USER MANAGEMENT*/
+.search-container {
+  position: relative;
+}
+
+.search-container input[type="search"] {
+  padding: 10px 40px 10px 20px;
+  width: 100%;
+  border: black;
+  box-shadow: none;
+  appearance: none;
+}
+
+.search-container .fa-solid {
+  position: absolute;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+}
+
+.user-management-table tr {
+  cursor: pointer;
+}
+
+/*USER MANAGEMENT*/
+
+/*USER PROFILE*/
+#user-profile .btn {
+  border-radius: 0;
+  padding: 10px 20px;
+  color: #ffffff;
+  background-color: #985f68;
+}
+
+#user-profile img {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%
+}
+
+.nav-pills p {
+  color: #5d576b;
+  font-weight: bold;
+}
+
+.nav-pills p:hover {
+  border-bottom: 1px solid #5d576b;
+}
+
+.nav-pills p.active,
+.nav-pills p.active:hover {
+  padding: 10px 20px;
+  border-radius: 32px;
+  background-color: #5d576b;
+  color: #ffffff;
+  border-bottom: none;
+}
+
+.post-item {
+  display: block;
+  text-decoration: none;
+  padding: 10px;
+}
+
+.post-item:hover {
+  background-color: #f4f1bb;
+  transition: background-color 0.3s ease;
+}
+
+.post-item p {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.post-item-btn {
+  padding: 5px 15px;
+  border-radius: 32px;
+  background-color: #5d576b;
+  color: #ffffff;
+}
+
+.post-item-btn p {
+  color: #ffffff;
+}
+
+/*USER PROFILE*/
+
+/*ADMIN PROFILE*/
+#admin-profile img {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+}
+
+#admin-profile .profile-content {
+  background-color: #ffffff;
+}
+
+.update-btn {
+  border: 1px solid #5d576b;
+}
+
+.update-btn:hover {
+  background-color: #ffffff;
+}
+
+#cancel-btn {
+  background-color: #5d576b;
+  color: #ffffff;
+  border: none;
+  padding: 10px 20px;
+}
+
+#delete-btn {
+  background-color: #ed5e68;
+  border: none;
+  padding: 10px 20px;
+}
+
+#edit-username label,
+#edit-phone label,
+#edit-email label,
+#reset-password label {
+  color: #5d576b;
+}
+
+#edit-username input,
+#edit-phone input,
+#edit-email input,
+#reset-password input {
+  border: 1px solid rgb(194, 194, 194);
+  box-shadow: none;
+  appearance: none;
+}
+
+.image-container {
+  position: relative;
+  display: inline-block;
+}
+
+.pen {
+  position: absolute;
+  top: 12%;
+  left: 0%;
+  display: none;
+  opacity: 0.5;
+
+  background-color: #818181;
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+}
+
+.image-container:hover .pen,
+.image-container:hover .pen-icon {
+  display: block;
+}
+
+.pen-icon {
+  position: absolute;
+  top: 40%;
+  left: 25%;
+  display: none;
+  opacity: 1;
+  color: #ffffff;
+}
 
 
-/*ADMIN USER MANAGEMENT*/
+/*ADMIN PROFILE*/

@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="path/to/your/css/file.css" />
+  </head>
+  <body>
+    {% include "navbar/sidebar.html" %}
+
+    <!--USER PROFILE-->
+    <div id="user-profile" class="admin-content-wrapper">
+      <!--BUTTON-->
+      <a href="{{ url_for('user_management') }}">
+        <button class="btn my-3">
+          <i class="fa-solid fa-arrow-left-long me-2"></i>Back to user
+          management
+        </button></a
+      >
+      <!--BUTTON-->
+
+      <!--PROFILE TOP-->
+      <div class="d-flex align-items-center my-4 mb-md-0">
+        <img class="me-4" src="../../static/images/beach.png" alt="" />
+        <h1>Jen</h1>
+      </div>
+      <!--PROFILE TOP-->
+
+      <!--POSTS/COMMENTS BUTTON-->
+      <ul
+        class="nav nav-pills my-4 align-items-center"
+        id="pills-tab"
+        role="tablist"
+      >
+        <li class="nav-item" role="presentation">
+          <p
+            class="active"
+            id="pills-home-tab"
+            data-bs-toggle="pill"
+            data-bs-target="#pills-home"
+            type="button"
+            role="tab"
+            aria-controls="pills-home"
+            aria-selected="true"
+          >
+            Posts
+          </p>
+        </li>
+        <li class="nav-item mx-4" role="presentation">
+          <p
+            id="pills-profile-tab"
+            data-bs-toggle="pill"
+            data-bs-target="#pills-profile"
+            type="button"
+            role="tab"
+            aria-controls="pills-profile"
+            aria-selected="false"
+          >
+            Comments
+          </p>
+        </li>
+      </ul>
+      <!--POSTS/COMMENTS BUTTON-->
+
+      <div class="tab-content" id="pills-tabContent">
+        <!--POSTS-->
+        <div
+          class="tab-pane fade show active"
+          id="pills-home"
+          role="tabpanel"
+          aria-labelledby="pills-home-tab"
+          tabindex="0"
+        >
+          <div class="container-md p-0 user-profile-posts">
+            <hr class="m-0" />
+            <a href="{{ url_for('blog') }}" target="_blank" class="post-item">
+              <h5 class="fw-bold">Title</h5>
+              <p class="my-2">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempore
+                dolorem tenetur voluptate earum voluptatibus corrupti nisi
+                eligendi suscipit consequuntur, ullam distinctio dolore
+                temporibus, iste accusamus dignissimos deserunt vero unde nobis.
+              </p>
+              <div class="d-flex mt-3 mb-1">
+                <div class="d-flex align-items-center me-2 post-item-btn">
+                  <i class="fa-regular fa-message me-2"></i>
+                  <p>23</p>
+                </div>
+
+                <div class="d-flex align-items-center post-item-btn">
+                  <i class="fa-regular fa-heart me-2"></i>
+                  <p>234</p>
+                </div>
+              </div>
+            </a>
+
+            <hr class="m-0" />
+            <a href="{{ url_for('blog') }}" target="_blank" class="post-item">
+              <h5 class="fw-bold">Title</h5>
+              <p class="my-2">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempore
+                dolorem tenetur voluptate earum voluptatibus corrupti nisi
+                eligendi suscipit consequuntur, ullam distinctio dolore
+                temporibus, iste accusamus dignissimos deserunt vero unde nobis.
+              </p>
+              <div class="d-flex mt-3 mb-1">
+                <div class="d-flex align-items-center me-2 post-item-btn">
+                  <i class="fa-regular fa-message me-2"></i>
+                  <p>23</p>
+                </div>
+
+                <div class="d-flex align-items-center post-item-btn">
+                  <i class="fa-regular fa-heart me-2"></i>
+                  <p>234</p>
+                </div>
+              </div>
+            </a>
+          </div>
+        </div>
+        <!--POSTS-->
+
+        <!--COMMENTS-->
+        <div
+          class="tab-pane fade"
+          id="pills-profile"
+          role="tabpanel"
+          aria-labelledby="pills-profile-tab"
+          tabindex="0"
+        >
+          <div class="container p-0 user-profile-posts">
+            <hr class="m-0" />
+            <a href="{{ url_for('blog') }}" target="_blank" class="post-item">
+              <h5 class="fw-bold">Commented on Blog Title</h5>
+              <p class="my-2">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Optio
+                nobis facilis deleniti odio. Odit asperiores nihil, provident
+                modi quia esse, explicabo eum ducimus sunt blanditiis animi.
+                Commodi ullam ex aliquam!
+              </p>
+            </a>
+
+            <hr class="m-0" />
+            <a href="{{ url_for('blog') }}" target="_blank" class="post-item">
+              <h5 class="fw-bold">Commented on Blog Title</h5>
+              <p class="my-2">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Optio
+                nobis facilis deleniti odio. Odit asperiores nihil, provident
+                modi quia esse, explicabo eum ducimus sunt blanditiis animi.
+                Commodi ullam ex aliquam!
+              </p>
+            </a>
+
+            <hr class="m-0" />
+            <a href="{{ url_for('blog') }}" target="_blank" class="post-item">
+              <h5 class="fw-bold">Commented on Blog Title</h5>
+              <p class="my-2">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Optio
+                nobis facilis deleniti odio. Odit asperiores nihil, provident
+                modi quia esse, explicabo eum ducimus sunt blanditiis animi.
+                Commodi ullam ex aliquam!
+              </p>
+            </a>
+          </div>
+        </div>
+        <!--COMMENTS-->
+      </div>
+    </div>
+    <!--USER PROFILE-->
+  </body>
+</html>

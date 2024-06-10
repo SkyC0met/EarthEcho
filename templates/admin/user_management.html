@@ -9,7 +9,7 @@
   <body>
     {% include "navbar/sidebar.html" %}
 
-    <div id="admin-content-wrapper">
+    <div class="admin-content-wrapper">
       <h1 class="fw-bold my-3">User management</h1>
 
       <!--DM SEARCHBAR-->
@@ -25,8 +25,8 @@
       <!--DM SEARCHBAR-->
 
       <!--TABLE-->
-      <div class="table-responsive">
-        <table class="table table-striped">
+      <div class="user-management-table">
+        <table class="table table-hover">
           <thead>
             <tr>
               <th scope="col">ID</th>
@@ -39,7 +39,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr>
+            <tr onclick="document.location='user-profile';">
               <th scope="row">1</th>
               <td>Mark</td>
               <td>12345678</td>

@@ -55,11 +55,12 @@
     >
       <h1 class="fw-bold" style="margin-top: 35px">EarthEcho</h1>
       <div class="flex-grow-1 w-100" style="margin-top: 93px">
-        <a class="btn mb-4" href="#">Profile</a>
-        <a class="btn mb-4" href="#">Login & Security</a>
-        <a class="btn mb-4" href="#">User Management</a>
-        <a class="btn mb-4" href="#">User Inquiries</a>
-        <a class="btn mb-4" href="#">Unban Request</a>
+        <a class="btn mb-5" href="{{ url_for('admin_profile') }}">Profile</a>
+        <a class="btn mb-5" href="{{ url_for('user_management') }}"
+          >User Management</a
+        >
+        <a class="btn mb-5" href="#">User Inquiries</a>
+        <a class="btn mb-5" href="#">Unban Request</a>
       </div>
       <a
         class="btn"
@@ -68,7 +69,7 @@
           margin-top: 160px;
           margin-bottom: 20px;
         "
-        href="#"
+        href="{{ url_for('homepage') }}"
         >Logout</a
       >
     </div>
@@ -92,17 +93,18 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
             <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="#"
+              <a
+                class="nav-link active"
+                aria-current="page"
+                href="{{ url_for('admin_profile') }}"
                 >Profile</a
               >
             </li>
             <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="#"
-                >Login & Security</a
-              >
-            </li>
-            <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="#"
+              <a
+                class="nav-link active"
+                aria-current="page"
+                href="{{ url_for('user_management') }}"
                 >User Management</a
               >
             </li>
@@ -117,7 +119,12 @@
               >
             </li>
             <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="#">Logout</a>
+              <a
+                class="nav-link active"
+                aria-current="page"
+                href="{{ url_for('homepage') }}"
+                >Logout</a
+              >
             </li>
           </ul>
         </div>

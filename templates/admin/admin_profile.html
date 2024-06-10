@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+
+  <body>
+    {% include "navbar/sidebar.html" %}
+
+    <!--ADMIN PROFILE-->
+    <div id="admin-profile" class="admin-content-wrapper">
+      <h1 class="fw-bold my-3">Profile</h1>
+
+      <!--EDIT PICTURE MODAL-->
+      <div class="image-container">
+        <img
+          class="img-fluid me-4 my-3"
+          src="../../static/images/beach.png"
+          alt=""
+        />
+        <div data-bs-toggle="modal" data-bs-target="#edit-pic">
+          <div class="pen"></div>
+          <div class="pen-icon">
+            <i class="fa-solid fa-pen fa-2xl"></i>
+          </div>
+        </div>
+      </div>
+
+      <div
+        class="modal fade"
+        id="edit-pic"
+        tabindex="-1"
+        aria-labelledby="edit-pic"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div class="modal-body d-grid justify-content-center">
+              <h5 class="text-center">Change your profile picture</h5>
+
+              <!--INPUT PIC-->
+              <div class="my-3">
+                <label for="formFile" class="form-label"
+                  >Default file input example</label
+                >
+                <input class="form-control" type="file" id="formFile" />
+              </div>
+              <!--INPUT PIC-->
+            </div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-secondary"
+                data-bs-dismiss="modal"
+              >
+                Close
+              </button>
+              <button type="button" class="btn btn-success">Done</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!--EDIT PICTURE MODAL-->
+
+      <!--PROFILE DETAILS-->
+      <div class="my-3">
+        <div class="row align-items-center mb-3">
+          <div class="col">
+            <h5 class="fw-bold">Username</h5>
+            <div class="profile-content my-3">
+              <p class="p-1">Admin1</p>
+            </div>
+          </div>
+          <div class="col-2">
+            <!--EDIT USERNAME MODAL-->
+            <button
+              class="btn btn-outline-secondary me-2"
+              data-bs-toggle="modal"
+              data-bs-target="#edit-username"
+            >
+              Edit
+            </button>
+
+            <div
+              class="modal fade"
+              id="edit-username"
+              tabindex="-1"
+              aria-labelledby="edit-username"
+              aria-hidden="true"
+            >
+              <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <button
+                      type="button"
+                      class="btn-close"
+                      data-bs-dismiss="modal"
+                      aria-label="Close"
+                    ></button>
+                  </div>
+                  <div class="modal-body d-grid justify-content-center">
+                    <h5 class="text-center">Change your username</h5>
+                    <p class="mt-2 text-center">
+                      Enter a new username and your existing password
+                    </p>
+
+                    <!--INPUT USERNAME-->
+                    <div class="my-3">
+                      <div class="my-2">
+                        <label for="inputUsername" class="form-label fw-bold"
+                          >New username</label
+                        >
+                        <input
+                          type="text"
+                          id="inputUsername"
+                          class="form-control"
+                        />
+                      </div>
+                      <div class="my-2">
+                        <label for="inputPassword1" class="form-label fw-bold"
+                          >Current password</label
+                        >
+                        <input
+                          type="password"
+                          id="inputPassword1"
+                          class="form-control"
+                          aria-describedby="passwordHelpBlock"
+                        />
+                      </div>
+                    </div>
+                    <!--INPUT USERNAME-->
+                  </div>
+                  <div class="modal-footer">
+                    <button
+                      type="button"
+                      class="btn btn-secondary"
+                      data-bs-dismiss="modal"
+                    >
+                      Close
+                    </button>
+                    <button type="button" class="btn btn-success">Done</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!--EDIT USERNAME MODAL-->
+          </div>
+        </div>
+
+        <div class="row align-items-center mb-3">
+          <div class="col">
+            <h5 class="fw-bold">Phone number</h5>
+            <div class="profile-content my-3">
+              <p class="p-1">87891217</p>
+            </div>
+          </div>
+          <div class="col-2">
+            <!--EDIT PHONE NUM MODAL-->
+            <button
+              class="btn btn-outline-secondary me-2"
+              data-bs-toggle="modal"
+              data-bs-target="#edit-phone"
+            >
+              Edit
+            </button>
+
+            <div
+              class="modal fade"
+              id="edit-phone"
+              tabindex="-1"
+              aria-labelledby="edit-phone"
+              aria-hidden="true"
+            >
+              <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <button
+                      type="button"
+                      class="btn-close"
+                      data-bs-dismiss="modal"
+                      aria-label="Close"
+                    ></button>
+                  </div>
+                  <div class="modal-body d-grid justify-content-center">
+                    <h5 class="text-center">Change your phone number</h5>
+                    <p class="mt-2 text-center">
+                      Enter a new phone number and your existing password
+                    </p>
+
+                    <!--INPUT PHONE NUM-->
+                    <div class="my-3">
+                      <div class="my-2">
+                        <label for="inputPhone" class="form-label fw-bold"
+                          >New phone number</label
+                        >
+                        <input
+                          type="text"
+                          id="inputPhone"
+                          class="form-control"
+                        />
+                      </div>
+                      <div class="my-2">
+                        <label for="inputPassword2" class="form-label fw-bold"
+                          >Current password</label
+                        >
+                        <input
+                          type="password"
+                          id="inputPassword2"
+                          class="form-control"
+                          aria-describedby="passwordHelpBlock"
+                        />
+                      </div>
+                    </div>
+                    <!--INPUT PHONE NUM-->
+                  </div>
+                  <div class="modal-footer">
+                    <button
+                      type="button"
+                      class="btn btn-secondary"
+                      data-bs-dismiss="modal"
+                    >
+                      Close
+                    </button>
+                    <button type="button" class="btn btn-success">Done</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!--EDIT PHONE NUM MODAL-->
+          </div>
+        </div>
+
+        <div class="row align-items-center mb-3">
+          <div class="col">
+            <h5 class="fw-bold">Email</h5>
+            <div class="profile-content my-3">
+              <p class="p-1">Admin1@gmail.com</p>
+            </div>
+          </div>
+          <div class="col-2">
+            <!--EDIT EMAIL MODAL-->
+            <button
+              class="btn btn-outline-secondary me-2"
+              data-bs-toggle="modal"
+              data-bs-target="#edit-email"
+            >
+              Edit
+            </button>
+
+            <div
+              class="modal fade"
+              id="edit-email"
+              tabindex="-1"
+              aria-labelledby="edit-email"
+              aria-hidden="true"
+            >
+              <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <button
+                      type="button"
+                      class="btn-close"
+                      data-bs-dismiss="modal"
+                      aria-label="Close"
+                    ></button>
+                  </div>
+                  <div class="modal-body d-grid justify-content-center">
+                    <h5 class="text-center">Change your email</h5>
+                    <p class="mt-2 text-center">
+                      Enter a new email and your existing password
+                    </p>
+
+                    <!--INPUT USERNAME-->
+                    <div class="my-3">
+                      <div class="my-2">
+                        <label for="inputEmail" class="form-label fw-bold"
+                          >New email</label
+                        >
+                        <input
+                          type="text"
+                          id="inputEmail"
+                          class="form-control"
+                        />
+                      </div>
+                      <div class="my-2">
+                        <label for="inputPassword3" class="form-label fw-bold"
+                          >Current password</label
+                        >
+                        <input
+                          type="password"
+                          id="inputPassword3"
+                          class="form-control"
+                          aria-describedby="passwordHelpBlock"
+                        />
+                      </div>
+                    </div>
+                    <!--INPUT EMAIL-->
+                  </div>
+                  <div class="modal-footer">
+                    <button
+                      type="button"
+                      class="btn btn-secondary"
+                      data-bs-dismiss="modal"
+                    >
+                      Close
+                    </button>
+                    <button type="button" class="btn btn-success">Done</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!--EDIT USERNAME MODAL-->
+          </div>
+        </div>
+      </div>
+      <!--PROFILE DETAILS-->
+
+      <div class="mt-5">
+        <!--RESET PASSWORD MODAL-->
+        <button
+          class="btn btn-outline-secondary me-2"
+          data-bs-toggle="modal"
+          data-bs-target="#reset-password"
+        >
+          Reset Password
+        </button>
+
+        <div
+          class="modal fade"
+          id="reset-password"
+          tabindex="-1"
+          aria-labelledby="reset-password"
+          aria-hidden="true"
+        >
+          <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button
+                  type="button"
+                  class="btn-close"
+                  data-bs-dismiss="modal"
+                  aria-label="Close"
+                ></button>
+              </div>
+              <div class="modal-body d-grid justify-content-center">
+                <h5 class="text-center">Reset your password</h5>
+                <p class="mt-2 text-center">
+                  Enter your current password and a new password
+                </p>
+
+                <!--INPUT PASSWORD-->
+                <div class="my-3">
+                  <div class="my-2">
+                    <label for="inputPassword4" class="form-label fw-bold"
+                      >Current password</label
+                    >
+                    <input
+                      type="password"
+                      id="inputPassword4"
+                      class="form-control"
+                      aria-describedby="passwordHelpBlock"
+                    />
+                  </div>
+                  <div class="my-2">
+                    <label for="inputPassword5" class="form-label fw-bold"
+                      >New password</label
+                    >
+                    <input
+                      type="password"
+                      id="inputPassword5"
+                      class="form-control"
+                      aria-describedby="passwordHelpBlock"
+                    />
+                  </div>
+                  <div class="my-2">
+                    <label for="inputPassword6" class="form-label fw-bold"
+                      >New password</label
+                    >
+                    <input
+                      type="password"
+                      id="inputPassword6"
+                      class="form-control"
+                      aria-describedby="passwordHelpBlock"
+                    />
+                  </div>
+                  <div id="passwordHelpBlock" class="form-text">
+                    Your password must be 8-20 characters long, contain letters
+                    and numbers, and must not contain spaces, special
+                    characters, or emoji.
+                  </div>
+                </div>
+                <!--INPUT PASSWORD-->
+              </div>
+              <div class="modal-footer">
+                <button
+                  type="button"
+                  class="btn btn-secondary"
+                  data-bs-dismiss="modal"
+                >
+                  Close
+                </button>
+                <button type="button" class="btn btn-success">Done</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!--RESET PASSWORD MODAL-->
+
+        <!--DELETE ACCOUNT MODAL-->
+        <button
+          class="btn btn-outline-danger"
+          data-bs-toggle="modal"
+          data-bs-target="#deleteAccount"
+        >
+          Delete Account
+        </button>
+
+        <div
+          class="modal fade"
+          id="deleteAccount"
+          tabindex="-1"
+          aria-labelledby="deleteAccount"
+          aria-hidden="true"
+        >
+          <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button
+                  type="button"
+                  class="btn-close"
+                  data-bs-dismiss="modal"
+                  aria-label="Close"
+                ></button>
+              </div>
+              <div class="modal-body d-grid justify-content-center">
+                <h5>Are you sure you want to delete your account?</h5>
+
+                <div class="d-flex justify-content-center my-3">
+                  <button id="cancel-btn" class="btn me-3">Cancel</button>
+                  <button id="delete-btn" class="btn">Delete</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!--DELETE ACCOUNT MODAL-->
+      </div>
+    </div>
+    <!--ADMIN PROFILE-->
+  </body>
+</html>

@@ -120,9 +120,17 @@ def vouchers():
 # SKY CUST ROUTES
 
 #SKY ADMIN ROUTES
+@app.route('/admin-profile')
+def admin_profile():
+    return render_template('admin/admin_profile.html')
+
 @app.route('/user-management')
 def user_management():
     return render_template('admin/user_management.html')
+
+@app.route('/user-profile')
+def user_profile():
+    return render_template('admin/user_profile.html')
 #SKY ADMIN ROUTES
 
 @app.route('/Blog')
