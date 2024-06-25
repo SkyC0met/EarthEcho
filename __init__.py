@@ -1,19 +1,17 @@
 import os
 import mysql.connector
 
-
 from flask import Flask, request, jsonify, render_template, flash, url_for, redirect, abort
 from werkzeug.utils import secure_filename
 from wtforms.fields import datetime
 from datetime import datetime
-
-from chat import get_response
 
 from flask_wtf import FlaskForm
 from wtforms import StringField, TextAreaField, SubmitField, FileField, SelectField
 from wtforms.validators import DataRequired, Length
 from flask_wtf.file import FileAllowed
 
+from chat import get_response
 from racheldb import connect_and_fetch
 
 app = Flask(__name__)
