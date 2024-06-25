@@ -35,7 +35,6 @@ i {
 @media only screen and (max-width: 767px) {
   .admin-content-wrapper {
     margin-left: 0px;
-    padding: 20px;
   }
 }
 
@@ -253,6 +252,11 @@ nav .search-container .fa-magnifying-glass {
 
 .user-management-table tr {
   cursor: pointer;
+}
+
+.user-management-table td,
+.user-management-table th {
+  vertical-align: middle;
 }
 
 /*USER MANAGEMENT*/
