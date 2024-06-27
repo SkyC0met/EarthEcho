@@ -129,6 +129,10 @@ def submit_review():
 def homepage():
     return render_template('customer/homepage.html')
 
+@app.route('/homepg')
+def homepg():
+    return render_template('customer/homepg.html')
+
 
 # LOGIN SIGNUP ROUTES
 @app.route('/admin-login')
