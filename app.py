@@ -10,11 +10,14 @@ def create_app(config_class=Config):
     from blueprints.__init__ import init_bp
     from blueprints.messaging import messaging_bp
     from blueprints.misc import misc_bp
+    from blueprints.review import review_bp
+
 
     app.register_blueprint(auth_bp)
     app.register_blueprint(init_bp)
     app.register_blueprint(messaging_bp)
     app.register_blueprint(misc_bp)
+    app.register_blueprint(review_bp)
 
     return app
 

@@ -12,7 +12,6 @@ from wtforms.validators import DataRequired, Length
 from flask_wtf.file import FileAllowed
 
 from blueprints.chatbot.chat import get_response
-from blueprints.chatbot.racheldb import connect_and_fetch
 
 init_bp = Blueprint('init', __name__)
 
@@ -68,59 +67,6 @@ def predict():
     response = get_response(text)
     message = {"answer": response}
     return jsonify(message)
-
-# rating and review
-@init_bp.route('/submit_review', methods=['POST'])
-def submit_review():
-    try:
-        rating = request.form.get('rating_hidden')
-        review = request.form.get('review')
-
-        if not rating or not review:
-            raise ValueError("Rating or review is missing")
-
-        user_id = 10  # Replace with actual user ID logic if needed
-        post_id = 1  # Replace with actual post ID logic if needed
-
-        connection = connect_and_fetch()  # Connect to your MySQL database
-
-        if connection:
-            cursor = connection.cursor()
-
-            insert_query = "INSERT INTO ratings_reviews (rating, reviews, post_id, user_id) VALUES (%s, %s, %s, %s)"
-            cursor.execute(insert_query, (rating, review, post_id, user_id))
-            connection.commit()
-
-            # Construct JSON response
-            response_data = {
-                'status': 'success',
-                'date': datetime.now().strftime('%Y-%m-%d'),  # Current date in YYYY-MM-DD format
-                'time': datetime.now().strftime('%H:%M:%S'),  # Current time in HH:MM:SS format
-                'review': review  # Pass the review content back if needed
-            }
-
-            return jsonify(response_data)
-
-    except ValueError as ve:
-        print(f"ValueError: {ve}")
-        return jsonify({'status': 'error', 'message': str(ve)})
-
-    except mysql.connector.Error as err:
-        print(f"MySQL Error: {err}")
-        return jsonify({'status': 'error', 'message': 'Database error'})
-
-    except Exception as e:
-        print(f"Unexpected Error: {e}")
-        return jsonify({'status': 'error', 'message': 'An unexpected error occurred'})
-
-    finally:
-        if 'connection' in locals() and connection and connection.is_connected():
-            cursor.close()
-            connection.close()
-            print("Connection closed")
-
-    # If an error occurs or if the submission fails, return an error response
-    return jsonify({'status': 'error', 'message': 'Unknown error occurred'})
 
 
 @init_bp.route('/')
