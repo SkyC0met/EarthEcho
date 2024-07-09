@@ -1,3 +1,4 @@
+<!--SKY HTML-->
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -5,20 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
 
-    <!--BOOTSTRAP CSS-->
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
-      crossorigin="anonymous"
-    />
-    <!--BOOTSTRAP CSS-->
-
     <!--MY CSS-->
-    <link
+      <link
       rel="stylesheet"
-      href="{{ url_for('static', filename='/css/cust_sky.css') }}"
-    />
+      href="{{ url_for('static', filename='css/sky_cust.css') }}"
+      />
     <!--MY CSS-->
 
     <!--BOOTSTRAP POPPER JS-->
@@ -47,9 +39,10 @@
     ></script>
     <!--FONT AWESOME ICONS-->
   </head>
-  <nav class="navbar navbar-expand-lg">
+  
+  <nav class="navbar navbar-expand-lg bg-violet">
     <div class="container-fluid">
-      <a class="navbar-brand ms-0 ms-sm-3 me-5" href="{{ url_for('homepage') }}"
+      <a class="navbar-brand ms-0 ms-sm-3 me-5" href="{{ url_for('init.homepage') }}"
         >EarthEcho</a
       >
       <button
@@ -69,7 +62,7 @@
       >
         <!--NOT DROPDOWN BIG SCREEN-->
         <div class="order-last mx-5 d-lg-flex d-none align-items-center">
-          <a href="{{ url_for('CreatePosts') }}">
+          <a href="{{ url_for('init.CreatePosts') }}">
             <i class="fa-solid fa-square-plus fa-2xl mx-3"></i>
           </a>
           <div class="dropdown text-center">
@@ -81,27 +74,27 @@
               class="dropdown-menu position-absolute start-50 translate-middle-x mt-1"
             >
               <li>
-                <a class="dropdown-item" href="{{ url_for('profile') }}"
+                <a class="dropdown-item" href="{{ url_for('init.profile') }}"
                   >Profile</a
                 >
               </li>
               <li>
-                <a class="dropdown-item" href="{{ url_for('MyPosts') }}"
+                <a class="dropdown-item" href="{{ url_for('init.MyPosts') }}"
                   >My posts</a
                 >
               </li>
               <li>
-                <a class="dropdown-item" href="{{ url_for('messages') }}"
+                <a class="dropdown-item" href="{{ url_for('messaging.messages') }}"
                   >Messages</a
                 >
               </li>
               <li>
-                <a class="dropdown-item" href="{{ url_for('favourites') }}"
+                <a class="dropdown-item" href="{{ url_for('init.favourites') }}"
                   >Favourites</a
                 >
               </li>
               <li><a class="dropdown-item" href="#">Unban request</a></li>
-              <li><a class="dropdown-item" href="#">Logout</a></li>
+              <li><a class="dropdown-item" href="{{ url_for('auth.logout') }}">Logout</a></li>
             </ul>
           </div>
           <div class="dropdown text-center">
@@ -113,12 +106,12 @@
               class="dropdown-menu position-absolute start-50 translate-middle-x mt-1"
             >
               <li>
-                <a class="dropdown-item" href="{{ url_for('points') }}"
+                <a class="dropdown-item" href="{{ url_for('abc.points') }}"
                   >Points shop</a
                 >
               </li>
               <li>
-                <a class="dropdown-item" href="{{ url_for('vouchers') }}"
+                <a class="dropdown-item" href="{{ url_for('init.vouchers') }}"
                   >Vouchers</a
                 >
               </li>
@@ -128,15 +121,15 @@
         <!--NOT DROPDOWN BIG SCREEN-->
 
         <!--DROPDOWN SMALL SCREEN-->
-        <div id="nav-small" class="d-lg-none my-3">
+        <div class="nav-small d-lg-none my-3">
           <ul class="navbar-nav gap-3">
             <li class="nav-item">
               <a
-                href="{{ url_for('CreatePosts') }}"
+                href="{{ url_for('init.CreatePosts') }}"
                 class="d-flex align-items-center"
               >
                 <i class="fa-solid fa-square-plus fa-2xl mx-3"></i>
-                <p>Create new posts</p>
+                <p class="p-light">Create new posts</p>
               </a>
             </li>
 
@@ -148,27 +141,27 @@
                 aria-expanded="false"
               >
                 <i class="fa-solid fa-user fa-2xl mx-3"></i>
-                <p>Profile</p>
+                <p class="p-light">Profile</p>
                 <i class="fa-solid fa-caret-down mx-2"></i>
               </div>
               <ul class="dropdown-menu">
                 <li>
-                  <a class="dropdown-item" href="{{ url_for('profile') }}"
+                  <a class="dropdown-item" href="{{ url_for('init.profile') }}"
                     >Profile</a
                   >
                 </li>
                 <li>
-                  <a class="dropdown-item" href="{{ url_for('MyPosts') }}"
+                  <a class="dropdown-item" href="{{ url_for('init.MyPosts') }}"
                     >My posts</a
                   >
                 </li>
                 <li>
-                  <a class="dropdown-item" href="{{ url_for('messages') }}"
+                  <a class="dropdown-item" href="{{ url_for('messaging.messages') }}"
                     >Messages</a
                   >
                 </li>
                 <li>
-                  <a class="dropdown-item" href="{{ url_for('favourites') }}"
+                  <a class="dropdown-item" href="{{ url_for('init.favourites') }}"
                     >Favourites</a
                   >
                 </li>
@@ -184,17 +177,17 @@
                 aria-expanded="false"
               >
                 <i class="fa-solid fa-clover fa-2xl mx-3"></i>
-                <p>Points shop & Vouchers</p>
+                <p class="p-light">Points shop & Vouchers</p>
                 <i class="fa-solid fa-caret-down mx-2"></i>
               </div>
               <ul class="dropdown-menu">
                 <li>
-                  <a class="dropdown-item" href="{{ url_for('points') }}"
+                  <a class="dropdown-item" href="{{ url_for('abc.points') }}"
                     >Points Shop</a
                   >
                 </li>
                 <li>
-                  <a class="dropdown-item" href="{{ url_for('vouchers') }}"
+                  <a class="dropdown-item" href="{{ url_for('init.vouchers') }}"
                     >Vouchers</a
                   >
                 </li>
@@ -212,7 +205,7 @@
             placeholder="Type here for search"
             aria-label="Search"
           />
-          <i class="fa-solid fa-magnifying-glass"></i>
+          <i class="fa-solid fa-magnifying-glass icon-dark"></i>
         </div>
         <!--SEARCHBAR-->
       </div>

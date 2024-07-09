@@ -11,56 +11,52 @@
     {% extends 'customer/cust_base.html' %}
 
     {% block content %}
-
-    {% with messages = get_flashed_messages(with_categories=true) %}
-      {% if messages %}
-        <ul class="flashes px-0">
-          {% for category, message in messages %}
-            <li class="alert alert-{{ category }}">{{ message }}</li>
-          {% endfor %}
-        </ul>
-      {% endif %}
-    {% endwith %}
-
-    <!--LOGIN CUST-->
-    <div class="container-md mt-sm-5 mt-4 mb-4">
-      <!--LOGIN TOP-->
-      <div class="container-fluid text-center login-top">
-        <h1 class="fw-bold mb-5">Log in</h1>
+    <!-- REGISTER -->
+    <div class="container-md mt-sm-5 mt-4 mb-4 register-top">
+      <!-- REGISTER TOP -->
+    <div class="container-fluid text-center">
+        <h1 class="fw-bold mb-5">Register</h1>
 
         <form method="POST" class="needs-validation" novalidate>
           {{ form.hidden_tag() }}
 
+          <div class="d-sm-flex d-grid">
+            <div class="mb-3 username-input">
+              {{ form.username(class="form-control border-0 shadow-none", placeholder="Username") }}
+              {% for error in form.username.errors %}
+              <div class="invalid-feedback d-block text-start">{{ error }}</div>
+              {% endfor %}
+            </div>
+
+            <div class="mb-3 phone-input">
+              {{ form.phone_num(class="form-control border-0 shadow-none", placeholder="Phone number", maxlength="8", minlength="8") }}
+              {% for error in form.phone_num.errors %}
+              <div class="invalid-feedback d-block text-start">{{ error }}</div>
+              {% endfor %}
+            </div>
+          </div>
+
           <div class="mb-3 mx-auto">
-            {{ form.username(class="form-control border-0 shadow-none", placeholder="Username") }}
-            {% for error in form.username.errors %}
+            {{ form.email(class="form-control border-0 shadow-none", placeholder="Email") }}
+            {% for error in form.email.errors %}
             <div class="invalid-feedback d-block text-start">{{ error }}</div>
             {% endfor %}
           </div>
-  
+
           <div class="mb-3 mx-auto">
             {{ form.passwd(class="form-control border-0 shadow-none", placeholder="Password") }}
             {% for error in form.passwd.errors %}
             <div class="invalid-feedback d-block text-start">{{ error }}</div>
             {% endfor %}
           </div>
-  
-          <div class="d-flex justify-content-between mx-auto">
-            <div class="form-check">
-              <input
-                class="form-check-input"
-                type="checkbox"
-                value=""
-                id="flexCheckDefault"
-              />
-              <label for="flexCheckDefault">
-                Remember me?
-              </label>
-            </div>
-  
-            <a href="#">Forgot password?</a>
+
+          <div class="mb-3 mx-auto">
+            {{ form.confirm_passwd(class="form-control border-0 shadow-none", placeholder="Retype password") }}
+            {% for error in form.confirm_passwd.errors %}
+            <div class="invalid-feedback d-block text-start">{{ error }}</div>
+            {% endfor %}
           </div>
-  
+
           <div
             class="d-flex justify-content-between align-items-center p-2 mx-auto my-4 bg-violet recaptcha"
           >
@@ -75,27 +71,33 @@
                 I'm not a robot
               </label>
             </div>
-  
+
             <img
-            class="h-100"
+              class="h-100"
               src="{{ url_for('static', filename='images/recaptcha.png') }}"
               alt=""
             />
           </div>
-  
-          <button class="btn btn-rose login-btn" type="submit">Log in</button>
+
+          <button class="btn btn-rose register-btn" type="submit">Create Account</button>
         </form>
       </div>
-      <!--LOGIN TOP-->
+      <!-- REGISTER TOP -->
 
       <div class="row align-items-center my-3">
-        <div class="col"><hr /></div>
-        <div class="col-auto"><p>OR</p></div>
-        <div class="col"><hr /></div>
+        <div class="col">
+          <hr />
+        </div>
+        <div class="col-auto">
+          <p>OR</p>
+        </div>
+        <div class="col">
+          <hr />
+        </div>
       </div>
 
       <div class="container text-center">
-        <!--LOGIN BUTTONS-->
+        <!-- REGISTER BUTTONS -->
         <div class="row row row-cols-1 row-cols-sm-2 gy-2 gx-5 mb-4">
           <div class="col">
             <button
@@ -142,19 +144,15 @@
             </button>
           </div>
         </div>
-        <!--LOGIN BUTTONS-->
-  
-        <div class="my-3">
-          <p class="d-inline">Don't have an account?</p>
-          <a href="{{ url_for('auth.register') }}">Register here!</a>
+        <!-- REGISTER BUTTONS -->
+
+        <div class="d-flex justify-content-center mt-2">
+          <p class="mx-1">Already have an account?</p>
+          <a href="{{ url_for('auth.cust_login') }}">Log in here!</a>
         </div>
-        <div>
-          <a href="{{ url_for('auth.admin_login') }}">Are you an admin?</a>
-        </div>
-      
       </div>
     </div>
-    <!--LOGIN CUST-->
+    <!-- REGISTER -->
     {% endblock content %}
   </body>
 </html>

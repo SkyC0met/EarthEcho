@@ -1,3 +1,4 @@
+<!--SKY HTML-->
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -8,33 +9,36 @@
 
   <body>
     {% include "navbar/cust_navbar.html" %}
+    {% include "customer/customerBase.html" %}
     <!--CHAT-->
     <div class="container-md mt-sm-5 mt-4 mb-5">
       <!--CHAT TOP-->
-      <div id="chat-top" class="container">
-        <h2 class="fw-bold mb-5">Messages</h2>
+      <div class="container">
+        <h2 class="fw-bold mb-5">Chat with {{ receiver }}</h2>
 
-        <button class="btn">
-          <i class="fa-solid fa-arrow-left-long me-2"></i>Back to inbox
-        </button>
+        <a href="{{ url_for('messaging.all_users') }}">
+          <button class="btn btn-puce">
+              <i class="fa-solid fa-arrow-left-long me-2"></i>Back to inbox
+          </button>
+      </a>      
       </div>
       <!--CHAT TOP-->
 
       <div class="container-md mt-sm-5 mt-4">
         <div
-          id="chat-btn-container"
-          class="container d-flex justify-content-end"
+          class="container d-flex justify-content-end py-3 bg-peri"
         >
-          <button id="archive-btn" class="btn">Archive</button>
-          <button id="unread-btn" class="btn">Mark as unread</button>
-          <button id="spam-btn" class="btn">Report spam</button>
+          <button class="btn btn-light">Archive</button>
+          <button class="btn btn-light">Mark as unread</button>
+          <button class="btn btn-violet">Report spam</button>
         </div>
 
         <div class="container">
+          <hr class="hr-nomargin" />
           <!--CHAT MESSAGE-->
-          <div id="message" class="row align-items-center px-md-5 px-2">
+          <div class="row align-items-center px-md-5 px-2 py-4 bg-light">
             <div class="col-auto">
-              <i class="fa-solid fa-user fa-2xl" style="color: #4e4c67"></i>
+              <i class="fa-solid fa-user fa-2xl icon-dark"></i>
             </div>
             <div class="col">
               <div>
@@ -43,91 +47,31 @@
               </div>
             </div>
             <div class="col-12">
-              <p id="message-short">
+              <p class="mt-3">
                 Hey there! Just read your latest blog post on sustainability.
                 Really loved it!
               </p>
             </div>
           </div>
           <!--CHAT MESSAGE-->
-          <hr class="my-0" style="margin-left: -12px; margin-right: -12px" />
-          <!--CHAT MESSAGE-->
-          <div id="message" class="row align-items-center px-md-5 px-2">
-            <div class="col-auto">
-              <i class="fa-solid fa-user fa-2xl" style="color: #4e4c67"></i>
-            </div>
-            <div class="col">
-              <div>
-                <p>Username</p>
-                <p>January 10, 2024</p>
-              </div>
-            </div>
-            <div class="col-12">
-              <p id="message-short">
-                Oh, thank you so much! I'm glad you enjoyed it. Sustainability
-                is such an important topic.
-              </p>
-            </div>
-          </div>
-          <!--CHAT MESSAGE-->
-          <hr class="my-0" style="margin-left: -12px; margin-right: -12px" />
-          <!--CHAT MESSAGE-->
-          <div id="message" class="row align-items-center px-md-5 px-2">
-            <div class="col-auto">
-              <i class="fa-solid fa-user fa-2xl" style="color: #4e4c67"></i>
-            </div>
-            <div class="col">
-              <div>
-                <p>Username</p>
-                <p>January 10, 2024</p>
-              </div>
-            </div>
-            <div class="col-12">
-              <p id="message-short">
-                Absolutely! Your post was so insightful and well-written. You're
-                doing such a fantastic job spreading awareness.
-              </p>
-            </div>
-          </div>
-          <!--CHAT MESSAGE-->
-          <hr class="my-0" style="margin-left: -12px; margin-right: -12px" />
-          <!--CHAT MESSAGE-->
-          <div id="message" class="row align-items-center px-md-5 px-2">
-            <div class="col-auto">
-              <i class="fa-solid fa-user fa-2xl" style="color: #4e4c67"></i>
-            </div>
-            <div class="col">
-              <div>
-                <p>Username</p>
-                <p>January 10, 2024</p>
-              </div>
-            </div>
-            <div class="col-12">
-              <p id="message-short">
-                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Eius
-                adipisci autem, voluptates repellat repellendus animi minima
-                voluptas corporis reprehenderit magni temporibus voluptatibus
-                voluptate voluptatem, iste officia nemo id fugit ut!
-              </p>
-            </div>
-          </div>
-          <!--CHAT MESSAGE-->
         </div>
 
-        <div id="chat-reply-container" class="p-4">
-          <div class="d-flex justify-content-center">
-            <div class="input-group">
-              <textarea class="form-control"></textarea>
-            </div>
-          </div>
+        <div class="container p-4 bg-peri">
 
-          <div class="d-flex justify-content-start mt-3">
-            <button id="send-btn" class="btn">Send message</button>
-          </div>
+          <form method="POST" class="needs-validation" novalidate>
+            {{ form.hidden_tag() }}
+  
+            <div class="mb-3 mx-auto">
+              {{ form.message(class="form-control border-0 shadow-none message-reply") }}
+              {% for error in form.message.errors %}
+              <div class="invalid-feedback d-block text-start">{{ error }}</div>
+              {% endfor %}
+            </div>
+            <button class="btn btn-rose" type="submit">Send message</button>
+          </form>
         </div>
       </div>
     </div>
     <!--CHAT-->
-    {% include "customer/customerBase.html" %}
   </body>
 </html>

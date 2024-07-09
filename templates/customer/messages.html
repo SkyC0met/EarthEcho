@@ -1,3 +1,4 @@
+<!--SKY HTML-->
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -8,6 +9,7 @@
 
   <body>
     {% include "navbar/cust_navbar.html" %}
+    {% include "customer/customerBase.html" %}
     <!--MESSAGE-->
     <div class="container-md mt-sm-5 mt-4">
       <!--MESSAGE TOP-->
@@ -26,7 +28,7 @@
               placeholder="Search messages"
               aria-label="Search"
             />
-            <i class="fa-solid fa-magnifying-glass"></i>
+            <i class="fa-solid fa-magnifying-glass icon-dark"></i>
           </div>
           <!--DM SEARCHBAR-->
 
@@ -55,12 +57,13 @@
       </div>
       <!--MESSAGE TOP-->
 
-      <div id="messages" class="container">
+      <div class="container messages">
+        <hr class="my-0" style="margin-left: -12px; margin-right: -12px" />
         <!--MESSAGE-->
-        <a href="{{ url_for('chat') }}">
+        <a href="{{ url_for('messaging.messages') }}">
           <div id="message" class="row align-items-center px-md-5 px-2">
             <div class="col-auto">
-              <i class="fa-solid fa-user fa-2xl" style="color: #4e4c67"></i>
+              <i class="fa-solid fa-user fa-2xl icon-dark"></i>
             </div>
             <div class="col-md-auto col">
               <div>
@@ -80,64 +83,8 @@
           </div></a
         >
         <!--MESSAGE-->
-        <hr class="my-0" style="margin-left: -12px; margin-right: -12px" />
-        <!--MESSAGE-->
-        <a href="#">
-          <div id="message" class="row align-items-center px-md-5 px-2">
-            <div class="col-auto">
-              <i class="fa-solid fa-user fa-2xl" style="color: #4e4c67"></i>
-            </div>
-            <div class="col-md-auto col">
-              <div>
-                <p>Username</p>
-                <p>January 10, 2024</p>
-              </div>
-            </div>
-            <div class="col-md col-auto">
-              <p id="message-short">
-                Lorem, ipsum dolor sit amet consectetur adipisicing elit. Neque
-                aut repudiandae a accusantium tempore non laborum cum magnam
-                voluptas! At aperiam, consequuntur nostrum ullam minus unde?
-                Itaque error animi labore.
-              </p>
-            </div>
-            <div class="col-auto">
-              <button class="btn">Archive</button>
-            </div>
-          </div></a
-        >
-        <!--MESSAGE-->
-        <hr class="my-0" style="margin-left: -12px; margin-right: -12px" />
-        <!--MESSAGE-->
-        <a href="#">
-          <div id="message" class="row align-items-center px-md-5 px-2">
-            <div class="col-auto">
-              <i class="fa-solid fa-user fa-2xl" style="color: #4e4c67"></i>
-            </div>
-            <div class="col-md-auto col">
-              <div>
-                <p>Username</p>
-                <p>January 10, 2024</p>
-              </div>
-            </div>
-            <div class="col-md col-auto">
-              <p id="message-short">
-                Lorem ipsum dolor sit, amet consectetur adipisicing elit.
-                Sapiente eos, quibusdam officia ab, repudiandae ullam ipsam
-                maiores libero, doloremque perspiciatis nam maxime
-                exercitationem accusantium animi. Expedita possimus praesentium
-                atque veniam.
-              </p>
-            </div>
-            <div class="col-auto">
-              <button class="btn">Archive</button>
-            </div>
-          </div></a
-        >
-        <!--MESSAGE-->
       </div>
     </div>
     <!--MESSAGE-->
-    {% include "customer/customerBase.html" %}
   </body>
 </html>

@@ -45,7 +45,7 @@
     <ul class="list-group">
       {% for post in Posts %}
           <li class="list-group-item">
-              <a href="{{ url_for('ViewPost', id=post.id) }}">{{ post.title }}</a>
+              <a href="{{ url_for('init.ViewPost', id=post.id) }}">{{ post.title }}</a>
           </li>
       {% endfor %}
     </ul>

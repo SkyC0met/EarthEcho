@@ -1,0 +1,17 @@
+{
+  "name": "earthecho",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build-css": "sass static/scss/sky_cust.scss static/css/sky_cust.css",
+    "watch-css": "sass --watch static/scss/sky_cust.scss:static/css/sky_cust.css"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bootstrap": "^5.3.3",
+    "sass": "^1.77.6"
+  }
+}
