@@ -20,11 +20,26 @@ CREATE TABLE IF NOT EXISTS messages (
     timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- INSERT INTO messages (sender_user_id, sender, receiver, message) 
--- VALUES (2, 'Tom', 'Customer', 'Hello Bob, how are you?');
 
--- SHOW TABLES;
+CREATE TABLE posts (
+    post_id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT,
+    username VARCHAR(50),
+    header TEXT NOT NULL,
+    body TEXT NOT NULL,
+    topic TEXT NOT NULL,
+    FOREIGN KEY (username) REFERENCES users(username),
+	FOREIGN KEY (user_id) REFERENCES users(user_id),
+	timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
 
--- DELETE FROM messages WHERE sender_user_id = 1
-SELECT * FROM users;
-
+CREATE TABLE review (
+    review_id INT AUTO_INCREMENT PRIMARY KEY,
+    review TEXT NOT NULL,
+    rating INT NOT NULL,
+    post_id INT,
+    user_id INT,
+    FOREIGN KEY (post_id) REFERENCES posts(post_id),
+    FOREIGN KEY (user_id) REFERENCES users(user_id),
+	timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
