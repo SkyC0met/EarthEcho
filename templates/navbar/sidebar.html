@@ -1,3 +1,4 @@
+<!--SKY HTML-->
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -56,8 +57,8 @@
     >
       <h1 class="fw-bold" style="margin-top: 35px">EarthEcho</h1>
       <div class="flex-grow-1 w-100" style="margin-top: 93px">
-        <a class="btn mb-5" href="{{ url_for('admin_profile') }}">Profile</a>
-        <a class="btn mb-5" href="{{ url_for('user_management') }}"
+        <a class="btn mb-5" href="{{ url_for('init.admin_profile') }}">Profile</a>
+        <a class="btn mb-5" href="{{ url_for('init.user_management') }}"
           >User Management</a
         >
         <a class="btn mb-5" href="#">User Inquiries</a>
@@ -70,7 +71,7 @@
           margin-top: 160px;
           margin-bottom: 20px;
         "
-        href="{{ url_for('homepage') }}"
+        href="{{ url_for('init.homepage') }}"
         >Logout</a
       >
     </div>
@@ -97,7 +98,7 @@
               <a
                 class="nav-link active"
                 aria-current="page"
-                href="{{ url_for('admin_profile') }}"
+                href="{{ url_for('init.admin_profile') }}"
                 >Profile</a
               >
             </li>
@@ -105,7 +106,7 @@
               <a
                 class="nav-link active"
                 aria-current="page"
-                href="{{ url_for('user_management') }}"
+                href="{{ url_for('init.user_management') }}"
                 >User Management</a
               >
             </li>
@@ -123,7 +124,7 @@
               <a
                 class="nav-link active"
                 aria-current="page"
-                href="{{ url_for('homepage') }}"
+                href="{{ url_for('init.homepage') }}"
                 >Logout</a
               >
             </li>

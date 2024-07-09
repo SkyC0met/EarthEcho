@@ -1,0 +1,28 @@
+<!--SKY HTML-->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+
+  <body>
+    {% extends 'customer/cust_base.html' %}
+  
+    {% block content %}
+
+    <!--404 ERROR PAGE-->
+    <div class="container text-center">
+      <div class="d-flex justify-content-center my-5">
+        <img src="{{ url_for('static', filename='images/500.gif') }}" alt="...">
+      </div>
+  
+      <h1 class="fw-bold">SORRY, IT'S NOT YOU. IT'S US.</h1>
+      <h5 class="my-4">We are experiencing an internal server problem</h5>
+      <h5 class="my-4">Please try again later</h5>
+    </div>
+    <!--404 ERROR PAGE-->
+    {% endblock content %}
+  </body>
+</html>

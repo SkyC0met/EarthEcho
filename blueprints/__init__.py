@@ -1,7 +1,7 @@
 import os
 import mysql.connector
 
-from flask import Flask, request, jsonify, render_template, flash, url_for, redirect, abort
+from flask import Blueprint, request, jsonify, render_template, flash, url_for, redirect, abort
 from werkzeug.utils import secure_filename
 from wtforms.fields import datetime
 from datetime import datetime
@@ -11,11 +11,10 @@ from wtforms import StringField, TextAreaField, SubmitField, FileField, SelectFi
 from wtforms.validators import DataRequired, Length
 from flask_wtf.file import FileAllowed
 
-from chat import get_response
-from racheldb import connect_and_fetch
+from blueprints.chatbot.chat import get_response
+from blueprints.chatbot.racheldb import connect_and_fetch
 
-app = Flask(__name__)
-app.config['SECRET_KEY'] = 'rzstxrdycfuvgibhnj'
+init_bp = Blueprint('init', __name__)
 
 
 def Posts():
@@ -62,9 +61,8 @@ class PostForm(FlaskForm):
     image = FileField('Image', validators=[DataRequired(),FileAllowed(['jpg', 'png'])])
     submit = SubmitField('Post!')
 
-
 # chatbot
-@app.post("/predict")
+@init_bp.post("/predict")
 def predict():
     text = request.get_json().get("message")
     response = get_response(text)
@@ -72,7 +70,7 @@ def predict():
     return jsonify(message)
 
 # rating and review
-@app.route('/submit_review', methods=['POST'])
+@init_bp.route('/submit_review', methods=['POST'])
 def submit_review():
     try:
         rating = request.form.get('rating_hidden')
@@ -125,74 +123,47 @@ def submit_review():
     return jsonify({'status': 'error', 'message': 'Unknown error occurred'})
 
 
-@app.route('/')
+@init_bp.route('/')
 def homepage():
     return render_template('customer/homepage.html')
 
-@app.route('/homepg')
-def homepg():
-    return render_template('customer/homepg.html')
-
-
-# LOGIN SIGNUP ROUTES
-@app.route('/admin-login')
-def admin_login():
-    return render_template('admin/admin_login.html')
-
-@app.route('/cust-login')
-def cust_login():
-    return render_template('customer/cust_login.html')
-
-@app.route('/signup')
-def signup():
-    return render_template('customer/signup.html')
-# LOGIN SIGNUP ROUTES
-
 # SKY CUST ROUTES
-@app.route('/profile')
+@init_bp.route('/profile')
 def profile():
     return render_template('customer/profile.html')
 
-@app.route('/message')
-def messages():
-    return render_template('customer/messages.html')
-
-@app.route('/chat')
-def chat():
-    return render_template('customer/chat.html')
-
-@app.route('/favourites')
+@init_bp.route('/favourites')
 def favourites():
     return render_template('customer/favourites.html')
 
-@app.route('/points')
-def points():
-    return render_template('customer/points_shop.html')
-
-@app.route('/vouchers')
+@init_bp.route('/vouchers')
 def vouchers():
     return render_template('customer/vouchers.html')
 # SKY CUST ROUTES
 
 #SKY ADMIN ROUTES
-@app.route('/admin-profile')
+@init_bp.route('/admin-profile')
 def admin_profile():
     return render_template('admin/admin_profile.html')
 
-@app.route('/user-management')
+@init_bp.route('/user-management')
 def user_management():
     return render_template('admin/user_management.html')
 
-@app.route('/user-profile')
+@init_bp.route('/user-profile')
 def user_profile():
     return render_template('admin/user_profile.html')
+
+@init_bp.route('/points')
+def points():
+    return render_template('customer/points_shop.html')
 #SKY ADMIN ROUTES
 
-@app.route('/Blog')
+@init_bp.route('/Blog')
 def blog():
     return render_template('customer/blogpost.html')
 
-@app.route('/createpost', methods=['GET', 'POST'])
+@init_bp.route('/createpost', methods=['GET', 'POST'])
 def CreatePosts():
     form = PostForm()
     if form.validate_on_submit():
@@ -215,21 +186,16 @@ def CreatePosts():
         }
         Posts.append(new_post)
         flash("Post created!", "success")
-        return redirect(url_for('MyPosts'))
+        return redirect(url_for('init.MyPosts'))
     return render_template("customer/createpost.html", form=form)
 
-@app.route('/myposts')
+@init_bp.route('/myposts')
 def MyPosts():
     return render_template('customer/myposts.html', Posts = Posts)
 
-@app.route('/myposts/<int:id>/')
+@init_bp.route('/myposts/<int:id>/')
 def ViewPost(id):
     post = next((post for post in Posts if post['id'] == id), None)
     if post is None:
         abort(404)  # Return a 404 error if the post is not found
     return render_template('customer/viewpost.html', post=post)
-
-
-# remember to set to False when done with project
-if __name__ == "__main__":
-    app.run(debug=True)

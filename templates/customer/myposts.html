@@ -8,11 +8,12 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='/css/myposts.css') }}" />
     <title>My Posts</title>
   </head>
-  <style>      ul.flashes {
-            list-style-type: none;
-            padding: 0;
-        }</style>
-
+  <style>
+    ul.flashes {
+      list-style-type: none;
+      padding: 0;
+    }
+  </style>
 
   <body>
     {% include "navbar/cust_navbar.html" %} {% include "customer/customerBase.html" %}
@@ -37,7 +38,7 @@
                 <img src="../../static/images/electricity.jpg" alt="Post Image" width="75" height="75">
               {% endif %}
               <h4>{{ post.title }}</h4>
-              <a href="{{ url_for('ViewPost', id=post.id) }}">Read more...</a>
+              <a href="{{ url_for('init.ViewPost', id=post.id) }}">Read more...</a>
           </div>
       {% endfor %}
     </div>

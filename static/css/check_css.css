@@ -23,6 +23,11 @@ a {
   text-decoration: none;
 }
 
+i {
+  cursor: pointer;
+  color: #ffffff;
+}
+
 /*NAVBAR CONTAINER*/
 nav {
   background-color: #4e4c67;
@@ -37,6 +42,32 @@ nav .navbar-brand:active {
   font-size: 40px;
 }
 
+nav .navbar-toggler,
+nav .navbar-toggler:focus {
+  box-shadow: none;
+  background-color: #ffffff;
+}
+
+nav .dropdown-menu {
+  min-width: 0;
+  background-color: #a6b1e1;
+}
+
+nav .dropdown-item:active {
+  color: #4e4c67;
+  background-color: #ffffff;
+}
+
+.nav-small p {
+  color: #ffffff;
+}
+
+@media only screen and (min-width: 992px) {
+  nav .dropdown:hover .dropdown-menu {
+    display: block;
+  }
+}
+
 nav .search-container {
   position: relative;
   width: 100%;
@@ -46,17 +77,17 @@ nav .search-container input[type="search"] {
   padding: 10px 40px 10px 20px;
   width: 100%;
   border: black;
-  border-radius: 50px;
   box-shadow: none;
   appearance: none;
 }
 
-nav .search-container .fa-solid {
+nav .search-container .fa-magnifying-glass {
   position: absolute;
   right: 20px;
   top: 50%;
   transform: translateY(-50%);
   cursor: pointer;
+  color: #4e4c67;
 }
 
 .search-container input[type="search"]::-webkit-search-cancel-button {
@@ -64,27 +95,12 @@ nav .search-container .fa-solid {
   appearance: none;
 }
 
-.search-container input[type="search"]::-ms-clear {
-  display: none;
-  width: 0;
-  height: 0;
-}
-
-.search-container input[type="search"]::placeholder,
-.search-container .fa-solid,
-.dropdown-item {
-  color: #4e4c67;
-}
-
-@media only screen and (min-width: 992px) {
-  nav .dropdown:hover .dropdown-menu {
-    display: block;
-  }
-}
-
-.dropdown-menu {
-  min-width: 0;
-  background-color: #a6b1e1;
-}
-
 /*NAVBAR CONTAINER*/
+
+/*BTN*/
+.rose{
+  background-color: #985f6f;
+  color: #ffffff;
+  width: 200px;
+}
+/*BTN*/

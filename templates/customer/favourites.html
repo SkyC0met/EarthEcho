@@ -1,3 +1,4 @@
+<!--SKY HTML-->
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -8,14 +9,15 @@
 
   <body>
     {% include "navbar/cust_navbar.html" %}
+    {% include "customer/customerBase.html" %}
     <!--FAVOURITES-->
     <div class="container-md mt-sm-5 mt-4 mb-5">
       <h2 class="fw-bold">Favourites</h2>
 
-      <div id="fav-container" class="container mt-sm-5 mt-4 p-0">
+      <div class="container mt-sm-5 mt-4 p-0">
         <div class="row align-items-center">
           <div class="col">
-            <div class="card">
+            <div class="card fav-card">
               <img
                 src="../../static/images/beach.png"
                 class="card-img-top"
@@ -23,15 +25,14 @@
               />
               <div class="card-body p-2">
                 <div
-                  class="d-flex align-items-center justify-content-between mb-2"
+                  class="d-flex align-items-center justify-content-between my-2"
                 >
-                  <h5 class="card-title">Post Name</h5>
+                  <h5 class="fw-bold">Post Name</h5>
                   <i
-                    class="fa-solid fa-heart fa-xl mx-3"
-                    style="color: #ff0000"
+                    class="fa-solid fa-heart fa-xl mx-3 icon-heart"
                   ></i>
                 </div>
-                <p class="card-text">Description</p>
+                <p class="card-text mt-4">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Alias non sint tempore rerum provident voluptates quisquam, praesentium perspiciatis nulla. Pariatur minima quibusdam qui eveniet deleniti autem magni ea quae soluta.</p>
                 <p class="card-text">Written by: User</p>
               </div>
             </div>
@@ -40,6 +41,5 @@
       </div>
     </div>
     <!--FAVOURITES-->
-    {% include "customer/customerBase.html" %}
   </body>
 </html>

@@ -1,14 +1,14 @@
 import json
-from nltk_utils import tokenize, stem, bag_of_words
+from blueprints.chatbot.nltk_utils import tokenize, stem, bag_of_words
 import numpy as np
 
 import torch
 import torch.nn as nn
 from torch.utils.data import Dataset, DataLoader
 
-from model import NeuralNet
+from blueprints.chatbot.model import NeuralNet
 
-with open('intents.json', 'r') as f:
+with open('blueprints/chatbot/intents.json', 'r') as f:
     intents = json.load(f)
 
 # tokenize + stem
@@ -120,7 +120,7 @@ data = {
     "tags": tags
 }
 
-FILE = "data.pth"
+FILE = "blueprints/chatbot/data.pth"
 torch.save(data, FILE)
 
 print(f"training complete, file saved to {FILE}")

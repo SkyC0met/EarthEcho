@@ -1,3 +1,4 @@
+<!--SKY HTML-->
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -13,6 +14,7 @@
       crossorigin="anonymous"
     />
     <!--BOOTSTRAP CSS-->
+    
     <!--MY CSS-->
     <link
       rel="stylesheet"
@@ -48,7 +50,7 @@
   </head>
   <nav class="navbar navbar-expand-lg">
     <div class="container-fluid">
-      <a class="navbar-brand ms-0 ms-sm-3 me-5" href="{{ url_for('homepage') }}"
+      <a class="navbar-brand ms-0 ms-sm-3 me-5" href="{{ url_for('init.homepage') }}"
         >EarthEcho</a
       >
       <button
@@ -81,14 +83,14 @@
                 <a class="dropdown-item" href="#">Profile</a>
               </li>
               <li>
-                <a class="dropdown-item" href="{{ url_for('user_management') }}"
+                <a class="dropdown-item" href="{{ url_for('auth.user_management') }}"
                   >User management</a
                 >
               </li>
               <li><a class="dropdown-item" href="#">User Inquiry</a></li>
               <li><a class="dropdown-item" href="#">Unban request</a></li>
               <li>
-                <a class="dropdown-item" href="{{ url_for('cust_login') }}"
+                <a class="dropdown-item" href="{{ url_for('auth.cust_login') }}"
                   >Logout</a
                 >
               </li>

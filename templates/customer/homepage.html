@@ -12,10 +12,11 @@
     height: 550px;
   }
 </style>
-<body>
-  {% include "navbar/cust_guest_navbar.html" %}
-  {% include "customer/customerBase.html" %}
 
+<body>
+  {% extends 'customer/cust_base.html' %}
+
+  {% block content %}
   <div class="container">
     <h2 class="fw-bold mt-5">Hot Topics</h2>
     <div id="carouselExampleIndicators" class="carousel slide my-3">
@@ -118,5 +119,6 @@
     </div>
 
   </footer>
+  {% endblock content %}
 </body>
 </html>

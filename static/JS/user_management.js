@@ -1,3 +1,4 @@
+//SKY JS
 // Prevent row click from navigating away
 document.querySelectorAll(".user-management-table tr").forEach((row) => {
   row.addEventListener("click", (event) => {

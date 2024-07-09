@@ -1,0 +1,21 @@
+<!--SKY-->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+
+  <body>
+    {% include "navbar/cust_navbar.html" %}
+    <!--ALL USERS IN DB-->
+    <div class="container">
+      {% for user in users %}
+      <li><a href="{{ url_for('messaging.chat', receiver=user['username']) }}">{{ user['username'] }}</a></li>
+      {% endfor %}
+    </div>
+    <!--ALL USERS IN DB-->
+    {% include "customer/customerBase.html" %}
+  </body>
+</html>
