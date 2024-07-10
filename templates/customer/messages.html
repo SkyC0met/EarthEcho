@@ -13,15 +13,14 @@
     <!--MESSAGE-->
     <div class="container-md mt-sm-5 mt-4">
       <!--MESSAGE TOP-->
-      <div class="container">
+      <div class="container px-0">
         <h2 class="fw-bold mb-5">Messages</h2>
 
         <div
-          id="message-container"
-          class="d-md-flex d-block align-items-center justify-content-between"
+          class="d-md-flex d-block align-items-center justify-content-between dm-users-searchbar"
         >
           <!--DM SEARCHBAR-->
-          <div class="order-first search-container">
+          <div class="search-container">
             <input
               class="form-control"
               type="search"
@@ -35,21 +34,20 @@
           <!--DM DROPDOWN-->
           <div class="dropdown-center">
             <button
-              class="btn dropdown-toggle"
-              id="dm-dropdown"
+              class="btn btn-rose dropdown-toggle"
               type="button"
               data-bs-toggle="dropdown"
               aria-expanded="false"
             >
               Inbox
             </button>
-            <ul id="dm-dropdown-menu" class="dropdown-menu">
-              <li><a class="dropdown-item" href="#">Inbox</a></li>
-              <li><a class="dropdown-item" href="#">Sent</a></li>
-              <li><a class="dropdown-item" href="#">Unread</a></li>
-              <li><a class="dropdown-item" href="#">Archive</a></li>
-              <li><a class="dropdown-item" href="#">Spam</a></li>
-              <li><a class="dropdown-item" href="#">All</a></li>
+            <ul class="dropdown-menu bg-rose dm-user-dropdown">
+              <li><a class="dropdown-item p-light" href="#">Inbox</a></li>
+              <li><a class="dropdown-item p-light" href="#">Sent</a></li>
+              <li><a class="dropdown-item p-light" href="#">Unread</a></li>
+              <li><a class="dropdown-item p-light" href="#">Archive</a></li>
+              <li><a class="dropdown-item p-light" href="#">Spam</a></li>
+              <li><a class="dropdown-item p-light" href="#">All</a></li>
             </ul>
           </div>
           <!--DM DROPDOWN-->
@@ -57,11 +55,11 @@
       </div>
       <!--MESSAGE TOP-->
 
-      <div class="container messages">
-        <hr class="my-0" style="margin-left: -12px; margin-right: -12px" />
+      <div class="container dm-users-container bg-light">
+        <hr class="hr-nomargin" />
         <!--MESSAGE-->
         <a href="{{ url_for('messaging.messages') }}">
-          <div id="message" class="row align-items-center px-md-5 px-2">
+          <div class="row align-items-center px-md-5 px-2 dm-user">
             <div class="col-auto">
               <i class="fa-solid fa-user fa-2xl icon-dark"></i>
             </div>
@@ -72,13 +70,13 @@
               </div>
             </div>
             <div class="col-md col-auto">
-              <p id="message-short">
+              <p class="short-text">
                 Absolutely! Your post was so insightful and well-written. You're
                 doing such a fantastitic sharing about sustainable living.
               </p>
             </div>
             <div class="col-auto">
-              <button class="btn">Archive</button>
+              <button class="btn btn-secondary">Archive</button>
             </div>
           </div></a
         >

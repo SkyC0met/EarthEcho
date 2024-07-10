@@ -74,9 +74,9 @@ def homepage():
     return render_template('customer/homepage.html')
 
 # SKY CUST ROUTES
-@init_bp.route('/profile')
-def profile():
-    return render_template('customer/profile.html')
+@init_bp.route('/my-profile')
+def my_profile():
+    return render_template('customer/my_profile.html')
 
 @init_bp.route('/favourites')
 def favourites():
