@@ -68,6 +68,7 @@ def predict():
     message = {"answer": response}
     return jsonify(message)
 
+
 # SKY USER ROUTES
 @init_bp.route('/favourites')
 def favourites():

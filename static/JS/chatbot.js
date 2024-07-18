@@ -60,7 +60,8 @@ class Chatbox {
             // cross-origin resource sharing
             mode: 'cors',
             headers: {
-              'Content-Type': 'application/json'
+              'Content-Type': 'application/json',
+              'X-CSRFToken': csrfToken  // Include CSRF token
             },
           })
           .then(r => r.json())

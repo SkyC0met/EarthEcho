@@ -28,7 +28,7 @@ def create_app(config_class=Config):
     app.register_blueprint(admin_bp)
 
     # for chatbot to run
-    csrf.exempt(init_bp)
+    # csrf.exempt(init_bp)
 
     @app.errorhandler(CSRFError)
     def handle_csrf_error(e):
