@@ -1,0 +1,21 @@
+<!--SKY HTML-->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+
+  <body>
+    {% if 'user_id' in session %}
+      {% include "navbar/user_navbar.html" %}
+    {% else %}
+      {% include "navbar/user_guest_navbar.html" %}
+    {% endif %}
+
+    {% include "user/customerBase.html" %}
+
+    {% block content %}{% endblock content %}
+  </body>
+</html>

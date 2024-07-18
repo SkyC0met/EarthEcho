@@ -1,0 +1,158 @@
+<!--SKY HTML-->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+
+  <body>
+    {% extends 'user/user_base.html' %}
+
+    {% block content %}
+    <!-- REGISTER -->
+    <div class="container-md mt-sm-5 mt-4 mb-4 register-top">
+      <!-- REGISTER TOP -->
+    <div class="container-fluid text-center">
+        <h1 class="fw-bold mb-5">Register</h1>
+
+        <form method="POST" class="needs-validation" novalidate>
+          {{ form.hidden_tag() }}
+
+          <div class="d-sm-flex d-grid">
+            <div class="mb-3 username-input">
+              {{ form.username(class="form-control border-0 shadow-none", placeholder="Username") }}
+              {% for error in form.username.errors %}
+              <div class="invalid-feedback d-block text-start">{{ error }}</div>
+              {% endfor %}
+            </div>
+
+            <div class="mb-3 phone-input">
+              {{ form.phone_num(class="form-control border-0 shadow-none", placeholder="Phone number", maxlength="8", minlength="8") }}
+              {% for error in form.phone_num.errors %}
+              <div class="invalid-feedback d-block text-start">{{ error }}</div>
+              {% endfor %}
+            </div>
+          </div>
+
+          <div class="mb-3 mx-auto">
+            {{ form.email(class="form-control border-0 shadow-none", placeholder="Email") }}
+            {% for error in form.email.errors %}
+            <div class="invalid-feedback d-block text-start">{{ error }}</div>
+            {% endfor %}
+          </div>
+
+          <div class="mb-3 mx-auto">
+            {{ form.passwd(class="form-control border-0 shadow-none", placeholder="Password") }}
+            {% for error in form.passwd.errors %}
+            <div class="invalid-feedback d-block text-start">{{ error }}</div>
+            {% endfor %}
+          </div>
+
+          <div class="mb-3 mx-auto">
+            {{ form.confirm_passwd(class="form-control border-0 shadow-none", placeholder="Retype password") }}
+            {% for error in form.confirm_passwd.errors %}
+            <div class="invalid-feedback d-block text-start">{{ error }}</div>
+            {% endfor %}
+          </div>
+
+          <div
+            class="d-flex justify-content-between align-items-center p-2 mx-auto my-4 bg-violet recaptcha"
+          >
+            <div class="form-check">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                value=""
+                id="flexCheckDefault"
+              />
+              <label for="flexCheckDefault" class="p-light">
+                I'm not a robot
+              </label>
+            </div>
+
+            <img
+              class="h-100"
+              src="{{ url_for('static', filename='images/recaptcha.png') }}"
+              alt=""
+            />
+          </div>
+
+          <button class="btn btn-rose register-btn" type="submit">Create Account</button>
+        </form>
+      </div>
+      <!-- REGISTER TOP -->
+
+      <div class="row align-items-center my-3">
+        <div class="col">
+          <hr />
+        </div>
+        <div class="col-auto">
+          <p>OR</p>
+        </div>
+        <div class="col">
+          <hr />
+        </div>
+      </div>
+
+      <div class="container text-center">
+        <!-- REGISTER BUTTONS -->
+        <div class="row row row-cols-1 row-cols-sm-2 gy-2 gx-5 mb-4">
+          <div class="col">
+            <button
+              class="btn btn-violet d-flex align-items-center justify-content-center p-3 google-btn"
+            >
+              <i class="fa-brands fa-google fa-2xl"></i>
+              <p class="fw-bold ms-3 p-light">
+                Log in with Google
+              </p>
+            </button>
+          </div>
+          <div class="col">
+            <button
+              class="btn btn-violet d-flex align-items-center justify-content-center p-3 microsoft-btn"
+            >
+              <i
+                class="fa-brands fa-microsoft fa-2xl"
+              ></i>
+              <p class="fw-bold ms-3 p-light">
+                Log in with Microsoft
+              </p>
+            </button>
+          </div>
+          <div class="col">
+            <button
+              class="btn btn-violet d-flex align-items-center justify-content-center p-3 apple-btn"
+            >
+              <i
+                class="fa-brands fa-apple fa-2xl"
+              ></i>
+              <p class="fw-bold ms-3 p-light">
+                Log in with Apple
+              </p>
+            </button>
+          </div>
+          <div class="col">
+            <button
+              class="btn btn-violet d-flex align-items-center justify-content-center p-3 facebook-btn"
+            >
+              <i class="fa-brands fa-facebook fa-2xl"></i>
+              <p class="fw-bold ms-3 p-light">
+                Log in with Facebook
+              </p>
+            </button>
+          </div>
+        </div>
+        <!-- REGISTER BUTTONS -->
+
+        <div class="d-flex justify-content-center mt-2">
+          <p class="mx-1">Already have an account?</p>
+          <a href="{{ url_for('auth.user_login') }}">Log in here!</a>
+        </div>
+      </div>
+    </div>
+    <!-- REGISTER -->
+    {% endblock content %}
+  </body>
+</html>
