@@ -1,67 +1,59 @@
-from flask import Blueprint, render_template, request, jsonify, session, redirect, url_for
+from flask import Blueprint, render_template, jsonify, redirect, url_for, flash, session
 from db import get_db_connection
-from blueprints.utils import login_required
+from blueprints.utils import user_login_required, get_user_by_field
 from blueprints.sky_forms import MessageForm
 
 messaging_bp = Blueprint('messaging', __name__)
 
-def get_all_users(exclude_user_id: int):
+def get_users_with_messages(user_id: int):
     conn = get_db_connection()
     cursor = conn.cursor(dictionary=True)
-    cursor.execute("SELECT * FROM users WHERE user_id != %s", (exclude_user_id,))
+    cursor.execute("""
+        SELECT DISTINCT 
+            CASE
+                WHEN sender_user_id = %s THEN receiver_user_id
+                ELSE sender_user_id
+            END AS user_id
+        FROM messages
+        WHERE sender_user_id = %s OR receiver_user_id = %s
+    """, (user_id, user_id, user_id))
     users = cursor.fetchall()
     cursor.close()
     conn.close()
     return users
 
-@messaging_bp.route('/messages')
-@login_required
-def messages():
-    return render_template('customer/messages.html')
+def get_last_message_between_users(user_id1: int, user_id2: int):
+    conn = get_db_connection()
+    cursor = conn.cursor(dictionary=True)
+    cursor.execute("""
+        SELECT message, timestamp 
+        FROM messages 
+        WHERE (sender_user_id = %s AND receiver_user_id = %s) OR (sender_user_id = %s AND receiver_user_id = %s) 
+        ORDER BY timestamp DESC 
+        LIMIT 1
+    """, (user_id1, user_id2, user_id2, user_id1))
+    last_message = cursor.fetchone()
+    cursor.close()
+    conn.close()
+    return last_message
 
-@messaging_bp.route('/all-users')
-@login_required
-def all_users():
-    users = get_all_users(session['user_id'])
-    return render_template('customer/all_users.html', users=users)
-
-@messaging_bp.route('/chat/<receiver>')
-@login_required
-def chat(receiver):
-    form = MessageForm()
-    if form.validate_on_submit():
-            return render_template('customer/chat.html', receiver=receiver, form=form)
-    return render_template('customer/chat.html', receiver=receiver, form=form)
-
-def insert_message(sender_user_id: int, sender: str, receiver: str, message: str):
+def insert_message(sender_user_id: int, receiver_user_id: int, message: str):
     conn = get_db_connection()
     cursor = conn.cursor()
     cursor.execute(
-        "INSERT INTO messages (sender_user_id, sender, receiver, message) VALUES (%s, %s, %s, %s)",
-        (sender_user_id, sender, receiver, message)
+        "INSERT INTO messages (sender_user_id, receiver_user_id, message) VALUES (%s, %s, %s)",
+        (sender_user_id, receiver_user_id, message)
     )
     conn.commit()
     cursor.close()
     conn.close()
 
-@messaging_bp.route('/send_message', methods=['POST'])
-@login_required
-def send_message():
-    sender = session['name']
-    receiver = request.form['receiver']
-    message = request.form['message']
-    insert_message(session['user_id'], sender, receiver, message)
-    return jsonify({'status': 'Message sent successfully!'})
-
-
-"""
-
-def get_messages_between_users(sender: str, receiver: str):
+def get_messages_between_users(user_id1: int, user_id2: int):
     conn = get_db_connection()
     cursor = conn.cursor(dictionary=True)
     cursor.execute(
-        "SELECT * FROM messages WHERE (sender = %s AND receiver = %s) OR (sender = %s AND receiver = %s) ORDER BY timestamp",
-        (sender, receiver, receiver, sender)
+        "SELECT * FROM messages WHERE (sender_user_id = %s AND receiver_user_id = %s) OR (sender_user_id = %s AND receiver_user_id = %s) ORDER BY timestamp",
+        (user_id1, user_id2, user_id2, user_id1)
     )
     messages = cursor.fetchall()
     cursor.close()
@@ -75,44 +67,52 @@ def clear_all_messages():
     cursor.execute("ALTER TABLE messages AUTO_INCREMENT = 1")
     conn.commit()
     cursor.close()
-    conn.close()"""
+    conn.close()
 
-"""@messages_bp.route('/home')
-def home():
-    if 'user_id' not in session:
-        return redirect(url_for('auth.login'))
-    users = get_all_users(session['user_id'])
-    return render_template('home.html', users=users)
+@messaging_bp.route('/messages')
+@user_login_required
+def messages():
+    user_id = session['user_id']
+    users = get_users_with_messages(user_id)
+    users_with_last_messages = []
+    for user in users:
+        last_message = get_last_message_between_users(user_id, user['user_id'])
+        user_info = get_user_by_field('user_id', user['user_id'])
+        users_with_last_messages.append({
+            'user_id': user['user_id'],
+            'username': user_info['username'],
+            'last_message': last_message['message'],
+            'timestamp': last_message['timestamp']
+        })
+    return render_template('user/messages.html', users=users_with_last_messages)
 
-@messages_bp.route('/send_message', methods=['POST'])
-def send_message():
-    if 'user_id' not in session:
-        return redirect(url_for('auth.login'))
-    sender = session['name']
-    receiver = request.form['receiver']
-    message = request.form['message']
-    insert_message(session['user_id'], sender, receiver, message)
-    return jsonify({'status': 'Message sent successfully!'})
+@messaging_bp.route('/chat/<receiver_id>', methods=['GET', 'POST'])
+@user_login_required
+def chat(receiver_id):
+    sender_id = session['user_id']
+    if sender_id == int(receiver_id):
+        flash('You cannot message yourself.', 'warning')
+        return redirect(url_for('messaging.messages'))
 
-@messages_bp.route('/get_messages', methods=['GET'])
-def get_messages():
-    if 'user_id' not in session:
-        return redirect(url_for('auth.login'))
-    sender = session['name']
-    receiver = request.args.get('receiver')
-    messages = get_messages_between_users(sender, receiver)
-    return jsonify(messages)
+    receiver = get_user_by_field('user_id', receiver_id)
+    sender = get_user_by_field('user_id', sender_id)
+    if not receiver:
+        flash('User does not exist.', 'warning')
+        return redirect(url_for('messaging.messages'))
+        
+    form = MessageForm()
+    form.receiver.data = receiver_id
+    if form.validate_on_submit():
+        message = form.message.data
+        insert_message(sender_id, receiver_id, message)
+        return redirect(url_for('messaging.chat', receiver_id=receiver_id))
+    messages = get_messages_between_users(sender_id, receiver_id)
+    return render_template('user/chat.html', sender=sender['username'], receiver=receiver['username'], form=form, messages=messages)
 
-@messages_bp.route('/clear_messages', methods=['POST'])
+@messaging_bp.route('/clear_messages', methods=['POST'])
+@user_login_required
 def clear_messages():
     if 'user_id' not in session:
         return redirect(url_for('auth.login'))
     clear_all_messages()
-    return redirect(url_for('messaging.home'))
-
-@messages_bp.route('/message/<receiver>')
-def message_page(receiver):
-    if 'user_id' not in session:
-        return redirect(url_for('auth.login'))
-    return render_template('message.html', receiver=receiver)
-"""
+    return redirect(url_for('messaging.messages'))

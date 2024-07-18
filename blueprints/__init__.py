@@ -68,46 +68,23 @@ def predict():
     message = {"answer": response}
     return jsonify(message)
 
-
-@init_bp.route('/')
-def homepage():
-    return render_template('customer/homepage.html')
-
-# SKY CUST ROUTES
-@init_bp.route('/my-profile')
-def my_profile():
-    return render_template('customer/my_profile.html')
-
+# SKY USER ROUTES
 @init_bp.route('/favourites')
 def favourites():
-    return render_template('customer/favourites.html')
+    return render_template('user/favourites.html')
 
 @init_bp.route('/vouchers')
 def vouchers():
-    return render_template('customer/vouchers.html')
-# SKY CUST ROUTES
-
-#SKY ADMIN ROUTES
-@init_bp.route('/admin-profile')
-def admin_profile():
-    return render_template('admin/admin_profile.html')
-
-@init_bp.route('/user-management')
-def user_management():
-    return render_template('admin/user_management.html')
-
-@init_bp.route('/user-profile')
-def user_profile():
-    return render_template('admin/user_profile.html')
+    return render_template('user/vouchers.html')
 
 @init_bp.route('/points')
 def points():
-    return render_template('customer/points_shop.html')
-#SKY ADMIN ROUTES
+    return render_template('user/points_shop.html')
+# SKY USER ROUTES
 
 @init_bp.route('/Blog')
 def blog():
-    return render_template('customer/blogpost.html')
+    return render_template('user/blogpost.html')
 
 @init_bp.route('/createpost', methods=['GET', 'POST'])
 def CreatePosts():
@@ -133,15 +110,15 @@ def CreatePosts():
         Posts.append(new_post)
         flash("Post created!", "success")
         return redirect(url_for('init.MyPosts'))
-    return render_template("customer/createpost.html", form=form)
+    return render_template("user/createpost.html", form=form)
 
 @init_bp.route('/myposts')
 def MyPosts():
-    return render_template('customer/myposts.html', Posts = Posts)
+    return render_template('user/myposts.html', Posts = Posts)
 
 @init_bp.route('/myposts/<int:id>/')
 def ViewPost(id):
     post = next((post for post in Posts if post['id'] == id), None)
     if post is None:
         abort(404)  # Return a 404 error if the post is not found
-    return render_template('customer/viewpost.html', post=post)
+    return render_template('user/viewpost.html', post=post)

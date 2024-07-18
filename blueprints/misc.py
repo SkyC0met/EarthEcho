@@ -1,5 +1,5 @@
 from flask import render_template, Blueprint
-from blueprints.utils import login_required
+from blueprints.utils import user_login_required
 
 misc_bp = Blueprint('misc', __name__)
 
@@ -25,7 +25,7 @@ def one():
     return render_template('misc/1.html')
 
 @misc_bp.route('/2')
-@login_required
+@user_login_required
 def two():
     return render_template('misc/2.html')
 

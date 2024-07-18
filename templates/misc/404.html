@@ -8,7 +8,7 @@
   </head>
 
   <body>
-    {% extends 'customer/cust_base.html' %}
+    {% extends 'user/user_base.html' %}
   
     {% block content %}
 
@@ -27,9 +27,9 @@
       <p>Here are some helpful links instead:</p>
 
       <ol class="breadcrumb justify-content-center mt-4">
-        <li class="breadcrumb-item"><a href="{{ url_for('init.homepage') }}">Posts</a></li>
-        <li class="breadcrumb-item"><a href="{{ url_for('init.homepage') }}">My Posts</a></li>
-        <li class="breadcrumb-item"><a href="{{ url_for('init.homepage') }}">Favourites</a></li>
+        <li class="breadcrumb-item"><a href="{{ url_for('homepage.home') }}">Posts</a></li>
+        <li class="breadcrumb-item"><a href="{{ url_for('homepage.home') }}">My Posts</a></li>
+        <li class="breadcrumb-item"><a href="{{ url_for('homepage.home') }}">Favourites</a></li>
       </ol>
     </div>
     <!--404 ERROR PAGE-->

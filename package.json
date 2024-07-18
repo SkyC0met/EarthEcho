@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build-css": "sass static/scss/sky_cust.scss static/css/sky_cust.css",
-    "watch-css": "sass --watch static/scss/sky_cust.scss:static/css/sky_cust.css"
+    "build-css": "sass static/scss/sky_user.scss:static/css/sky_user.css static/scss/sky_admin.scss:static/css/sky_admin.css",
+    "watch-css": "sass --watch static/scss/sky_user.scss:static/css/sky_user.css static/scss/sky_admin.scss:static/css/sky_admin.css"
   },
   "keywords": [],
   "author": "",

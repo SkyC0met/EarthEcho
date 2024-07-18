@@ -2,7 +2,7 @@ from flask import Blueprint, render_template, redirect, url_for, flash, session
 from werkzeug.security import generate_password_hash, check_password_hash
 from db import get_db_connection
 from blueprints.sky_forms import RegistrationForm, LoginForm
-from blueprints.utils import get_user_by_field
+from blueprints.utils import get_user_by_field, user_login_required
 
 auth_bp = Blueprint('auth', __name__)
 
@@ -38,39 +38,68 @@ def insert_user(username: str, phone_num: int, email: str, passwd: str):
 # LOGIN REGISTER LOGOUT FUNCTIONS
 
 # LOGIN REGISTER LOGOUT ROUTES
-@auth_bp.route('/admin-login')
+@auth_bp.route('/admin/login', methods=['GET', 'POST'])
 def admin_login():
-    return render_template('admin/admin_login.html')
-
-@auth_bp.route('/cust-login', methods=['GET', 'POST'])
-def cust_login():
     form = LoginForm()
     if form.validate_on_submit():
-        username = form.username.data
+        identifier = form.username_or_email.data
         passwd = form.passwd.data
-        user = get_user_by_field('username', username)
+        user = None
+
+        # Check if the identifier is an email
+        if '@' in identifier and '.' in identifier:
+            user = get_user_by_field('email', identifier)
+        else:
+            user = get_user_by_field('username', identifier)
+
         if user and check_password_hash(user['passwd'], passwd):
             session['user_id'] = user['user_id']
             session['username'] = user['username']
-            return redirect(url_for('init.homepage'))
-        flash('Invalid username or password', 'warning')
-    return render_template('customer/cust_login.html', form=form)
+            if user['acc_type'] == 'admin':
+                return redirect(url_for('admin.admin_profile'))
+        else:
+            flash('Invalid username/email or password.', 'warning')
+    return render_template('admin/admin_login.html', form=form)
 
-@auth_bp.route('/register', methods=['GET', 'POST'])
+@auth_bp.route('/user/login', methods=['GET', 'POST'])
+def user_login():
+    form = LoginForm()
+    if form.validate_on_submit():
+        identifier = form.username_or_email.data
+        passwd = form.passwd.data
+        user = None
+
+        # Check if the identifier is an email
+        if '@' in identifier and '.' in identifier:
+            user = get_user_by_field('email', identifier)
+        else:
+            user = get_user_by_field('username', identifier)
+
+        if user and check_password_hash(user['passwd'], passwd):
+            session['user_id'] = user['user_id']
+            session['username'] = user['username']
+            if user['acc_type'] == 'user':
+                return redirect(url_for('homepage.home'))
+        flash('Invalid username/email or password.', 'warning')
+    return render_template('user/user_login.html', form=form)
+
+@auth_bp.route('/user/register', methods=['GET', 'POST'])
 def register():
     form = RegistrationForm()
     if form.validate_on_submit():
         username = form.username.data
         phone_num = form.phone_num.data
-        email = form.email.data
+        email = form.email.data.lower()
         passwd = generate_password_hash(form.passwd.data)
         insert_user(username, phone_num, email, passwd)
-        return redirect(url_for('auth.cust_login'))
-    return render_template('customer/register.html', form=form)
+        flash('Account created!', 'success')
+        return redirect(url_for('auth.user_login'))
+    return render_template('user/register.html', form=form)
 
 @auth_bp.route('/logout')
+@user_login_required
 def logout():
     session.clear()
-    return redirect(url_for('auth.cust_login'))
+    return redirect(url_for('auth.user_login'))
 
 # LOGIN REGISTER LOGOUT ROUTES
