@@ -1,3 +1,4 @@
+import html
 import os
 import mysql.connector
 
@@ -64,7 +65,8 @@ class PostForm(FlaskForm):
 @init_bp.post("/predict")
 def predict():
     text = request.get_json().get("message")
-    response = get_response(text)
+    sanitized_text = html.escape(text)
+    response = get_response(sanitized_text)
     message = {"answer": response}
     return jsonify(message)
 

@@ -1,44 +1,48 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/chatbot.css') }}" />
-    <script>
-      $SCRIPT_ROOT = {{ request.script_root | tojson }};
-      const csrfToken = "{{ csrf_token() }}";
-    </script>
-    <script type="text/javascript" src="{{ url_for('static', filename='js/chatbot.js') }}"></script>
-    <title>Title</title>
-  </head>
-  <body>
-    <!-- chatbot -->
-    <div class="container">
-      <div class="chatbox">
-        <div class="chatbox__support">
-          <div class="chatbox__header">
-            <div class="chatbox__image--header">
-              <img src="https://img.icons8.com/color/48/000000/circled-user-female-skin-type-5--v1.png" alt="image" />
-            </div>
-            <div class="chatbox__content--header">
-              <h4 class="chatbox__heading--header">Chat support</h4>
-              <p class="chatbox__description--header">Hello. My name is Greeny. How can I help you?</p>
-            </div>
+<head>
+  <meta charset="UTF-8" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/chatbot.css') }}" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/he/1.2.0/he.min.js" integrity="sha512-PEsccDx9jqX6Dh4wZDCnWMaIO3gAaU0j46W//sSqQhUQxky6/eHZyeB3NrXD2xsyugAKd4KPiDANkcuoEa2JuA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script>
+    $SCRIPT_ROOT = {{ request.script_root | tojson }};
+    const csrfToken = "{{ csrf_token() }}";
+  </script>
+  <script type="text/javascript" src="{{ url_for('static', filename='js/chatbot.js') }}"></script>
+  <title>Title</title>
+</head>
+<body>
+  <!-- Chatbot container -->
+  <div class="container">
+    <div class="chatbox">
+      <div class="chatbox__support">
+        <!-- Chatbox header -->
+        <div class="chatbox__header">
+          <div class="chatbox__image--header">
+            <img src="https://img.icons8.com/color/48/000000/circled-user-female-skin-type-5--v1.png" alt="image" />
           </div>
-          <div class="chatbox__messages">
-            <div></div>
-          </div>
-          <div class="chatbox__footer">
-            <input type="text" placeholder="Write a message..." />
-            <button class="chatbox__send--footer send__button">Send</button>
+          <div class="chatbox__content--header">
+            <h4 class="chatbox__heading--header">Chat support</h4>
+            <p class="chatbox__description--header">Hello. My name is Greeny. How can I help you?</p>
           </div>
         </div>
-        <!--to open chatbox-->
-        <div class="chatbox__button">
-          <button>
-            <img src="{{ url_for('static', filename='images/chatbot_icon.png') }}" />
-          </button>
+        <!-- Chatbox messages -->
+        <div class="chatbox__messages">
+          <!-- Messages will be dynamically added here -->
+        </div>
+        <!-- Chatbox footer with input field and send button -->
+        <div class="chatbox__footer">
+          <input type="text" placeholder="Write a message..." />
+          <button class="chatbox__send--footer send__button">Send</button>
         </div>
       </div>
+      <!-- Chatbox button to toggle visibility -->
+      <div class="chatbox__button">
+        <button>
+          <img src="{{ url_for('static', filename='images/chatbot_icon.png') }}" />
+        </button>
+      </div>
     </div>
-  </body>
+  </div>
+</body>
 </html>
