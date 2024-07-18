@@ -43,33 +43,31 @@
   <body>
     <!--SIDEBAR-->
     <div
-      id="sidebar"
-      class="d-md-flex d-none flex-column align-items-center px-2"
+      class="d-md-flex d-none flex-column align-items-center px-2 bg-wenge sidebar"
     >
-      <h1 class="fw-bold" style="margin-top: 35px">EarthEcho</h1>
-      <div class="flex-grow-1 w-100" style="margin-top: 93px">
-        <a class="btn mb-5" href="{{ url_for('admin.admin_profile') }}">Profile</a>
-        <a class="btn mb-5" href="{{ url_for('admin.user_management') }}"
-          >User Management</a
-        >
-        <a class="btn mb-5" href="#">User Inquiries</a>
-        <a class="btn mb-5" href="#">Unban Request</a>
+      <h1 class="fw-bold text-white">EarthEcho</h1>
+      <div class="flex-grow-1 w-100 sidebar-btns">
+        <a href="{{ url_for('admin.admin_profile') }}">
+          <button class="btn btn-rosy mb-5">Profile</button>
+        </a>
+        <a href="{{ url_for('admin.user_management') }}">
+          <button class="btn btn-rosy mb-5">User Management</button>
+        </a>
+        <a href="#">
+          <button class="btn btn-rosy mb-5">User Inquiries</button>
+        </a>
+        <a href="#">
+          <button class="btn btn-rosy mb-5">Unban Requests</button>
+        </a>
+        <a href="{{ url_for('auth.logout') }}">
+          <button class="btn btn-ash btn-logout">Logout</button>
+        </a>
       </div>
-      <a
-        class="btn"
-        style="
-          background-color: #9bc1b9;
-          margin-top: 160px;
-          margin-bottom: 20px;
-        "
-        href="{{ url_for('homepage.home') }}"
-        >Logout</a
-      >
     </div>
     <!--SIDEBAR-->
 
     <!--SIDEBAR TOP NAVBAR-->
-    <nav id="nav-sidebar" class="navbar navbar-expand-md d-md-none d-block">
+    <nav class="navbar navbar-expand-md d-md-none d-block bg-wenge nav-sidebar">
       <div class="container-fluid">
         <a class="navbar-brand" href="#">EarthEcho</a>
         <button

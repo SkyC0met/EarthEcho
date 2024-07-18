@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, flash, redirect, url_for, session, request
 from werkzeug.security import generate_password_hash, check_password_hash
 from db import get_db_connection
-from blueprints.utils import get_user_by_field, user_login_required
+from blueprints.utils import get_user_by_field, login_required
 from blueprints.sky_forms import EditUsernameForm, EditPhoneNumForm, EditEmailForm, ResetPasswordForm, DeleteAccountForm
 
 profile_bp = Blueprint('profile', __name__)
@@ -54,7 +54,7 @@ def delete_account(user_id: int):
         raise ValueError("User not found with user_id {}".format(user_id))
 
 @profile_bp.route('/user/profile', methods=['GET', 'POST'])
-@user_login_required
+@login_required(['user'])
 def my_profile():
     user = get_user_by_field('username', session['username'])
 
@@ -94,7 +94,7 @@ def my_profile():
     return render_template('user/my_profile.html', user=user, edit_username_form=edit_username_form, edit_phone_num_form=edit_phone_num_form, edit_email_form=edit_email_form, reset_password_form=reset_password_form, delete_account_form=delete_account_form)
 
 @profile_bp.route('/user/profile/delete', methods=['POST'])
-@user_login_required
+@login_required(['user'])
 def delete_profile():
     delete_account_form = DeleteAccountForm()
     if delete_account_form.validate_on_submit():

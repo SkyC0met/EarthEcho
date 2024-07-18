@@ -1,6 +1,5 @@
-from flask import Blueprint, render_template, redirect, url_for, session, flash, request
-from db import get_db_connection
-from blueprints.utils import get_user_by_field, admin_login_required
+from flask import Blueprint, render_template, redirect, url_for, flash, session, request
+from blueprints.utils import get_user_by_field, login_required
 from werkzeug.security import check_password_hash, generate_password_hash
 from blueprints.sky_forms import EditUsernameForm, EditPhoneNumForm, EditEmailForm, ResetPasswordForm, DeleteAccountForm
 from blueprints.profile import update_user_field, handle_edit_form, delete_account
@@ -9,7 +8,7 @@ admin_bp = Blueprint('admin', __name__)
 
 #SKY ADMIN ROUTES
 @admin_bp.route('/admin/profile', methods=['GET', 'POST'])
-@admin_login_required
+@login_required(['admin'])
 def admin_profile():
     user = get_user_by_field('username', session['username'])
 
@@ -49,7 +48,7 @@ def admin_profile():
     return render_template('admin/admin_profile.html', user=user, edit_username_form=edit_username_form, edit_phone_num_form=edit_phone_num_form, edit_email_form=edit_email_form, reset_password_form=reset_password_form, delete_account_form=delete_account_form)
 
 @admin_bp.route('/admin/profile/delete', methods=['POST'])
-@admin_login_required
+@login_required(['admin'])
 def delete_profile():
     delete_account_form = DeleteAccountForm()
     if delete_account_form.validate_on_submit():
@@ -61,10 +60,12 @@ def delete_profile():
     return render_template('admin/admin_profile.html', delete_account_form=delete_account_form)
 
 @admin_bp.route('/admin/user-management')
+@login_required(['admin'])
 def user_management():
     return render_template('admin/user_management.html')
 
 @admin_bp.route('/admin/user-profile')
+@login_required(['admin'])
 def user_profile():
     return render_template('admin/user_profile.html')
 #SKY ADMIN ROUTES

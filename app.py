@@ -1,12 +1,15 @@
-from flask import Flask
+from flask import Flask, session
 from config import Config
 from flask_wtf.csrf import CSRFProtect, CSRFError
 from flask import jsonify
+from datetime import timedelta
 
 def create_app(config_class=Config):
     app = Flask(__name__)
     app.config.from_object(config_class)
     app.secret_key = app.config['SECRET_KEY']
+    # timeout after 30 mins
+    # app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(minutes=30)
     csrf = CSRFProtect(app)
 
     from blueprints.auth import auth_bp
@@ -33,6 +36,12 @@ def create_app(config_class=Config):
     @app.errorhandler(CSRFError)
     def handle_csrf_error(e):
         return jsonify({"error": "CSRF token missing or incorrect."}), 400
+    
+    @app.route('/check-session')
+    def check_session():
+    # Log the session data
+        print(session)
+        return 'Check the console for session data'
 
     return app
 

@@ -4,19 +4,22 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>User management</title>
 
-        <!--MY JS-->
-        <script
+      <!--MY JS-->
+      <script
         src="{{ url_for('static', filename='js/user_management.js') }}"
         defer
       ></script>
       <!--MY JS-->
   </head>
   <body>
-    {% include "navbar/admin_sidebar.html" %}
+    {% extends 'navbar/admin_sidebar.html' %}
+    
+    {% block content %}
 
-    <div class="admin-content-wrapper">
+    <!--USER MANAGEMENT-->
+    <div class="container">
       <h1 class="fw-bold my-3">User management</h1>
 
       <!--DM SEARCHBAR-->
@@ -27,7 +30,7 @@
           placeholder="Search users"
           aria-label="Search"
         />
-        <i class="fa-solid fa-magnifying-glass"></i>
+        <i class="fa-solid fa-magnifying-glass icon-dark"></i>
       </div>
       <!--DM SEARCHBAR-->
 
@@ -255,5 +258,8 @@
       </div>
       <!--TABLE-->
     </div>
+    <!--USER MANAGEMENT-->
+
+    {% endblock content %}
   </body>
 </html>

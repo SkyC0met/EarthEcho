@@ -1,6 +1,5 @@
 import html
 import os
-import mysql.connector
 
 from flask import Blueprint, request, jsonify, render_template, flash, url_for, redirect, abort
 from werkzeug.utils import secure_filename
@@ -69,7 +68,6 @@ def predict():
     response = get_response(sanitized_text)
     message = {"answer": response}
     return jsonify(message)
-
 
 # SKY USER ROUTES
 @init_bp.route('/favourites')
