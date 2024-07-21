@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, session, redirect, url_for, flash
+from flask import Blueprint, render_template, redirect, url_for, flash, session
 from blueprints.utils import get_all_users, get_user_by_field
 
 homepage_bp = Blueprint('homepage', __name__)

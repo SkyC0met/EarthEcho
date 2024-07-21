@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, EmailField, HiddenField, SubmitField, validators
+from wtforms import StringField, PasswordField, EmailField, HiddenField, SubmitField, HiddenField, validators
 from wtforms.validators import ValidationError
 from blueprints.utils import get_user_by_field
 
@@ -90,18 +90,30 @@ class EditEmailForm(FlaskForm):
     ])
 
 class ResetPasswordForm(FlaskForm):
+    passwd = PasswordField('Current Password', [
+        validators.InputRequired(message="Please enter your current password"),
+        validators.Length(max=64)
+    ])
     new_passwd = PasswordField('New Password', [
         validators.InputRequired(message="Please enter a new password"),
         validators.Length(min=8, max=64, message="Password must be more than 8 characters")
     ])
     confirm_new_passwd = PasswordField('Retype New Password', [
-        validators.InputRequired(message="Please enter a new password"),
+        validators.InputRequired(message="Please retype your new password"),
         validators.EqualTo('new_passwd', message='Passwords do not match')
-    ])
-    passwd = PasswordField('Password', [
-        validators.InputRequired(message="Please enter your current password"),
-        validators.Length(max=64)
     ])
 
 class DeleteAccountForm(FlaskForm):
     submit = SubmitField('Delete Account')
+
+class RedeemVoucherForm(FlaskForm):
+    submit = SubmitField('Redeem Voucher')
+
+class SpendVoucherForm(FlaskForm):
+    submit = SubmitField('Spend Voucher')
+
+class AddFavouritesForm(FlaskForm):
+    submit = SubmitField('Redeem Voucher')
+
+class AddPointsForm(FlaskForm):
+    submit = SubmitField('Add Points')

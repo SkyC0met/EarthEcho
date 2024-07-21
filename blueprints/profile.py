@@ -6,6 +6,7 @@ from blueprints.sky_forms import EditUsernameForm, EditPhoneNumForm, EditEmailFo
 
 profile_bp = Blueprint('profile', __name__)
 
+# PROFILE FUNCTIONS
 def update_user_field(field_name: str, field_value, user_id: int):
     conn = get_db_connection()
     cursor = conn.cursor()
@@ -15,12 +16,17 @@ def update_user_field(field_name: str, field_value, user_id: int):
     cursor.close()
     conn.close()
 
-def handle_edit_form(form, user, field_name, field_value_key, message):
+def handle_edit_form(form, user, field_name, field_value_key, message, is_email=False, is_password=False):
     if form.validate_on_submit():
         new_value = getattr(form, field_value_key).data
+        if is_email:
+            new_value = new_value.lower()
+        if is_password:
+            new_value = generate_password_hash(new_value)
+        
         passwd = form.passwd.data
 
-        if get_user_by_field(field_name, new_value):
+        if get_user_by_field(field_name, new_value) and not is_password:
             flash(f'{field_name.replace("_", " ").capitalize()} already exists', 'warning')
         elif check_password_hash(user['passwd'], passwd):
             update_user_field(field_name, new_value, user['user_id'])
@@ -29,30 +35,28 @@ def handle_edit_form(form, user, field_name, field_value_key, message):
             return True
         else:
             flash('Incorrect password. Please try again.', 'danger')
+    else:
+        for field, errors in form.errors.items():
+            for error in errors:
+                flash(f'{error}', 'danger')
     return False
 
 def delete_account(user_id: int):
     conn = get_db_connection()
     cursor = conn.cursor(dictionary=True)
-    user = get_user_by_field('user_id', session['user_id'])
+    user = get_user_by_field('user_id', user_id)
 
     if user:
-        user_id = user['user_id']
-
         cursor.execute("DELETE FROM users WHERE user_id = %s", (user_id,))
-        cursor.execute("UPDATE users SET user_id = user_id - 1 WHERE user_id > %s", (user_id,))
-        cursor.execute("DELETE FROM messages WHERE sender_user_id = %s OR receiver_user_id = %s", (user_id, user_id))
-        cursor.execute("DELETE FROM posts WHERE user_id = %s", (user_id,))
-        cursor.execute("DELETE FROM review WHERE user_id = %s", (user_id,))
-        
         conn.commit()
-        cursor.close()
-        conn.close()
     else:
-        cursor.close()
-        conn.close()
         raise ValueError("User not found with user_id {}".format(user_id))
+    cursor.close()
+    conn.close()
 
+# PROFILE FUNCTIONS
+
+# PROFILE ROUTES
 @profile_bp.route('/user/profile', methods=['GET', 'POST'])
 @login_required(['user'])
 def my_profile():
@@ -73,23 +77,13 @@ def my_profile():
         if handle_edit_form(edit_phone_num_form, user, 'phone_num', 'new_phone_num', message):
             return redirect(url_for('profile.my_profile'))
     elif edit_email_form.new_email.name in request.form:
-        if edit_email_form.validate_on_submit():
-            new_email = edit_email_form.new_email.data.lower()
-            passwd = reset_password_form.passwd.data
-
-            if check_password_hash(user['passwd'], passwd):
-                update_user_field('email', new_email, user['user_id'])
-                flash('Email changed!', 'success')
-                return redirect(url_for('profile.my_profile'))
+        message = 'Email changed!'
+        if handle_edit_form(edit_email_form, user, 'email', 'new_email', message, is_email=True):
+            return redirect(url_for('profile.my_profile'))
     elif reset_password_form.new_passwd.name in request.form:
-        if reset_password_form.validate_on_submit():
-            new_passwd = generate_password_hash(reset_password_form.new_passwd.data)
-            passwd = reset_password_form.passwd.data
-
-            if check_password_hash(user['passwd'], passwd):
-                update_user_field('passwd', new_passwd, user['user_id'])
-                flash('Password changed!', 'success')
-                return redirect(url_for('profile.my_profile'))
+        message = 'Password changed!'
+        if handle_edit_form(reset_password_form, user, 'passwd', 'new_passwd', message, is_password=True):
+            return redirect(url_for('profile.my_profile'))
 
     return render_template('user/my_profile.html', user=user, edit_username_form=edit_username_form, edit_phone_num_form=edit_phone_num_form, edit_email_form=edit_email_form, reset_password_form=reset_password_form, delete_account_form=delete_account_form)
 
@@ -102,5 +96,7 @@ def delete_profile():
         delete_account(user_id)
         session.clear()
         flash('Account successfully deleted.', 'success')
-        return redirect(url_for('auth.user_login'))
+        return redirect(url_for('homepage.home'))
     return render_template('user/my_profile.html', delete_account_form=delete_account_form)
+
+# PROFILE ROUTES

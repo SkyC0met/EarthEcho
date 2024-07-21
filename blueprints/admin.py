@@ -1,12 +1,11 @@
 from flask import Blueprint, render_template, redirect, url_for, flash, session, request
 from blueprints.utils import get_user_by_field, login_required
-from werkzeug.security import check_password_hash, generate_password_hash
+from blueprints.profile import handle_edit_form, delete_account
 from blueprints.sky_forms import EditUsernameForm, EditPhoneNumForm, EditEmailForm, ResetPasswordForm, DeleteAccountForm
-from blueprints.profile import update_user_field, handle_edit_form, delete_account
 
 admin_bp = Blueprint('admin', __name__)
 
-#SKY ADMIN ROUTES
+# ADMIN ROUTES
 @admin_bp.route('/admin/profile', methods=['GET', 'POST'])
 @login_required(['admin'])
 def admin_profile():
@@ -21,29 +20,19 @@ def admin_profile():
     if edit_username_form.new_username.name in request.form:
         message = 'Username changed!'
         if handle_edit_form(edit_username_form, user, 'username', 'new_username', message):
-            return redirect(url_for('admin.admin_profile'))
+            return redirect(url_for('profile.my_profile'))
     elif edit_phone_num_form.new_phone_num.name in request.form:
         message = 'Phone number changed!'
         if handle_edit_form(edit_phone_num_form, user, 'phone_num', 'new_phone_num', message):
-            return redirect(url_for('admin.admin_profile'))
+            return redirect(url_for('profile.my_profile'))
     elif edit_email_form.new_email.name in request.form:
-        if edit_email_form.validate_on_submit():
-            new_email = edit_email_form.new_email.data.lower()
-            passwd = reset_password_form.passwd.data
-
-            if check_password_hash(user['passwd'], passwd):
-                update_user_field('email', new_email, user['user_id'])
-                flash('Email changed!', 'success')
-                return redirect(url_for('admin.admin_profile'))
+        message = 'Email changed!'
+        if handle_edit_form(edit_email_form, user, 'email', 'new_email', message, is_email=True):
+            return redirect(url_for('profile.my_profile'))
     elif reset_password_form.new_passwd.name in request.form:
-        if reset_password_form.validate_on_submit():
-            new_passwd = generate_password_hash(reset_password_form.new_passwd.data)
-            passwd = reset_password_form.passwd.data
-
-            if check_password_hash(user['passwd'], passwd):
-                update_user_field('passwd', new_passwd, user['user_id'])
-                flash('Password changed!', 'success')
-                return redirect(url_for('admin.admin_profile'))
+        message = 'Password changed!'
+        if handle_edit_form(reset_password_form, user, 'passwd', 'new_passwd', message, is_password=True):
+            return redirect(url_for('profile.my_profile'))
 
     return render_template('admin/admin_profile.html', user=user, edit_username_form=edit_username_form, edit_phone_num_form=edit_phone_num_form, edit_email_form=edit_email_form, reset_password_form=reset_password_form, delete_account_form=delete_account_form)
 
@@ -56,7 +45,7 @@ def delete_profile():
         delete_account(user_id)
         session.clear()
         flash('Account successfully deleted.', 'success')
-        return redirect(url_for('auth.user_login'))
+        return redirect(url_for('homepage.home'))
     return render_template('admin/admin_profile.html', delete_account_form=delete_account_form)
 
 @admin_bp.route('/admin/user-management')
@@ -68,4 +57,5 @@ def user_management():
 @login_required(['admin'])
 def user_profile():
     return render_template('admin/user_profile.html')
-#SKY ADMIN ROUTES
+
+# ADMIN ROUTES

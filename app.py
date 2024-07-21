@@ -1,4 +1,4 @@
-from flask import Flask, session
+from flask import Flask, session, render_template
 from config import Config
 from flask_wtf.csrf import CSRFProtect, CSRFError
 from flask import jsonify
@@ -10,6 +10,11 @@ def create_app(config_class=Config):
     app.secret_key = app.config['SECRET_KEY']
     # timeout after 30 mins
     # app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(minutes=30)
+
+    # app.config['SESSION_COOKIE_SECURE'] = True
+    # app.config['SESSION_COOKIE_HTTPONLY'] = True
+    # app.config['SESSION_COOKIE_SAMESITE'] = 'Lax'
+
     csrf = CSRFProtect(app)
 
     from blueprints.auth import auth_bp
@@ -20,6 +25,7 @@ def create_app(config_class=Config):
     from blueprints.homepage import homepage_bp
     from blueprints.profile import profile_bp
     from blueprints.admin import admin_bp
+    from blueprints.reward import reward_bp
 
     app.register_blueprint(auth_bp)
     app.register_blueprint(init_bp)
@@ -29,6 +35,7 @@ def create_app(config_class=Config):
     app.register_blueprint(homepage_bp)
     app.register_blueprint(profile_bp)
     app.register_blueprint(admin_bp)
+    app.register_blueprint(reward_bp)
 
     # for chatbot to run
     # csrf.exempt(init_bp)

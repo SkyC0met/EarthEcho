@@ -384,7 +384,8 @@ nav .search-container {
 }
 
 .card img {
-  height: 150px;
+  min-height: 150px;
+  max-height: 150px;
   object-fit: cover;
   object-position: 50% 20%;
 }
@@ -398,8 +399,13 @@ nav .search-container {
     height: 250px;
   }
 
+  .card img {
+    min-height: 100px;
+    max-height: 100px;
+  }
+
   .card-title {
-    height: 50px;
+    height: 40px;
     font-size: 1.1rem;
   }
 }
@@ -518,7 +524,7 @@ nav .search-container {
 
 /*VOUCHERS CONTAINER*/
 .vou-container .card {
-  height: 320px;
+  height: 300px;
   max-width: 200px;
 }
 

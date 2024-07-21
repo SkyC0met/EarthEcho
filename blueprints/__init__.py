@@ -73,14 +73,6 @@ def predict():
 @init_bp.route('/favourites')
 def favourites():
     return render_template('user/favourites.html')
-
-@init_bp.route('/vouchers')
-def vouchers():
-    return render_template('user/vouchers.html')
-
-@init_bp.route('/points')
-def points():
-    return render_template('user/points_shop.html')
 # SKY USER ROUTES
 
 @init_bp.route('/Blog')

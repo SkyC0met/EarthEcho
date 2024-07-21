@@ -5,6 +5,7 @@ from blueprints.sky_forms import MessageForm
 
 messaging_bp = Blueprint('messaging', __name__)
 
+# MESSAGING FUNCTIONS
 def get_users_with_messages(user_id: int):
     conn = get_db_connection()
     cursor = conn.cursor(dictionary=True)
@@ -16,7 +17,7 @@ def get_users_with_messages(user_id: int):
             END AS user_id
         FROM messages
         WHERE sender_user_id = %s OR receiver_user_id = %s
-    """, (user_id, user_id, user_id))
+        """, (user_id, user_id, user_id))
     users = cursor.fetchall()
     cursor.close()
     conn.close()
@@ -69,6 +70,9 @@ def clear_all_messages():
     cursor.close()
     conn.close()
 
+# MESSAGING FUNCTIONS
+
+# MESSAGING ROUTES
 @messaging_bp.route('/messages')
 @login_required(['user'])
 def messages():
@@ -100,14 +104,14 @@ def chat(receiver_id):
         flash('User does not exist.', 'warning')
         return redirect(url_for('messaging.messages'))
         
-    form = MessageForm()
-    form.receiver.data = receiver_id
-    if form.validate_on_submit():
-        message = form.message.data
+    message_form = MessageForm()
+    message_form.receiver.data = receiver_id
+    if message_form.validate_on_submit():
+        message = message_form.message.data
         insert_message(sender_id, receiver_id, message)
         return redirect(url_for('messaging.chat', receiver_id=receiver_id))
     messages = get_messages_between_users(sender_id, receiver_id)
-    return render_template('user/chat.html', sender=sender['username'], receiver=receiver['username'], form=form, messages=messages)
+    return render_template('user/chat.html', sender=sender['username'], receiver=receiver['username'], message_form=message_form, messages=messages)
 
 @messaging_bp.route('/clear_messages', methods=['POST'])
 @login_required(['user'])
@@ -116,3 +120,5 @@ def clear_messages():
         return redirect(url_for('auth.login'))
     clear_all_messages()
     return redirect(url_for('messaging.messages'))
+
+# MESSAGING ROUTES

@@ -60,14 +60,14 @@
         <div class="container p-4 bg-peri">
 
           <form method="POST" class="needs-validation" novalidate>
-            {{ form.hidden_tag() }}
+            {{ message_form.hidden_tag() }}
             
   
             <div class="mb-3 mx-auto">
-              {{ form.receiver() }}
-              {{ form.message(class="form-control border-0 shadow-none message-reply") }}
+              {{ message_form.receiver() }}
+              {{ message_form.message(class="form-control border-0 shadow-none message-reply") }}
               <!--
-              {% for error in form.message.errors %}
+              {% for error in message_form.message.errors %}
                 <div class="invalid-feedback d-block text-start">{{ error }}</div>
               {% endfor %}
               -->

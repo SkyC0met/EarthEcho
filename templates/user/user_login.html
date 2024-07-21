@@ -29,19 +29,19 @@
         <h1 class="fw-bold mb-5">Log in</h1>
 
         <form method="POST" class="needs-validation" novalidate>
-          {{ form.hidden_tag() }}
+          {{ login_form.hidden_tag() }}
 
           <div class="mb-3 mx-auto">
-            {{ form.username_or_email(class="form-control border-0 shadow-none", placeholder="Username or Email") }}
-            {% for error in form.username_or_email.errors %}
-            <div class="invalid-feedback d-block text-start">{{ error }}</div>
+            {{ login_form.username_or_email(class="form-control border-0 shadow-none", placeholder="Username or Email") }}
+            {% for error in login_form.username_or_email.errors %}
+              <div class="invalid-feedback d-block text-start">{{ error }}</div>
             {% endfor %}
           </div>
   
           <div class="mb-3 mx-auto">
-            {{ form.passwd(class="form-control border-0 shadow-none", placeholder="Password") }}
-            {% for error in form.passwd.errors %}
-            <div class="invalid-feedback d-block text-start">{{ error }}</div>
+            {{ login_form.passwd(class="form-control border-0 shadow-none", placeholder="Password") }}
+            {% for error in login_form.passwd.errors %}
+              <div class="invalid-feedback d-block text-start">{{ error }}</div>
             {% endfor %}
           </div>
   
@@ -78,7 +78,7 @@
   
             <img
             class="h-100"
-              src="{{ url_for('static', filename='images/recaptcha.png') }}"
+              src="{{ url_for('static', filename='images/sky/recaptcha.png') }}"
               alt=""
             />
           </div>
@@ -90,7 +90,9 @@
 
       <div class="row align-items-center my-3">
         <div class="col"><hr /></div>
-        <div class="col-auto"><p>OR</p></div>
+        <div class="col-auto">
+          <p>OR</p>
+        </div>
         <div class="col"><hr /></div>
       </div>
 
@@ -150,8 +152,7 @@
         </div>
         <div>
           <a href="{{ url_for('auth.admin_login') }}">Are you an admin?</a>
-        </div>
-      
+        </div>   
       </div>
     </div>
     <!--LOGIN USER-->
