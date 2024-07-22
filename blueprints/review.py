@@ -1,6 +1,7 @@
 from flask import Blueprint, jsonify, request, session, render_template
 from datetime import datetime
 from db import get_db_connection
+from blueprints.utils import get_user_by_field
 
 review_bp = Blueprint('review', __name__)
 
@@ -18,9 +19,11 @@ def submit_review():
     try:
         print("Received request to /submit_review")
 
-        rating = request.form.get('rating_hidden')
+        rating = request.form.get('rating')
         review = request.form.get('review')
         post_id = 1
+        user = get_user_by_field('user_id', session['user_id'])
+        username = user['username']
 
         print(f"Retrieved form data - Rating: {rating}, Review: {review}, Post ID: {post_id}")
 
@@ -50,7 +53,9 @@ def submit_review():
                 'status': 'success',
                 'date': datetime.now().strftime('%Y-%m-%d'),
                 'time': datetime.now().strftime('%H:%M:%S'),
-                'review': review
+                'review': review,
+                'rating': rating,
+                'username': username
             }
 
             return jsonify(response_data), 200
@@ -70,16 +75,17 @@ def submit_review():
 
 @review_bp.route('/get_reviews', methods=['GET'])
 def get_reviews():
-    post_id = request.args.get('post_id')
-    if not post_id:
-        print("Post ID is missing from request.")
-        return jsonify({'error': 'Post ID is required'}), 400
-
-    try:
-        post_id = int(post_id)
-    except ValueError:
-        print("Invalid Post ID provided.")
-        return jsonify({'error': 'Invalid Post ID'}), 400
+    post_id = 1
+    # post_id = request.args.get('post_id')
+    # if not post_id:
+    #     print("Post ID is missing from request.")
+    #     return jsonify({'error': 'Post ID is required'}), 400
+    #
+    # try:
+    #     post_id = int(post_id)
+    # except ValueError:
+    #     print("Invalid Post ID provided.")
+    #     return jsonify({'error': 'Invalid Post ID'}), 400
 
     connection = None
     cursor = None
