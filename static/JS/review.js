@@ -1,60 +1,73 @@
-// rating and review
 document.addEventListener('DOMContentLoaded', function () {
-    // Select all star rating images and add click event listeners
+    // Setup star rating click handlers
     const stars = document.querySelectorAll('.rating-wrapper img');
     stars.forEach(star => {
         star.addEventListener('click', function () {
             const rating = this.id;
-            updateStarRating(rating); // Call function to update star rating display
+            updateStarRating(rating);
         });
     });
 
-    // Handle click event on clear button to clear star rating
+    // Setup clear button handler
     const clearButton = document.querySelector('.rating-wrapper button');
     if (clearButton) {
         clearButton.addEventListener('click', clearStarRating);
     }
 
-    // Handle form submission via AJAX to prevent page reload
+    // Handle form submission
     document.getElementById('reviewForm').addEventListener('submit', function (event) {
-        event.preventDefault(); // Prevent the form from submitting normally
+        event.preventDefault();
 
-        // Prepare form data to be sent via fetch
         const formData = new FormData(this);
+        console.log("Form data before sending:");
+        for (const [key, value] of formData.entries()) {
+            console.log(`${key}: ${value}`);
+        }
+
+        // Retrieve CSRF token from meta tag or hidden input
+        const csrfToken = document.querySelector('input[name="csrf_token"]').value;
 
         fetch(this.action, {
             method: 'POST',
-            body: formData
+            body: formData,
+            headers: {
+                'X-CSRFToken': csrfToken // Ensure this matches what the server expects
+            }
         })
-        .then(response => response.json())
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+            return response.json();
+        })
         .then(data => {
+            console.log("Response data:", data);
             if (data.status === 'success') {
-                // Handle the response (e.g., update the reviews section)
-                console.log(data); // Log the response for debugging
-
-                // Create new review HTML element
                 const reviewsContainer = document.getElementById('reviews');
                 const newReview = document.createElement('div');
                 newReview.classList.add('review');
                 newReview.innerHTML = `
+                    <p>Username: ${data.username}</p>
                     <p>Date: ${data.date}</p>
                     <p>Time: ${data.time}</p>
+                    <p>Rating: ${data.rating}</p>
                     <p>Review: ${data.review}</p>
                     <hr>
                 `;
-                reviewsContainer.prepend(newReview); // Add new review at the beginning
-
-                clearRatingAndReviewInputs(); // Optional: Clear form inputs
+                reviewsContainer.prepend(newReview);
+                clearRatingAndReviewInputs();
             } else {
-                console.error('Error:', data.message); // Log error message for debugging
-                alert('Error: ' + data.message); // Optionally show an alert with the error message
+                console.error('Error response:', data.message);
+                alert('Error: ' + data.message);
             }
         })
-        .catch(error => console.error('Error:', error));
+        .catch(error => {
+            console.error('Fetch error:', error);
+        });
     });
 });
 
-// Function to update star rating display
+// Update star rating display
 function updateStarRating(clickedRating) {
     const stars = document.querySelectorAll('.rating-wrapper img');
     stars.forEach(star => star.classList.remove('rating-checked'));
@@ -63,20 +76,20 @@ function updateStarRating(clickedRating) {
         stars[i].classList.add('rating-checked');
     }
 
-    document.getElementById('rating').value = clickedRating; // Update hidden input field with rating value
+    document.getElementById('rating').value = clickedRating;
 }
 
-// Function to clear star rating display and hidden input field
+// Clear star rating display
 function clearStarRating() {
     const stars = document.querySelectorAll('.rating-wrapper img');
     stars.forEach(star => star.classList.remove('rating-checked'));
 
-    document.getElementById('rating').value = ''; // Clear hidden input field value
+    document.getElementById('rating').value = '';
 }
 
-// Function to clear rating and review inputs
+// Clear rating and review inputs
 function clearRatingAndReviewInputs() {
-    document.getElementById('rating').value = ''; // Clear rating input
-    document.getElementById('review').value = ''; // Clear review input
-    clearStarRating(); // Clear star rating display
+    document.getElementById('rating').value = '';
+    document.getElementById('review').value = '';
+    clearStarRating();
 }

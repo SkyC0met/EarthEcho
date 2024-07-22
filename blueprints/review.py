@@ -1,84 +1,115 @@
-# review.py
-from flask import Blueprint, jsonify, request
-from wtforms.fields import datetime
+from flask import Blueprint, jsonify, request, session, render_template
 from datetime import datetime
-
 from db import get_db_connection
 
 review_bp = Blueprint('review', __name__)
 
-# def check_connection():
-#     try:
-#         conn = get_db_connection()
-#
-#         if conn.is_connected():
-#             print("Database connected successfully")
-#             return jsonify({'status': 'success', 'message': 'Database connected successfully'})
-#         else:
-#             print("Database connection error")
-#             return jsonify({'status': 'error', 'message': 'Database connection error'})
-#
-#     except Exception as e:
-#         print(f"Unexpected Error: {e}")
-#         return jsonify({'status': 'error', 'message': 'An unexpected error occurred'})
-
+# @review_bp.route('/submit_review', methods=['POST'])
+# def submit_review():
+#     return jsonify({
+#         'status': 'success',
+#         'date': datetime.now().strftime('%Y-%m-%d'),
+#         'time': datetime.now().strftime('%H:%M:%S'),
+#         'review': 'Test review'
+#     }), 200
 
 @review_bp.route('/submit_review', methods=['POST'])
 def submit_review():
     try:
-        rating = int(request.form.get('rating_hidden'))
+        print("Received request to /submit_review")
+
+        rating = request.form.get('rating_hidden')
         review = request.form.get('review')
         post_id = 1
 
+        print(f"Retrieved form data - Rating: {rating}, Review: {review}, Post ID: {post_id}")
+
         if not rating or not review or not post_id:
-            raise ValueError("Rating, review, or post_id is missing")
+            print("Missing fields detected")
+            return jsonify({'status': 'error', 'message': 'Missing fields'}), 400
 
-        # Get user_id based on session or authentication (replace with your actual logic)
-        user_id = get_current_user_id()  # Example function to retrieve current user's ID
+        try:
+            rating = int(rating)
+        except ValueError:
+            print("Invalid rating value detected")
+            return jsonify({'status': 'error', 'message': 'Invalid rating value'}), 400
 
-        # Connect to your MySQL database
+        user_id = session.get('user_id')
+        if not user_id:
+            print("User not logged in")
+            return jsonify({'status': 'error', 'message': 'User not logged in'}), 401
+
         connection = get_db_connection()
-
         if connection:
             cursor = connection.cursor()
-
             insert_query = "INSERT INTO review (review, rating, post_id, user_id) VALUES (%s, %s, %s, %s)"
             cursor.execute(insert_query, (review, rating, post_id, user_id))
             connection.commit()
 
-            # Construct JSON response
             response_data = {
                 'status': 'success',
-                'date': datetime.now().strftime('%Y-%m-%d'),  # Current date in YYYY-MM-DD format
-                'time': datetime.now().strftime('%H:%M:%S'),  # Current time in HH:MM:SS format
-                'review': review  # Pass the review content back if needed
+                'date': datetime.now().strftime('%Y-%m-%d'),
+                'time': datetime.now().strftime('%H:%M:%S'),
+                'review': review
             }
 
-            return jsonify(response_data)
-
-    except ValueError as ve:
-        print(f"ValueError: {ve}")
-        return jsonify({'status': 'error', 'message': str(ve)})
+            return jsonify(response_data), 200
 
     except Exception as e:
         print(f"Unexpected Error: {e}")
-        return jsonify({'status': 'error', 'message': 'An unexpected error occurred'})
+        return jsonify({'status': 'error', 'message': 'An unexpected error occurred'}), 500
 
     finally:
-        if 'connection' in locals() and connection and connection.is_connected():
+        if 'connection' in locals() and connection.is_connected():
             cursor.close()
             connection.close()
             print("Connection closed")
 
-    # If an error occurs or if the submission fails, return an error response
-    return jsonify({'status': 'error', 'message': 'Unknown error occurred'})
+    return jsonify({'status': 'error', 'message': 'Unknown error occurred'}), 400
 
-def get_current_user_id():
-    # Replace this function with your actual logic to get the current user's ID
-    # For example, if using Flask session:
-    # return session.get('user_id')
-    # Or if using authentication:
-    # return current_user.id
-    # For demo purposes, return a static user_id (replace with actual logic)
-    return 1  # Example: Replace with actual logic to get current user ID dynamically
 
+@review_bp.route('/get_reviews', methods=['GET'])
+def get_reviews():
+    post_id = request.args.get('post_id')
+    if not post_id:
+        print("Post ID is missing from request.")
+        return jsonify({'error': 'Post ID is required'}), 400
+
+    try:
+        post_id = int(post_id)
+    except ValueError:
+        print("Invalid Post ID provided.")
+        return jsonify({'error': 'Invalid Post ID'}), 400
+
+    connection = None
+    cursor = None
+    try:
+        connection = get_db_connection()
+        if not connection:
+            print("Database connection failed.")
+            return jsonify({'error': 'Database connection failed'}), 500
+
+        cursor = connection.cursor()
+        query = """
+            SELECT r.review, r.rating, r.timestamp, u.username
+            FROM review r
+            JOIN users u ON r.user_id = u.user_id
+            WHERE r.post_id = %s
+            ORDER BY r.timestamp DESC
+        """
+        cursor.execute(query, (post_id,))
+        reviews = cursor.fetchall()
+
+        print("Fetched reviews:", reviews)  # Debug print
+
+        return jsonify({'reviews': reviews})
+
+    except Exception as e:
+        print(f"Unexpected Error: {e}")
+        return jsonify({'error': 'An unexpected error occurred'}), 500
+
+    finally:
+        if cursor:
+            cursor.close()
+        if connection:
+            connection.close()

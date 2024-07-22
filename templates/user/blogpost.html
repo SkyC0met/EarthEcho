@@ -17,18 +17,26 @@
         <div class="item product-review">
             <h3><b>Product Review</b></h3>
             <div id="reviews">
-                {% for review in reviews %}
-                <div class="review">
-                    <p>Date: {{ review.date }}</p>
-                    <p>Time: {{ review.time }}</p>
-                    <p>Review: {{ review.text }}</p>
-                    <hr>
-                </div>
-                {% endfor %}
+                {% if reviews %}
+                    {% for review in reviews %}
+                        <div class="review">
+                            <p>Username: {{ review.username }}</p>
+                            <p>Date: {{ review.timestamp.strftime('%Y-%m-%d') }}</p>
+                            <p>Time: {{ review.timestamp.strftime('%H:%M:%S') }}</p>
+                            <p>Rating: {{ review.rating }}</p>
+                            <p>Review: {{ review.review }}</p>
+                            <hr>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <p>No reviews yet</p>
+                {% endif %}
             </div>
 
             <h3><b>Add Review</b></h3>
             <form id="reviewForm" method="POST" action="{{ url_for('review.submit_review') }}">
+                <!-- CSRF Token -->
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                 <div class="form-group mb-4">
                     <div class="rating-wrapper">
                         <p>Rating:</p>
@@ -53,6 +61,6 @@
         </div>
     </div>
 
-    <script src="{{ url_for('static', filename='js/blog_base.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/review.js') }}"></script>
 </body>
 </html>
