@@ -76,17 +76,6 @@ def submit_review():
 @review_bp.route('/get_reviews', methods=['GET'])
 def get_reviews():
     post_id = 1
-    # post_id = request.args.get('post_id')
-    # if not post_id:
-    #     print("Post ID is missing from request.")
-    #     return jsonify({'error': 'Post ID is required'}), 400
-    #
-    # try:
-    #     post_id = int(post_id)
-    # except ValueError:
-    #     print("Invalid Post ID provided.")
-    #     return jsonify({'error': 'Invalid Post ID'}), 400
-
     connection = None
     cursor = None
     try:
@@ -105,8 +94,6 @@ def get_reviews():
         """
         cursor.execute(query, (post_id,))
         reviews = cursor.fetchall()
-
-        print("Fetched reviews:", reviews)  # Debug print
 
         return jsonify({'reviews': reviews})
 

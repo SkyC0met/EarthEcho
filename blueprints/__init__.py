@@ -12,6 +12,7 @@ from wtforms.validators import DataRequired, Length
 from flask_wtf.file import FileAllowed
 
 from blueprints.chatbot.chat import get_response
+from db import get_db_connection
 
 init_bp = Blueprint('init', __name__)
 
@@ -75,9 +76,43 @@ def favourites():
     return render_template('user/favourites.html')
 # SKY USER ROUTES
 
+# @init_bp.route('/Blog')
+# def blog():
+#     return render_template('user/blogpost.html')
 @init_bp.route('/Blog')
 def blog():
-    return render_template('user/blogpost.html')
+    post_id = 1  # static
+    connection = None
+    cursor = None
+    reviews = []
+    try:
+        connection = get_db_connection()
+        if not connection:
+            print("Database connection failed.")
+            return render_template('user/blogpost.html', reviews=reviews)
+
+        cursor = connection.cursor()
+        query = """
+            SELECT r.review, r.rating, r.timestamp, u.username
+            FROM review r
+            JOIN users u ON r.user_id = u.user_id
+            WHERE r.post_id = %s
+            ORDER BY r.timestamp DESC
+        """
+        cursor.execute(query, (post_id,))
+        reviews = cursor.fetchall()
+
+    except Exception as e:
+        print(f"Unexpected Error: {e}")
+
+    finally:
+        if cursor:
+            cursor.close()
+        if connection:
+            connection.close()
+
+    return render_template('user/blogpost.html', reviews=reviews)
+
 
 @init_bp.route('/createpost', methods=['GET', 'POST'])
 def CreatePosts():

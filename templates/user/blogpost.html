@@ -19,18 +19,18 @@
             <div id="reviews">
                 {% if reviews %}
                     {% for review in reviews %}
-                        <div class="review">
-                            <p>Username: {{ review.username }}</p>
-                            <p>Date: {{ review.timestamp.strftime('%Y-%m-%d') }}</p>
-                            <p>Time: {{ review.timestamp.strftime('%H:%M:%S') }}</p>
-                            <p>Rating: {{ review.rating }}</p>
-                            <p>Review: {{ review.review }}</p>
-                            <hr>
-                        </div>
-                    {% endfor %}
-                {% else %}
-                    <p>No reviews yet</p>
-                {% endif %}
+                    <div class="review">
+                        <p>Username: {{ review[3] }}</p>
+                        <p>Date: {{ review[2].strftime('%Y-%m-%d') }}</p>
+                        <p>Time: {{ review[2].strftime('%H:%M:%S') }}</p>
+                        <p>Rating: {{ review[1] }}</p>
+                        <p>Review: {{ review[0] }}</p>
+                        <hr>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <p>No reviews yet</p>
+            {% endif %}
             </div>
 
             <h3><b>Add Review</b></h3>
