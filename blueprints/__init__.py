@@ -70,12 +70,6 @@ def predict():
     message = {"answer": response}
     return jsonify(message)
 
-# SKY USER ROUTES
-@init_bp.route('/favourites')
-def favourites():
-    return render_template('user/favourites.html')
-# SKY USER ROUTES
-
 # @init_bp.route('/Blog')
 # def blog():
 #     return render_template('user/blogpost.html')

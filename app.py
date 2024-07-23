@@ -1,4 +1,4 @@
-from flask import Flask, session, render_template
+from flask import Flask, session
 from config import Config
 from flask_wtf.csrf import CSRFProtect, CSRFError
 from flask import jsonify
@@ -26,6 +26,7 @@ def create_app(config_class=Config):
     from blueprints.profile import profile_bp
     from blueprints.admin import admin_bp
     from blueprints.reward import reward_bp
+    from blueprints.favourites import fav_bp
 
     app.register_blueprint(auth_bp)
     app.register_blueprint(init_bp)
@@ -36,6 +37,7 @@ def create_app(config_class=Config):
     app.register_blueprint(profile_bp)
     app.register_blueprint(admin_bp)
     app.register_blueprint(reward_bp)
+    app.register_blueprint(fav_bp)
 
     # for chatbot to run
     # csrf.exempt(init_bp)

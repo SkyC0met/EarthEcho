@@ -25,22 +25,22 @@
       <h2 class="fw-bold">Vouchers</h2>
 
       <!--VOUCHER CARDS-->
-      <div class="container mt-sm-5 mt-4 p-0 vou-container">
+      <div class="container-md mt-sm-5 mt-4 p-0 vou-container">
         <div class="row align-items-center">
           {% for voucher in vouchers %}
-          <div class="col-auto">
-            <div class="card" data-bs-toggle="modal" data-bs-target="#VoucherModal{{ voucher.reward_id }}">
-              <img
-                src="{{ url_for('static', filename=voucher.image_path) }}"
-                class="card-img-top"
-                alt="..."
-              />
-              <div class="card-body p-2">
-                <h5 class="card-title">{{ voucher.reward_name }}</h5>
-                <p class="card-text">{{ voucher.reward }}</p>
-                <p class="card-text">Valid until {{ voucher.valid_until }}</p>
+          <div class="col-xl-2 col-lg-3 col-sm-4 col-6 mb-3 d-flex justify-content-center">
+              <div class="card" data-bs-toggle="modal" data-bs-target="#VoucherModal{{ voucher.reward_id }}">
+                <img
+                  src="{{ url_for('static', filename=voucher.image_path) }}"
+                  class="card-img-top"
+                  alt="..."
+                />
+                <div class="card-body d-grid flex-column p-2">
+                  <h5 class="card-title">{{ voucher.reward_name }}</h5>
+                  <p class="short-text">{{ voucher.reward }}</p>
+                  <p class="card-text align-self-end">Valid until {{ voucher.valid_until }}</p>
+                </div>
               </div>
-            </div>
           </div>
           {% endfor %}
         </div>

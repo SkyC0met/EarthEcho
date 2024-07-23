@@ -133,10 +133,14 @@
                 </div>
                 <div class="modal-footer d-grid justify-content-center">
                   <form method="POST" action="{{ url_for('reward.points_shop') }}">
-                    {{ redeem_voucher_form.hidden_tag() }}
-                    <input type="hidden" id="reward_id" name="reward" value="{{ reward.reward_id }}">
-                    <!--CANNOT USE REWARD_ID WHYYYYYYYYY-->
+                    {{ redeem_voucher_form.csrf_token }}
+                    {{ redeem_voucher_form.reward_id(value=reward.reward_id) }}
+                    <!--{{ redeem_voucher_form.hidden_tag() }}-->
+                    <!--CANNOT USE THIS CAUSE WTFORMS REWARD_ID IS A HIDDEN TAG AS IT WILL NOT WORK-->
+                    <!--<input type="hidden" id="reward_id" name="reward" value="{{ reward.reward_id }}">-->
+                    <!--PROPER HTML INPUT CODE-->
                     <!--<input type="hidden" id="reward" name="reward_id" value="{{ reward.reward_id }}">-->
+                    <!--CANNOT USE REWARD_ID WHYYYYYYYYY-->
                     <button class="btn btn-rose" type="submit">Redeem Reward</button>
                   </form>
                 </div>
@@ -211,8 +215,8 @@
                 </div>
                 <div class="modal-footer d-grid justify-content-center">
                   <form method="POST" action="{{ url_for('reward.points_shop') }}">
-                    {{ redeem_voucher_form.hidden_tag() }}
-                    <input type="hidden" id="reward_id" name="reward" value="{{ reward.reward_id }}">
+                    {{ redeem_voucher_form.csrf_token }}
+                    {{ redeem_voucher_form.reward_id(value=reward.reward_id) }}
                     <button class="btn btn-rose" type="submit">Redeem Reward</button>
                   </form>
                 </div>

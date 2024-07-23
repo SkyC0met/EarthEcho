@@ -16,10 +16,11 @@
 
       <div class="container mt-sm-5 mt-4 p-0">
         <div class="row align-items-center">
-          <div class="col">
+          {% for favourite in favourites %}
+          <div class="col-xl-2 col-lg-3 col-sm-4 col-6 mb-3 d-flex justify-content-center">
             <div class="card fav-card">
               <img
-                src="../../static/images/beach.png"
+                src="{{ url_for('static', filename=favourite.image_path) }}"
                 class="card-img-top"
                 alt="..."
               />
@@ -27,16 +28,21 @@
                 <div
                   class="d-flex align-items-center justify-content-between my-2"
                 >
-                  <h5 class="fw-bold">Post Name</h5>
-                  <i
-                    class="fa-solid fa-heart fa-xl mx-3 icon-red"
-                  ></i>
+                  <h5 class="fw-bold">{{ favourite.header }}</h5>
+
+                  <form method="POST" action="{{ url_for('reward.add_points') }}">
+                    {{ add_favourites_form.csrf_token }}
+                    <i
+                      class="fa-solid fa-heart fa-xl mx-3 icon-red"
+                      type="submit"
+                    ></i>
+                  </form>
                 </div>
-                <p class="mt-4 short-text">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Alias non sint tempore rerum provident voluptates quisquam, praesentium perspiciatis nulla. Pariatur minima quibusdam qui eveniet deleniti autem magni ea quae soluta.</p>
-                <p>Written by: User</p>
+                <p class="mt-4 short-text">{{ favourite.body }}</p>
               </div>
             </div>
           </div>
+          {% endfor %}
         </div>
       </div>
     </div>

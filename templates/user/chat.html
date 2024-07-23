@@ -42,15 +42,11 @@
                 <i class="fa-solid fa-user fa-2xl icon-dark"></i>
               </div>
               <div class="col">
-                <div>
                   <p>{{ sender }}</p>
                   <p>{{ message.timestamp }}</p>
-                </div>
               </div>
               <div class="col-12">
-                <p class="mt-3">
-                  {{ message.message }}
-                </p>
+                <p class="mt-3">{{ message.message }}</p>
               </div>
             </div>
           {% endfor %}
@@ -58,11 +54,8 @@
         </div>
 
         <div class="container p-4 bg-peri">
-
           <form method="POST" class="needs-validation" novalidate>
             {{ message_form.hidden_tag() }}
-            
-  
             <div class="mb-3 mx-auto">
               {{ message_form.receiver() }}
               {{ message_form.message(class="form-control border-0 shadow-none message-reply") }}

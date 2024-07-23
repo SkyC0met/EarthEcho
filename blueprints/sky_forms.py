@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, EmailField, HiddenField, SubmitField, HiddenField, validators
+from wtforms import StringField, PasswordField, EmailField, HiddenField, SubmitField, validators
 from wtforms.validators import ValidationError
 from blueprints.utils import get_user_by_field
 
@@ -107,13 +107,14 @@ class DeleteAccountForm(FlaskForm):
     submit = SubmitField('Delete Account')
 
 class RedeemVoucherForm(FlaskForm):
+    reward_id = HiddenField('Reward ID')
     submit = SubmitField('Redeem Voucher')
 
 class SpendVoucherForm(FlaskForm):
     submit = SubmitField('Spend Voucher')
 
 class AddFavouritesForm(FlaskForm):
-    submit = SubmitField('Redeem Voucher')
+    submit = SubmitField('Add Favourite')
 
 class AddPointsForm(FlaskForm):
     submit = SubmitField('Add Points')

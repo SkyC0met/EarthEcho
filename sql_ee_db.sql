@@ -1,4 +1,4 @@
--- DROP DATABASE earthecho_db;
+DROP DATABASE earthecho_db;
 
 CREATE DATABASE IF NOT EXISTS earthecho_db;
 
@@ -49,6 +49,24 @@ CREATE TABLE IF NOT EXISTS user_points (
     FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
 );
 
+CREATE TABLE IF NOT EXISTS sky_posts_to_test_fav (
+    post_id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    header TEXT NOT NULL,
+    body TEXT NOT NULL,
+    topic TEXT NOT NULL,
+    image_path VARCHAR(255) NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES users(user_id)
+);
+
+CREATE TABLE IF NOT EXISTS user_favourites (
+    favourite_id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    post_id INT NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE,
+    FOREIGN KEY (post_id) REFERENCES sky_posts_to_test_fav(post_id) ON DELETE CASCADE
+);
+
 CREATE TABLE IF NOT EXISTS posts (
     post_id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT,
@@ -61,7 +79,7 @@ CREATE TABLE IF NOT EXISTS posts (
     timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-DROP TABLE IF EXISTS review;
+-- DROP TABLE IF EXISTS review;
 
 -- Create the review table without foreign keys
 CREATE TABLE IF NOT EXISTS review (
@@ -74,7 +92,7 @@ CREATE TABLE IF NOT EXISTS review (
 );
 
 
-/*INSERT INTO users (username, phone_num, email, passwd, acc_type) VALUES 
+INSERT INTO users (username, phone_num, email, passwd, acc_type) VALUES 
 ('Tom', '12345678', 'tom@gmail.com', 'scrypt:32768:8:1$GB2hqTmVOBZBXfGO$dcdfa47ebd93848e85079cd0eec0d20b55c48ae9f54cafc21f2085ef5acea53d830148710c17b95fd7003acb524074357c9c5b9ede32e970bdb6abe7f1f04774', 'user'),
 ('Jane', '12345378', 'jane@gmail.com', 'scrypt:32768:8:1$GB2hqTmVOBZBXfGO$dcdfa47ebd93848e85079cd0eec0d20b55c48ae9f54cafc21f2085ef5acea53d830148710c17b95fd7003acb524074357c9c5b9ede32e970bdb6abe7f1f04774', 'user'),
 ('Harry', '12325678', 'harry@gmail.com', 'scrypt:32768:8:1$GB2hqTmVOBZBXfGO$dcdfa47ebd93848e85079cd0eec0d20b55c48ae9f54cafc21f2085ef5acea53d830148710c17b95fd7003acb524074357c9c5b9ede32e970bdb6abe7f1f04774', 'user'),
@@ -106,9 +124,23 @@ INSERT INTO user_points (user_id, points_balance) VALUES
 INSERT INTO user_redemption (user_id, reward_id) VALUES
 ('2', '3'),
 ('2', '7'),
-('4', '8');*/
+('4', '8');
 
-SELECT ur.user_id, ur.reward_id, ur.redemption_date, ps.reward_name, ps.reward, ps.reward_desc, ps.valid_until, ps.image_path
+INSERT INTO sky_posts_to_test_fav (user_id, header, body, topic, image_path) VALUES 
+(1, 'Post 1', 'This is the body of the post.', 'Technology', 'images/fashion/fashion8.jpg'),
+(1, 'Post 2', 'This is the body of the post.', 'Technology', 'images/fashion/fashion7.jpg'),
+(1, 'Post 3', 'This is the body of the post.', 'Technology', 'images/fashion/fashion6.jpg');
+
+INSERT INTO user_favourites (user_id, post_id) VALUES 
+(2, 2),
+(2, 3);
+
+SELECT uf.user_id, uf.post_id, sp.header, sp.body, sp.image_path
+FROM user_favourites uf
+INNER JOIN sky_posts_to_test_fav sp ON uf.post_id = sp.post_id
+WHERE uf.user_id = 2;
+
+/*SELECT ur.user_id, ur.reward_id, ur.redemption_date, ps.reward_name, ps.reward, ps.reward_desc, ps.valid_until, ps.image_path
 FROM user_redemption ur
 INNER JOIN points_shop ps ON ur.reward_id = ps.reward_id
-WHERE ur.user_id = 2;
+WHERE ur.user_id = 2;*/

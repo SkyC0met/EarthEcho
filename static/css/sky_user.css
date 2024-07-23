@@ -12840,6 +12840,45 @@ nav .search-container {
   }
 }
 /*LOGIN CUST*/
+/*MY PROFILE*/
+.my-profile img {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+}
+
+.image-container {
+  position: relative;
+  display: inline-block;
+}
+
+.pen {
+  position: absolute;
+  top: 12%;
+  left: 0%;
+  display: none;
+  opacity: 0.5;
+  background-color: #6c757d;
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+}
+
+.image-container:hover .pen,
+.image-container:hover .pen-icon {
+  display: block;
+}
+
+.pen-icon {
+  position: absolute;
+  top: 40%;
+  left: 25%;
+  display: none;
+  opacity: 1;
+  color: #ffffff;
+}
+
+/*MY PROFILE*/
 /*MESSAGE USER CONTAINER*/
 .dm-users-searchbar .search-container {
   position: relative;
@@ -12955,92 +12994,10 @@ nav .search-container {
 }
 
 /*MODEL CONTAINER*/
-/*CARD BUTTONS*/
-.points-modals .form-check-input {
-  display: none;
-}
-
-.custom-radio-button {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 100px;
-  height: 40px;
-  border-radius: 20px;
-  border: 2px solid #b4869f;
-  color: #4e4c67;
-  position: relative;
-  cursor: pointer;
-  font-size: 16px;
-  text-align: center;
-}
-
-.form-check-input:hover + .custom-radio-button,
-.form-check-input:checked + .custom-radio-button {
-  background-color: #985f6f;
-  color: #ffffff;
-}
-
-.fa-chevron-left {
-  position: absolute;
-  top: 15px;
-  left: 5px;
-}
-
-/*CARD BUTTONS*/
-/*CHECKMARK ANIMATION*/
-.checkmark__circle {
-  stroke-dasharray: 166;
-  stroke-dashoffset: 166;
-  stroke-width: 2;
-  stroke-miterlimit: 10;
-  stroke: #198754;
-  fill: none;
-  animation: stroke 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards;
-}
-
-.checkmark {
-  width: 56px;
-  height: 56px;
-  border-radius: 50%;
-  display: block;
-  stroke-width: 2;
-  stroke: #ffffff;
-  stroke-miterlimit: 10;
-  box-shadow: inset 0px 0px 0px #198754;
-  animation: fill 0.4s ease-in-out 0.4s forwards, scale 0.3s ease-in-out 0.9s both;
-}
-
-.checkmark__check {
-  transform-origin: 50% 50%;
-  stroke-dasharray: 48;
-  stroke-dashoffset: 48;
-  animation: stroke 0.3s cubic-bezier(0.65, 0, 0.45, 1) 0.8s forwards;
-}
-
-@keyframes stroke {
-  100% {
-    stroke-dashoffset: 0;
-  }
-}
-@keyframes scale {
-  0%, 100% {
-    transform: none;
-  }
-  50% {
-    transform: scale3d(1.1, 1.1, 1);
-  }
-}
-@keyframes fill {
-  100% {
-    box-shadow: inset 0px 0px 0px 30px #198754;
-  }
-}
-/*CHECKMARK ANIMATION*/
 /*POINTS SHOP CONTAINER*/
 /*VOUCHERS CONTAINER*/
 .vou-container .card {
-  height: 300px;
+  height: 320px;
   max-width: 200px;
 }
 
@@ -13050,45 +13007,11 @@ nav .search-container {
   object-position: 50% 20%;
 }
 
+@media only screen and (max-width: 480px) {
+  .vou-container .card {
+    height: 300px;
+  }
+}
 /*VOUCHERS CONTAINER*/
-/*MY PROFILE*/
-.my-profile img {
-  width: 100px;
-  height: 100px;
-  border-radius: 50%;
-}
-
-.image-container {
-  position: relative;
-  display: inline-block;
-}
-
-.pen {
-  position: absolute;
-  top: 12%;
-  left: 0%;
-  display: none;
-  opacity: 0.5;
-  background-color: #6c757d;
-  width: 100px;
-  height: 100px;
-  border-radius: 50%;
-}
-
-.image-container:hover .pen,
-.image-container:hover .pen-icon {
-  display: block;
-}
-
-.pen-icon {
-  position: absolute;
-  top: 40%;
-  left: 25%;
-  display: none;
-  opacity: 1;
-  color: #ffffff;
-}
-
-/*MY PROFILE*/
 
 /*# sourceMappingURL=sky_user.css.map */

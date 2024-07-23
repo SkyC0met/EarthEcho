@@ -60,7 +60,7 @@ def get_vouchers(user_id: int):
         FROM user_redemption ur
         INNER JOIN points_shop ps ON ur.reward_id = ps.reward_id
         WHERE ur.user_id = %s;
-        """, (user_id,))
+    """, (user_id,))
     vouchers = cursor.fetchall()
     cursor.close()
     conn.close()
@@ -87,7 +87,7 @@ def points_shop():
     add_points_form = AddPointsForm()
 
     if redeem_voucher_form.validate_on_submit():
-        reward_id = request.form.get("reward")
+        reward_id = redeem_voucher_form.reward_id.data
         print(f"Redeeming voucher with reward_id: {reward_id}")
 
         if reward_id:
@@ -120,7 +120,7 @@ def vouchers():
     return render_template('user/vouchers.html', vouchers=vouchers, spend_voucher_form=spend_voucher_form)
 
 def add_points_to_user(user_id: int):
-    points_to_add = 100
+    points_to_add = 1000
     conn = get_db_connection()
     cursor = conn.cursor(dictionary=True)
     cursor.execute("SELECT points_balance FROM user_points WHERE user_id = %s", (user_id,))
