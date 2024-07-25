@@ -1,7 +1,8 @@
 from flask import Blueprint, render_template, flash, redirect, url_for, session, request
 from werkzeug.security import generate_password_hash, check_password_hash
+from flask_login import logout_user
 from db import get_db_connection
-from blueprints.utils import get_user_by_field, login_required
+from blueprints.utils import *
 from blueprints.sky_forms import EditUsernameForm, EditPhoneNumForm, EditEmailForm, ResetPasswordForm, DeleteAccountForm
 
 profile_bp = Blueprint('profile', __name__)
@@ -58,9 +59,9 @@ def delete_account(user_id: int):
 
 # PROFILE ROUTES
 @profile_bp.route('/user/profile', methods=['GET', 'POST'])
-@login_required(['user'])
+@user_required
 def my_profile():
-    user = get_user_by_field('username', session['username'])
+    user = get_user_by_field('user_id', session['_user_id'])
 
     edit_username_form = EditUsernameForm()
     edit_phone_num_form = EditPhoneNumForm()
@@ -88,13 +89,13 @@ def my_profile():
     return render_template('user/my_profile.html', user=user, edit_username_form=edit_username_form, edit_phone_num_form=edit_phone_num_form, edit_email_form=edit_email_form, reset_password_form=reset_password_form, delete_account_form=delete_account_form)
 
 @profile_bp.route('/user/profile/delete', methods=['POST'])
-@login_required(['user'])
+@user_required
 def delete_profile():
     delete_account_form = DeleteAccountForm()
     if delete_account_form.validate_on_submit():
-        user_id = session['user_id']
+        user_id = session['_user_id']
         delete_account(user_id)
-        session.clear()
+        logout_user()
         flash('Account successfully deleted.', 'success')
         return redirect(url_for('homepage.home'))
     return render_template('user/my_profile.html', delete_account_form=delete_account_form)

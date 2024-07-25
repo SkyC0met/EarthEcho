@@ -1,6 +1,7 @@
 from flask import Blueprint, render_template, redirect, url_for, flash, session
+from flask_login import login_required
 from db import get_db_connection
-from blueprints.utils import login_required, get_user_by_field
+from blueprints.utils import *
 from blueprints.sky_forms import MessageForm
 
 messaging_bp = Blueprint('messaging', __name__)
@@ -74,9 +75,9 @@ def clear_all_messages():
 
 # MESSAGING ROUTES
 @messaging_bp.route('/messages')
-@login_required(['user'])
+@user_required
 def messages():
-    user_id = session['user_id']
+    user_id = session['_user_id']
     users = get_users_with_messages(user_id)
     users_with_last_messages = []
     for user in users:
@@ -91,9 +92,9 @@ def messages():
     return render_template('user/messages.html', users=users_with_last_messages)
 
 @messaging_bp.route('/chat/<receiver_id>', methods=['GET', 'POST'])
-@login_required(['user'])
+@user_required
 def chat(receiver_id):
-    sender_id = session['user_id']
+    sender_id = session['_user_id']
     if sender_id == int(receiver_id):
         flash('You cannot message yourself.', 'warning')
         return redirect(url_for('messaging.messages'))
@@ -114,10 +115,10 @@ def chat(receiver_id):
     return render_template('user/chat.html', sender=sender['username'], receiver=receiver['username'], message_form=message_form, messages=messages)
 
 @messaging_bp.route('/clear_messages', methods=['POST'])
-@login_required(['user'])
+@user_required
 def clear_messages():
     if 'user_id' not in session:
-        return redirect(url_for('auth.login'))
+        return redirect(url_for('auth.user_login'))
     clear_all_messages()
     return redirect(url_for('messaging.messages'))
 

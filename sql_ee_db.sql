@@ -55,16 +55,14 @@ CREATE TABLE IF NOT EXISTS sky_posts_to_test_fav (
     header TEXT NOT NULL,
     body TEXT NOT NULL,
     topic TEXT NOT NULL,
-    image_path VARCHAR(255) NOT NULL,
-    FOREIGN KEY (user_id) REFERENCES users(user_id)
+    image_path VARCHAR(255) NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS user_favourites (
     favourite_id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT NOT NULL,
     post_id INT NOT NULL,
-    FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE,
-    FOREIGN KEY (post_id) REFERENCES sky_posts_to_test_fav(post_id) ON DELETE CASCADE
+    FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS posts (

@@ -16,7 +16,6 @@ from db import get_db_connection
 
 init_bp = Blueprint('init', __name__)
 
-
 def Posts():
     posts = [
         {

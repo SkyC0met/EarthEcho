@@ -1,43 +1,47 @@
-from flask import redirect, url_for, flash, session
+from flask import redirect, url_for, flash
+from flask_login import LoginManager, current_user
 from functools import wraps
 from db import get_db_connection
-# import jwt
+from blueprints.models import User
 
-def login_required(roles):
-    def wrapper(f):
+login_manager = LoginManager()
+
+@login_manager.user_loader
+def load_user(user_id):
+    connection = get_db_connection()
+    cursor = connection.cursor(dictionary=True)
+    cursor.execute("SELECT * FROM users WHERE user_id = %s", (user_id,))
+    user = cursor.fetchone()
+    cursor.close()
+    connection.close()
+    if user:
+        return User(user['user_id'], user['username'], user['passwd'], user['acc_type'])
+    return None
+
+def role_required(role):
+    def decorator(f):
         @wraps(f)
         def decorated_function(*args, **kwargs):
-            if 'user_id' not in session:
-                flash('Please log in to access this page.', 'danger')
-                return redirect(url_for('auth.user_login'))
-
-            user = get_user_by_field('user_id', session['user_id'])
-            acc_type = user['acc_type']
-            if acc_type is None:
-                flash('Your session is invalid. Please log in.', 'danger')
-                return redirect(url_for('auth.user_login'))
-                
-            if acc_type not in roles:
-                flash("Unauthorised access.", 'danger')
-                if acc_type == 'user':
-                    return redirect(url_for('homepage.home'))
-                elif acc_type == 'admin':
-                    return redirect(url_for('admin.admin_profile'))
+            if not current_user.is_authenticated:
+                return login_manager.unauthorized()
+            if current_user.acc_type != role:
+                if role == 'admin':
+                    flash('Unauthorized access.', 'danger')
+                return redirect(url_for('homepage.home'))
             return f(*args, **kwargs)
         return decorated_function
-    return wrapper
+    return decorator
+
+admin_required = role_required('admin')
+user_required = role_required('user')
 
 def already_logged_in(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
-        if 'user_id' in session:
-            flash('You are already logged in.', 'primary')
-            user = get_user_by_field('user_id', session['user_id'])
-            acc_type = user['acc_type']
-            if acc_type == 'admin':
-                return redirect(url_for('admin.admin_profile'))
-            elif acc_type == 'user':
-                return redirect(url_for('homepage.home'))
+        if current_user.is_authenticated:
+            if current_user.is_authenticated:
+                flash('Already logged in', "primary")
+                return redirect(url_for('homepage.home'))  # Redirect to dashboard or any other page
         return f(*args, **kwargs)
     return decorated_function
 

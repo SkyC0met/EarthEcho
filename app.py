@@ -3,6 +3,19 @@ from config import Config
 from flask_wtf.csrf import CSRFProtect, CSRFError
 from flask import jsonify
 from datetime import timedelta
+from blueprints.utils import login_manager
+
+#BLUEPRINTS
+from blueprints.auth import auth_bp
+from blueprints.__init__ import init_bp
+from blueprints.messaging import messaging_bp
+from blueprints.misc import misc_bp
+from blueprints.review import review_bp
+from blueprints.homepage import homepage_bp
+from blueprints.profile import profile_bp
+from blueprints.admin import admin_bp
+from blueprints.reward import reward_bp
+from blueprints.favourites import fav_bp
 
 def create_app(config_class=Config):
     app = Flask(__name__)
@@ -17,25 +30,18 @@ def create_app(config_class=Config):
 
     csrf = CSRFProtect(app)
 
-    from blueprints.auth import auth_bp
-    from blueprints.__init__ import init_bp
-    from blueprints.messaging import messaging_bp
-    from blueprints.misc import misc_bp
-    from blueprints.review import review_bp
-    from blueprints.homepage import homepage_bp
-    from blueprints.profile import profile_bp
-    from blueprints.admin import admin_bp
-    from blueprints.reward import reward_bp
-    from blueprints.favourites import fav_bp
+    login_manager.init_app(app)
+    login_manager.login_view = 'auth.user_login'
+    login_manager.login_message_category = "primary"
 
-    app.register_blueprint(auth_bp)
+    app.register_blueprint(admin_bp, url_prefix='/admin')
+    app.register_blueprint(auth_bp, url_prefix='/user')
     app.register_blueprint(init_bp)
     app.register_blueprint(messaging_bp)
     app.register_blueprint(misc_bp)
     app.register_blueprint(review_bp)
     app.register_blueprint(homepage_bp)
     app.register_blueprint(profile_bp)
-    app.register_blueprint(admin_bp)
     app.register_blueprint(reward_bp)
     app.register_blueprint(fav_bp)
 

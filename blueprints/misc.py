@@ -1,5 +1,6 @@
 from flask import render_template, Blueprint, session
-from blueprints.utils import login_required, get_user_by_field
+from blueprints.utils import *
+from flask_login import login_required
 
 misc_bp = Blueprint('misc', __name__)
 
@@ -7,7 +8,7 @@ misc_bp = Blueprint('misc', __name__)
 # Page not found
 def four_o_four(e):
     if 'user_id' in session:
-        user = get_user_by_field('user_id', session['user_id'])
+        user = get_user_by_field('user_id', session['_user_id'])
         if user['acc_type'] == 'admin':
             return render_template('misc/admin_404.html'), 404
         else:
@@ -32,7 +33,7 @@ def one():
     return render_template('misc/1.html')
 
 @misc_bp.route('/2')
-@login_required(['user'])
+@login_required
 def two():
     return render_template('misc/2.html')
 

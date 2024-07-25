@@ -1,6 +1,7 @@
 from flask import Blueprint, render_template, redirect, url_for, flash, session, request
 from db import get_db_connection
 from blueprints.sky_forms import RedeemVoucherForm, AddPointsForm, SpendVoucherForm
+from blueprints.utils import *
 
 reward_bp = Blueprint('reward', __name__)
 
@@ -82,6 +83,7 @@ def spend_voucher(user_id: int, reward_id: int):
 
 # REWARD VOUCHER ROUTES
 @reward_bp.route('/user/points-shop', methods=['GET', 'POST'])
+@user_required
 def points_shop():
     redeem_voucher_form = RedeemVoucherForm()
     add_points_form = AddPointsForm()
@@ -91,7 +93,7 @@ def points_shop():
         print(f"Redeeming voucher with reward_id: {reward_id}")
 
         if reward_id:
-            if redeem_voucher(session['user_id'], reward_id):
+            if redeem_voucher(session['_user_id'], reward_id):
                 flash('Voucher redeemed successfully!', 'success')
             else:
                 flash("You don't have enough points to redeem this voucher", 'primary')
@@ -100,23 +102,24 @@ def points_shop():
         
         return redirect(url_for('reward.points_shop'))
     
-    points_balance = get_user_points_balance(session['user_id'])
+    points_balance = get_user_points_balance(session['_user_id'])
     all_rewards = get_points_shop_rewards()
     food_rewards = [reward for reward in all_rewards if reward['points_type'] == 'food']
     fashion_rewards = [reward for reward in all_rewards if reward['points_type'] == 'fashion']
     return render_template('user/points_shop.html', points_balance=points_balance, food_rewards=food_rewards, fashion_rewards=fashion_rewards, redeem_voucher_form=redeem_voucher_form, add_points_form=add_points_form)
 
 @reward_bp.route('/user/vouchers', methods=['GET', 'POST'])
+@user_required
 def vouchers():
     spend_voucher_form = SpendVoucherForm()
     if spend_voucher_form.validate_on_submit():
         voucher_id = request.form.get("voucher")
         if voucher_id:
-            spend_voucher(session['user_id'], voucher_id)
+            spend_voucher(session['_user_id'], voucher_id)
             flash('Voucher spent successfully!', 'success')
         return redirect(url_for('reward.vouchers'))
 
-    vouchers = get_vouchers(session['user_id'])
+    vouchers = get_vouchers(session['_user_id'])
     return render_template('user/vouchers.html', vouchers=vouchers, spend_voucher_form=spend_voucher_form)
 
 def add_points_to_user(user_id: int):
@@ -136,10 +139,11 @@ def add_points_to_user(user_id: int):
     conn.close()
 
 @reward_bp.route('/add_points', methods=['POST'])
+@user_required
 def add_points():
     add_points_form = AddPointsForm()
     if add_points_form.validate_on_submit():
-        add_points_to_user(session['user_id'])
+        add_points_to_user(session['_user_id'])
         flash('Points added', 'success')
         return redirect(url_for('reward.points_shop'))
     return render_template('user/points_shop.html', add_points_form=add_points_form)

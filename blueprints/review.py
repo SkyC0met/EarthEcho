@@ -22,7 +22,7 @@ def submit_review():
         rating = request.form.get('rating')
         review = request.form.get('review')
         post_id = 1
-        user = get_user_by_field('user_id', session['user_id'])
+        user = get_user_by_field('user_id', session['_user_id'])
         username = user['username']
 
         print(f"Retrieved form data - Rating: {rating}, Review: {review}, Post ID: {post_id}")
@@ -37,7 +37,7 @@ def submit_review():
             print("Invalid rating value detected")
             return jsonify({'status': 'error', 'message': 'Invalid rating value'}), 400
 
-        user_id = session.get('user_id')
+        user_id = session.get('_user_id')
         if not user_id:
             print("User not logged in")
             return jsonify({'status': 'error', 'message': 'User not logged in'}), 401

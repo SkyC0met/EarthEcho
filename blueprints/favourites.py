@@ -29,8 +29,8 @@ def get_fav(user_id: int):
 def favourites():
     add_favourites_form = AddFavouritesForm()
     if add_favourites_form.validate_on_submit():
-        insert_into_fav(session['user_id'], 1)
+        insert_into_fav(session['_user_id'], 1)
         return redirect(url_for('fav.favourites'))
     
-    favourites = get_fav(session['user_id'])
+    favourites = get_fav(session['_user_id'])
     return render_template('user/favourites.html', favourites=favourites, add_favourites_form=add_favourites_form)
