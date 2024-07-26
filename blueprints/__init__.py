@@ -54,8 +54,8 @@ Posts = Posts()
 
 class PostForm(FlaskForm):
     author = "John Doe"
-    title = StringField('Title', validators=[DataRequired() , Length(min=1, max=100)])
-    text = TextAreaField('Text', validators=[DataRequired()])
+    header = StringField('Header', validators=[DataRequired() , Length(min=1, max=120)])
+    body = TextAreaField('Body', validators=[DataRequired(), Length(min=1)])
     topic = SelectField('Topic', choices=[('Sustainability', "Sustainability"), ('Electricity', "Electricity"),('Pollution','Pollution'), ('recycling', 'recycling')])
     image = FileField('Image', validators=[DataRequired(),FileAllowed(['jpg', 'png'])])
     submit = SubmitField('Post!')
