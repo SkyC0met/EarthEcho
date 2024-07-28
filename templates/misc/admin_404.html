@@ -1,0 +1,38 @@
+<!--SKY HTML-->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>404 ERROR</title>
+  </head>
+
+  <body>
+    {% extends 'navbar/admin_sidebar.html' %}
+    
+    {% block content %}
+
+    <!--404 ERROR PAGE-->
+    <div class="container text-center mt-5">
+      <div class="d-flex justify-content-center align-items-center">
+        <img style="margin-right: -90px; width: 350px; height: 350px;" src="{{ url_for('static', filename='images/sky/donut4.png') }}" alt="...">
+  
+        <img style="width: 300px; height: 300px;" src="{{ url_for('static', filename='images/sky/meow.gif') }}" alt="...">
+    
+        <img style="margin-left: -90px; width: 350px; height: 350px;" src="{{ url_for('static', filename='images/sky/donut4.png') }}" alt="...">
+      </div>
+  
+      <h1 class="fw-bold">OOPS - PAGE NOT FOUND</h1>
+      <h5 class="my-4">We can't seem to find the page you are looking for</h5>
+      <p>Here are some helpful links instead:</p>
+
+      <ol class="breadcrumb justify-content-center mt-4">
+        <li class="breadcrumb-item"><a href="{{ url_for('admin.admin_profile') }}">My Profile</a></li>
+        <li class="breadcrumb-item"><a href="{{ url_for('admin.user_management') }}">User Management</a></li>
+        <li class="breadcrumb-item"><a href="#">User Inqury</a></li>
+      </ol>
+    </div>
+    <!--404 ERROR PAGE-->
+    {% endblock content %}
+  </body>
+</html>

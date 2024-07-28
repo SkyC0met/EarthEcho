@@ -1,12 +1,20 @@
-from flask import render_template, Blueprint
-from blueprints.utils import login_required
+from flask import render_template, Blueprint, session
+from blueprints.utils import *
+from flask_login import login_required
 
 misc_bp = Blueprint('misc', __name__)
 
 @misc_bp.app_errorhandler(404)
 # Page not found
 def four_o_four(e):
-    return render_template('misc/404.html'), 404
+    if 'user_id' in session:
+        user = get_user_by_field('user_id', session['_user_id'])
+        if user['acc_type'] == 'admin':
+            return render_template('misc/admin_404.html'), 404
+        else:
+            return render_template('misc/user_404.html'), 404
+    else:
+        return render_template('misc/user_404.html'), 404
 
 @misc_bp.app_errorhandler(500)
 # Internal server error

@@ -1,36 +1,24 @@
-from flask import Blueprint, render_template, redirect, url_for, flash, session
+from flask import Blueprint, render_template, redirect, url_for, flash, abort, request
+from flask_login import login_user, login_required, logout_user
 from werkzeug.security import generate_password_hash, check_password_hash
+from urllib.parse import urlparse, urljoin
 from db import get_db_connection
+from blueprints.utils import *
 from blueprints.sky_forms import RegistrationForm, LoginForm
-from blueprints.utils import get_user_by_field
+from blueprints.models import User
 
 auth_bp = Blueprint('auth', __name__)
 
 # LOGIN REGISTER LOGOUT FUNCTIONS
-def get_max_user_id():
-    conn = get_db_connection()
-    cursor = conn.cursor()
-    cursor.execute("SELECT MAX(user_id) FROM users")
-    max_user_id = cursor.fetchone()[0]
-    cursor.close()
-    conn.close()
-    return max_user_id
+def is_safe_url(target):
+    ref_url = urlparse(request.host_url)
+    test_url = urlparse(urljoin(request.host_url, target))
+    return test_url.scheme in ('http', 'https') and ref_url.netloc == test_url.netloc
 
 def insert_user(username: str, phone_num: int, email: str, passwd: str):
     conn = get_db_connection()
     cursor = conn.cursor()
-
-    # Fetch the current maximum user_id
-    max_user_id = get_max_user_id()
-    if max_user_id is None:
-        max_user_id = 0
-
-    # Insert the new user
-    cursor.execute("INSERT INTO users (user_id, username, phone_num, email, passwd, acc_type) VALUES (%s, %s, %s, %s, %s, %s)", (max_user_id + 1, username, phone_num, email, passwd, "user"))
-    
-    # Update AUTO_INCREMENT value if necessary
-    cursor.execute("ALTER TABLE users AUTO_INCREMENT = %s", (max_user_id + 2,))
-    
+    cursor.execute("INSERT INTO users (username, phone_num, email, passwd, acc_type) VALUES (%s, %s, %s, %s, %s)", (username, phone_num, email, passwd, "user"))
     conn.commit()
     cursor.close()
     conn.close()
@@ -38,39 +26,51 @@ def insert_user(username: str, phone_num: int, email: str, passwd: str):
 # LOGIN REGISTER LOGOUT FUNCTIONS
 
 # LOGIN REGISTER LOGOUT ROUTES
-@auth_bp.route('/admin-login')
-def admin_login():
-    return render_template('admin/admin_login.html')
-
-@auth_bp.route('/cust-login', methods=['GET', 'POST'])
-def cust_login():
-    form = LoginForm()
-    if form.validate_on_submit():
-        username = form.username.data
-        passwd = form.passwd.data
-        user = get_user_by_field('username', username)
-        if user and check_password_hash(user['passwd'], passwd):
-            session['user_id'] = user['user_id']
-            session['username'] = user['username']
-            return redirect(url_for('init.homepage'))
-        flash('Invalid username or password', 'warning')
-    return render_template('customer/cust_login.html', form=form)
-
 @auth_bp.route('/register', methods=['GET', 'POST'])
+@already_logged_in
 def register():
-    form = RegistrationForm()
-    if form.validate_on_submit():
-        username = form.username.data
-        phone_num = form.phone_num.data
-        email = form.email.data
-        passwd = generate_password_hash(form.passwd.data)
+    registration_form = RegistrationForm()
+    if registration_form.validate_on_submit():
+        username = registration_form.username.data
+        phone_num = registration_form.phone_num.data
+        email = registration_form.email.data.lower()
+        passwd = generate_password_hash(registration_form.passwd.data)
         insert_user(username, phone_num, email, passwd)
-        return redirect(url_for('auth.cust_login'))
-    return render_template('customer/register.html', form=form)
+        flash('Account created!', 'success')
+        return redirect(url_for('auth.user_login'))
+    return render_template('user/register.html', registration_form=registration_form)
+
+@auth_bp.route('/login', methods=['GET', 'POST'])
+@already_logged_in
+def user_login():
+    login_form = LoginForm()
+    if login_form.validate_on_submit():
+        identifier = login_form.username_or_email.data
+        passwd = login_form.passwd.data
+        user_data = None
+
+        # Check if the identifier is an email
+        if '@' in identifier and '.' in identifier:
+            user_data = get_user_by_field('email', identifier)
+        else:
+            user_data = get_user_by_field('username', identifier)
+
+        if user_data and check_password_hash(user_data['passwd'], passwd):
+            if user_data['acc_type'] == 'user':
+                user = User(user_data['user_id'], user_data['username'], user_data['passwd'], user_data['acc_type'])
+                login_user(user)
+                next_page = request.args.get('next')
+                if not is_safe_url(next_page):
+                    return abort(400)
+                return redirect(next_page or url_for('homepage.home'))
+        flash('Invalid username/email or password.', 'warning')
+    return render_template('user/user_login.html', login_form=login_form)
 
 @auth_bp.route('/logout')
+@login_required
 def logout():
-    session.clear()
-    return redirect(url_for('auth.cust_login'))
+    logout_user()
+    flash('Successfully logged out!', 'success')
+    return redirect(url_for('homepage.home'))
 
 # LOGIN REGISTER LOGOUT ROUTES

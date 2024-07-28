@@ -1,0 +1,454 @@
+<!--SKY HTML-->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Profile</title>
+  </head>
+  <body>
+    {% include "navbar/user_navbar.html" %} 
+    {% include "user/customerBase.html" %}
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <ul class="flashes px-0">
+          {% for category, message in messages %}
+            <li class="alert alert-{{ category }} text-center">{{ message }}</li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
+
+    <!--PROFILE-->
+    <div class="container my-profile">
+      <h1 class="fw-bold my-3">Profile</h1>
+
+      <!--EDIT PICTURE MODAL-->
+      <div class="image-container">
+        <img
+          class="img-fluid me-4 my-3"
+          src="../../static/images/beach.png"
+          alt=""
+        />
+        <div data-bs-toggle="modal" data-bs-target="#edit-pic">
+          <div class="pen"></div>
+          <div class="pen-icon">
+            <i class="fa-solid fa-pen fa-2xl"></i>
+          </div>
+        </div>
+      </div>
+
+      <div
+        class="modal fade"
+        id="edit-pic"
+        tabindex="-1"
+        aria-labelledby="edit-pic"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div class="modal-body d-grid justify-content-center">
+              <h5 class="text-center">Change your profile picture</h5>
+
+              <!--INPUT PIC-->
+              <div class="my-3">
+                <label for="formFile" class="form-label"
+                  >Default file input example</label
+                >
+                <input class="form-control" type="file" id="formFile" />
+              </div>
+              <!--INPUT PIC-->
+            </div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-secondary"
+                data-bs-dismiss="modal"
+              >
+                Close
+              </button>
+              <button type="button" class="btn btn-success">Done</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!--EDIT PICTURE MODAL-->
+
+      <!--PROFILE DETAILS-->
+      <div class="my-3">
+        <div class="row align-items-center mb-3">
+          <div class="col">
+            <h5 class="fw-bold">Username</h5>
+            <div class="bg-white my-3">
+              <p class="p-1">{{ user.username }}</p>
+            </div>
+          </div>
+          <div class="col-1">
+            <!--EDIT USERNAME MODAL-->
+            <button
+              class="btn btn-outline-secondary me-2"
+              data-bs-toggle="modal"
+              data-bs-target="#edit-username"
+            >
+              Edit
+            </button>
+
+            <div
+              class="modal fade"
+              id="edit-username"
+              tabindex="-1"
+              aria-labelledby="edit-username"
+              aria-hidden="true"
+            >
+              <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                  <div class="modal-header d-block border-0 text-center">
+                    <button
+                      type="button"
+                      class="btn-close"
+                      data-bs-dismiss="modal"
+                      aria-label="Close"
+                    ></button>
+                    <h5 class="mt-4">Change your username</h5>
+                  </div>
+                  <div class="modal-body d-grid justify-content-center">
+                    <p class="mt-2">Enter a new username and your existing password</p>
+                    <!--EDIT USERNAME FORM-->
+                    <form method="POST" class="needs-validation" novalidate>
+                      {{ edit_username_form.hidden_tag() }}
+                      <div class="my-4">
+                        <div class="my-2">
+                          {{ edit_username_form.new_username.label(class="form-label fw-bold") }}
+                          {{ edit_username_form.new_username(class="form-control") }}
+  
+                          {% for error in edit_username_form.new_username.errors %}
+                            <div class="invalid-feedback d-block text-start">{{ error }}</div>
+                          {% endfor %}
+                        </div>
+                        <div class="my-2">
+                          {{ edit_username_form.passwd.label(class="form-label fw-bold") }}
+                          {{ edit_username_form.passwd(class="form-control") }}
+  
+                          {% for error in edit_username_form.passwd.errors %}
+                            <div class="invalid-feedback d-block text-start">{{ error }}</div>
+                          {% endfor %}
+                        </div>
+                      </div>
+                      <div class="d-flex justify-content-end">
+                        <button
+                          type="button"
+                          class="btn btn-secondary me-3"
+                          data-bs-dismiss="modal"
+                        >
+                          Close
+                        </button>
+                        <button type="submit" class="btn btn-success">Done</button>
+                      </div>
+                    </form>
+                    <!--EDIT USERNAME FORM-->
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!--EDIT USERNAME MODAL-->
+          </div>
+        </div>
+
+        <div class="row align-items-center mb-3">
+          <div class="col">
+            <h5 class="fw-bold">Phone number</h5>
+            <div class="bg-white my-3">
+              <p class="p-1">{{ user.phone_num }}</p>
+            </div>
+          </div>
+          <div class="col-1">
+            <!--EDIT PHONE NUM MODAL-->
+            <button
+              class="btn btn-outline-secondary me-2"
+              data-bs-toggle="modal"
+              data-bs-target="#edit-phone"
+            >
+              Edit
+            </button>
+
+            <div
+              class="modal fade"
+              id="edit-phone"
+              tabindex="-1"
+              aria-labelledby="edit-phone"
+              aria-hidden="true"
+            >
+              <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                  <div class="modal-header d-block border-0 text-center">
+                    <button
+                      type="button"
+                      class="btn-close"
+                      data-bs-dismiss="modal"
+                      aria-label="Close"
+                    ></button>
+                    <h5 class="mt-4">Change your phone number</h5>
+                  </div>
+                  <div class="modal-body d-grid justify-content-center">
+                    <p class="mt-2 text-center">
+                      Enter a new phone number and your existing password
+                    </p>
+
+                    <!--EDIT PHONE NUM FORM-->
+                    <form method="POST" class="needs-validation" novalidate>
+                      {{ edit_phone_num_form.hidden_tag() }}
+                      <div class="my-3">
+                        <div class="my-2">
+                          {{ edit_phone_num_form.new_phone_num.label(class="form-label fw-bold") }}
+                          {{ edit_phone_num_form.new_phone_num(class="form-control", maxlength="8", minlength="8") }}
+
+                          {% for error in edit_phone_num_form.new_phone_num.errors %}
+                            <div class="invalid-feedback d-block text-start">{{ error }}</div>
+                          {% endfor %}
+                        </div>
+                        <div class="my-2">
+                          {{ edit_phone_num_form.passwd.label(class="form-label fw-bold") }}
+                          {{ edit_phone_num_form.passwd(class="form-control") }}
+
+                          {% for error in edit_phone_num_form.passwd.errors %}
+                            <div class="invalid-feedback d-block text-start">{{ error }}</div>
+                          {% endfor %}
+                        </div>
+                      </div>
+                      <div class="d-flex justify-content-end">
+                        <button
+                          type="button"
+                          class="btn btn-secondary me-3"
+                          data-bs-dismiss="modal"
+                        >
+                          Close
+                        </button>
+                        <button type="submit" class="btn btn-success">Done</button>
+                      </div>
+                    </form>
+                    <!--EDIT PHONE NUM FORM-->
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!--EDIT PHONE NUM MODAL-->
+          </div>
+        </div>
+
+        <div class="row align-items-center mb-3">
+          <div class="col">
+            <h5 class="fw-bold">Email</h5>
+            <div class="bg-white my-3">
+              <p class="p-1">{{ user.email }}</p>
+            </div>
+          </div>
+          <div class="col-1">
+            <!--EDIT EMAIL MODAL-->
+            <button
+              class="btn btn-outline-secondary me-2"
+              data-bs-toggle="modal"
+              data-bs-target="#edit-email"
+            >
+              Edit
+            </button>
+
+            <div
+              class="modal fade"
+              id="edit-email"
+              tabindex="-1"
+              aria-labelledby="edit-email"
+              aria-hidden="true"
+            >
+              <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                  <div class="modal-header d-block border-0 text-center">
+                    <button
+                      type="button"
+                      class="btn-close"
+                      data-bs-dismiss="modal"
+                      aria-label="Close"
+                    ></button>
+                    <h5 class="mt-4">Change your email</h5>
+                  </div>
+                  <div class="modal-body d-grid justify-content-center">
+                    <p class="mt-2 text-center">
+                      Enter a new email and your existing password
+                    </p>
+
+                    <!--EDIT EMAIL FORM-->
+                    <form method="POST" class="needs-validation" novalidate>
+                      {{ edit_email_form.hidden_tag() }}
+                      <div class="my-3">
+                        <div class="my-2">
+                          {{ edit_email_form.new_email.label(class="form-label fw-bold") }}
+                          {{ edit_email_form.new_email(class="form-control") }}
+
+                          {% for error in edit_email_form.new_email.errors %}
+                            <div class="invalid-feedback d-block text-start">{{ error }}</div>
+                          {% endfor %}
+                        </div>
+                        <div class="my-2">
+                          {{ edit_email_form.passwd.label(class="form-label fw-bold") }}
+                          {{ edit_email_form.passwd(class="form-control") }}
+
+                          {% for error in edit_email_form.passwd.errors %}
+                            <div class="invalid-feedback d-block text-start">{{ error }}</div>
+                          {% endfor %}
+                        </div>
+                      </div>
+                      <div class="d-flex justify-content-end">
+                        <button
+                          type="button"
+                          class="btn btn-secondary me-3"
+                          data-bs-dismiss="modal"
+                        >
+                          Close
+                        </button>
+                        <button type="submit" class="btn btn-success">Done</button>
+                      </div>
+                    </form>
+                    <!--EDIT EMAIL FORM-->
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!--EDIT EMAIL MODAL-->
+          </div>
+        </div>
+      </div>
+      <!--PROFILE DETAILS-->
+
+      <div class="my-5">
+        <!--RESET PASSWORD MODAL-->
+        <button
+          class="btn btn-outline-secondary me-2"
+          data-bs-toggle="modal"
+          data-bs-target="#reset-password"
+        >
+          Reset Password
+        </button>
+
+        <div
+          class="modal fade"
+          id="reset-password"
+          tabindex="-1"
+          aria-labelledby="reset-password"
+          aria-hidden="true"
+        >
+          <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+              <div class="modal-header d-block border-0 text-center">
+                <button
+                  type="button"
+                  class="btn-close"
+                  data-bs-dismiss="modal"
+                  aria-label="Close"
+                ></button>
+                <h5 class="mt-4">Reset your password</h5>
+              </div>
+              <div class="modal-body d-grid justify-content-center">
+                <p class="mt-2 text-center">
+                  Enter your current password and a new password
+                </p>
+
+                <!--RESET PASSWORD FORM-->
+                <form method="POST" class="needs-validation" novalidate>
+                  {{ reset_password_form.hidden_tag() }}
+                  <div class="my-3">
+                    <div class="my-2">
+                      {{ reset_password_form.passwd.label(class="form-label") }}
+                      {{ reset_password_form.passwd(class="form-control") }}
+
+                      {% for error in reset_password_form.passwd.errors %}
+                        <div class="invalid-feedback d-block text-start">{{ error }}</div>
+                      {% endfor %}
+                    </div>
+                    <div class="my-2">
+                      {{ reset_password_form.new_passwd.label(class="form-label") }}
+                      {{ reset_password_form.new_passwd(class="form-control") }}
+
+                      {% for error in reset_password_form.new_passwd.errors %}
+                        <div class="invalid-feedback d-block text-start">{{ error }}</div>
+                      {% endfor %}
+                    </div>
+                    <div class="my-2">
+                      {{ reset_password_form.confirm_new_passwd.label(class="form-label") }}
+                      {{ reset_password_form.confirm_new_passwd(class="form-control") }}
+
+                      {% for error in reset_password_form.confirm_new_passwd.errors %}
+                        <div class="invalid-feedback d-block text-start">{{ error }}</div>
+                      {% endfor %}
+                    </div>
+                  </div>
+                  <div class="d-flex justify-content-end">
+                    <button
+                      type="button"
+                      class="btn btn-secondary me-3"
+                      data-bs-dismiss="modal"
+                    >
+                      Close
+                    </button>
+                    <button type="submit" class="btn btn-success">Done</button>
+                  </div>
+                </form>
+                <!--RESET PASSWORD FORM-->
+              </div>
+            </div>
+          </div>
+        </div>
+        <!--RESET PASSWORD MODAL-->
+
+        <!--DELETE ACCOUNT MODAL-->
+        <button
+          class="btn btn-outline-danger"
+          data-bs-toggle="modal"
+          data-bs-target="#deleteAccount"
+        >
+          Delete Account
+        </button>
+
+        <div
+          class="modal fade"
+          id="deleteAccount"
+          tabindex="-1"
+          aria-labelledby="deleteAccount"
+          aria-hidden="true"
+        >
+          <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+              <div class="modal-header d-block border-0 text-center">
+                <button
+                  type="button"
+                  class="btn-close"
+                  data-bs-dismiss="modal"
+                  aria-label="Close"
+                ></button>
+                <h5 class="mt-4">Are you sure you want to delete your account?</h5>
+              </div>
+              <div class="modal-body d-grid justify-content-center">
+                <form method="POST" action="{{ url_for('profile.delete_profile') }}">
+                  {{ delete_account_form.hidden_tag() }}
+                  <div class="d-flex justify-content-center my-3">
+                    <button class="btn btn-cancel me-3" data-bs-dismiss="modal" type="button">Cancel</button>
+                    <button class="btn btn-delete" type="submit">Delete</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!--DELETE ACCOUNT MODAL-->
+      </div>
+    </div>
+    <!--PROFILE-->
+  </body>
+</html>

@@ -4,14 +4,15 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>Profile</title>
   </head>
 
   <body>
-    {% include "navbar/sidebar.html" %}
-
-    <!--ADMIN PROFILE-->
-    <div id="admin-profile" class="admin-content-wrapper">
+    {% extends 'navbar/admin_sidebar.html' %}
+    
+    {% block content %}
+    <!--PROFILE-->
+    <div class="container my-profile">
       <h1 class="fw-bold my-3">Profile</h1>
 
       <!--EDIT PICTURE MODAL-->
@@ -78,11 +79,11 @@
         <div class="row align-items-center mb-3">
           <div class="col">
             <h5 class="fw-bold">Username</h5>
-            <div class="profile-content my-3">
-              <p class="p-1">Admin1</p>
+            <div class="bg-white my-3">
+              <p class="p-1">{{ user.username }}</p>
             </div>
           </div>
-          <div class="col-2">
+          <div class="col-1">
             <!--EDIT USERNAME MODAL-->
             <button
               class="btn btn-outline-secondary me-2"
@@ -101,55 +102,50 @@
             >
               <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
-                  <div class="modal-header">
+                  <div class="modal-header d-block border-0 text-center">
                     <button
                       type="button"
                       class="btn-close"
                       data-bs-dismiss="modal"
                       aria-label="Close"
                     ></button>
+                    <h5 class="mt-4">Change your username</h5>
                   </div>
                   <div class="modal-body d-grid justify-content-center">
-                    <h5 class="text-center">Change your username</h5>
-                    <p class="mt-2 text-center">
-                      Enter a new username and your existing password
-                    </p>
-
-                    <!--INPUT USERNAME-->
-                    <div class="my-3">
-                      <div class="my-2">
-                        <label for="inputUsername" class="form-label fw-bold"
-                          >New username</label
-                        >
-                        <input
-                          type="text"
-                          id="inputUsername"
-                          class="form-control"
-                        />
+                    <p class="mt-2">Enter a new username and your existing password</p>
+                    <!--EDIT USERNAME FORM-->
+                    <form method="POST" class="needs-validation" novalidate>
+                      {{ edit_username_form.hidden_tag() }}
+                      <div class="my-4">
+                        <div class="my-2">
+                          {{ edit_username_form.new_username.label(class="form-label fw-bold") }}
+                          {{ edit_username_form.new_username(class="form-control") }}
+  
+                          {% for error in edit_username_form.new_username.errors %}
+                            <div class="invalid-feedback d-block text-start">{{ error }}</div>
+                          {% endfor %}
+                        </div>
+                        <div class="my-2">
+                          {{ edit_username_form.passwd.label(class="form-label fw-bold") }}
+                          {{ edit_username_form.passwd(class="form-control") }}
+  
+                          {% for error in edit_username_form.passwd.errors %}
+                            <div class="invalid-feedback d-block text-start">{{ error }}</div>
+                          {% endfor %}
+                        </div>
                       </div>
-                      <div class="my-2">
-                        <label for="inputPassword1" class="form-label fw-bold"
-                          >Current password</label
+                      <div class="d-flex justify-content-end">
+                        <button
+                          type="button"
+                          class="btn btn-secondary me-3"
+                          data-bs-dismiss="modal"
                         >
-                        <input
-                          type="password"
-                          id="inputPassword1"
-                          class="form-control"
-                          aria-describedby="passwordHelpBlock"
-                        />
+                          Close
+                        </button>
+                        <button type="submit" class="btn btn-success">Done</button>
                       </div>
-                    </div>
-                    <!--INPUT USERNAME-->
-                  </div>
-                  <div class="modal-footer">
-                    <button
-                      type="button"
-                      class="btn btn-secondary"
-                      data-bs-dismiss="modal"
-                    >
-                      Close
-                    </button>
-                    <button type="button" class="btn btn-success">Done</button>
+                    </form>
+                    <!--EDIT USERNAME FORM-->
                   </div>
                 </div>
               </div>
@@ -161,11 +157,11 @@
         <div class="row align-items-center mb-3">
           <div class="col">
             <h5 class="fw-bold">Phone number</h5>
-            <div class="profile-content my-3">
-              <p class="p-1">87891217</p>
+            <div class="bg-white my-3">
+              <p class="p-1">{{ user.phone_num }}</p>
             </div>
           </div>
-          <div class="col-2">
+          <div class="col-1">
             <!--EDIT PHONE NUM MODAL-->
             <button
               class="btn btn-outline-secondary me-2"
@@ -184,55 +180,53 @@
             >
               <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
-                  <div class="modal-header">
+                  <div class="modal-header d-block border-0 text-center">
                     <button
                       type="button"
                       class="btn-close"
                       data-bs-dismiss="modal"
                       aria-label="Close"
                     ></button>
+                    <h5 class="mt-4">Change your phone number</h5>
                   </div>
                   <div class="modal-body d-grid justify-content-center">
-                    <h5 class="text-center">Change your phone number</h5>
                     <p class="mt-2 text-center">
                       Enter a new phone number and your existing password
                     </p>
 
-                    <!--INPUT PHONE NUM-->
-                    <div class="my-3">
-                      <div class="my-2">
-                        <label for="inputPhone" class="form-label fw-bold"
-                          >New phone number</label
-                        >
-                        <input
-                          type="text"
-                          id="inputPhone"
-                          class="form-control"
-                        />
+                    <!--EDIT PHONE NUM FORM-->
+                    <form method="POST" class="needs-validation" novalidate>
+                      {{ edit_phone_num_form.hidden_tag() }}
+                      <div class="my-3">
+                        <div class="my-2">
+                          {{ edit_phone_num_form.new_phone_num.label(class="form-label fw-bold") }}
+                          {{ edit_phone_num_form.new_phone_num(class="form-control", maxlength="8", minlength="8") }}
+
+                          {% for error in edit_phone_num_form.new_phone_num.errors %}
+                            <div class="invalid-feedback d-block text-start">{{ error }}</div>
+                          {% endfor %}
+                        </div>
+                        <div class="my-2">
+                          {{ edit_phone_num_form.passwd.label(class="form-label fw-bold") }}
+                          {{ edit_phone_num_form.passwd(class="form-control") }}
+
+                          {% for error in edit_phone_num_form.passwd.errors %}
+                            <div class="invalid-feedback d-block text-start">{{ error }}</div>
+                          {% endfor %}
+                        </div>
                       </div>
-                      <div class="my-2">
-                        <label for="inputPassword2" class="form-label fw-bold"
-                          >Current password</label
+                      <div class="d-flex justify-content-end">
+                        <button
+                          type="button"
+                          class="btn btn-secondary me-3"
+                          data-bs-dismiss="modal"
                         >
-                        <input
-                          type="password"
-                          id="inputPassword2"
-                          class="form-control"
-                          aria-describedby="passwordHelpBlock"
-                        />
+                          Close
+                        </button>
+                        <button type="submit" class="btn btn-success">Done</button>
                       </div>
-                    </div>
-                    <!--INPUT PHONE NUM-->
-                  </div>
-                  <div class="modal-footer">
-                    <button
-                      type="button"
-                      class="btn btn-secondary"
-                      data-bs-dismiss="modal"
-                    >
-                      Close
-                    </button>
-                    <button type="button" class="btn btn-success">Done</button>
+                    </form>
+                    <!--EDIT PHONE NUM FORM-->
                   </div>
                 </div>
               </div>
@@ -244,11 +238,11 @@
         <div class="row align-items-center mb-3">
           <div class="col">
             <h5 class="fw-bold">Email</h5>
-            <div class="profile-content my-3">
-              <p class="p-1">Admin1@gmail.com</p>
+            <div class="bg-white my-3">
+              <p class="p-1">{{ user.email }}</p>
             </div>
           </div>
-          <div class="col-2">
+          <div class="col-1">
             <!--EDIT EMAIL MODAL-->
             <button
               class="btn btn-outline-secondary me-2"
@@ -267,66 +261,64 @@
             >
               <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
-                  <div class="modal-header">
+                  <div class="modal-header d-block border-0 text-center">
                     <button
                       type="button"
                       class="btn-close"
                       data-bs-dismiss="modal"
                       aria-label="Close"
                     ></button>
+                    <h5 class="mt-4">Change your email</h5>
                   </div>
                   <div class="modal-body d-grid justify-content-center">
-                    <h5 class="text-center">Change your email</h5>
                     <p class="mt-2 text-center">
                       Enter a new email and your existing password
                     </p>
 
-                    <!--INPUT USERNAME-->
-                    <div class="my-3">
-                      <div class="my-2">
-                        <label for="inputEmail" class="form-label fw-bold"
-                          >New email</label
-                        >
-                        <input
-                          type="text"
-                          id="inputEmail"
-                          class="form-control"
-                        />
+                    <!--EDIT EMAIL FORM-->
+                    <form method="POST" class="needs-validation" novalidate>
+                      {{ edit_email_form.hidden_tag() }}
+                      <div class="my-3">
+                        <div class="my-2">
+                          {{ edit_email_form.new_email.label(class="form-label fw-bold") }}
+                          {{ edit_email_form.new_email(class="form-control") }}
+
+                          {% for error in edit_email_form.new_email.errors %}
+                            <div class="invalid-feedback d-block text-start">{{ error }}</div>
+                          {% endfor %}
+                        </div>
+                        <div class="my-2">
+                          {{ edit_email_form.passwd.label(class="form-label fw-bold") }}
+                          {{ edit_email_form.passwd(class="form-control") }}
+
+                          {% for error in edit_email_form.passwd.errors %}
+                            <div class="invalid-feedback d-block text-start">{{ error }}</div>
+                          {% endfor %}
+                        </div>
                       </div>
-                      <div class="my-2">
-                        <label for="inputPassword3" class="form-label fw-bold"
-                          >Current password</label
+                      <div class="d-flex justify-content-end">
+                        <button
+                          type="button"
+                          class="btn btn-secondary me-3"
+                          data-bs-dismiss="modal"
                         >
-                        <input
-                          type="password"
-                          id="inputPassword3"
-                          class="form-control"
-                          aria-describedby="passwordHelpBlock"
-                        />
+                          Close
+                        </button>
+                        <button type="submit" class="btn btn-success">Done</button>
                       </div>
-                    </div>
-                    <!--INPUT EMAIL-->
-                  </div>
-                  <div class="modal-footer">
-                    <button
-                      type="button"
-                      class="btn btn-secondary"
-                      data-bs-dismiss="modal"
-                    >
-                      Close
-                    </button>
-                    <button type="button" class="btn btn-success">Done</button>
+                    </form>
+                    <!--EDIT EMAIL FORM-->
                   </div>
                 </div>
               </div>
             </div>
-            <!--EDIT USERNAME MODAL-->
+            <!--EDIT EMAIL MODAL-->
           </div>
         </div>
       </div>
       <!--PROFILE DETAILS-->
 
-      <div class="mt-5">
+      <div class="my-5">
         <!--RESET PASSWORD MODAL-->
         <button
           class="btn btn-outline-secondary me-2"
@@ -345,72 +337,61 @@
         >
           <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
-              <div class="modal-header">
+              <div class="modal-header d-block border-0 text-center">
                 <button
                   type="button"
                   class="btn-close"
                   data-bs-dismiss="modal"
                   aria-label="Close"
                 ></button>
+                <h5 class="mt-4">Reset your password</h5>
               </div>
               <div class="modal-body d-grid justify-content-center">
-                <h5 class="text-center">Reset your password</h5>
                 <p class="mt-2 text-center">
                   Enter your current password and a new password
                 </p>
 
-                <!--INPUT PASSWORD-->
-                <div class="my-3">
-                  <div class="my-2">
-                    <label for="inputPassword4" class="form-label fw-bold"
-                      >Current password</label
+                <!--RESET PASSWORD FORM-->
+                <form method="POST" class="needs-validation" novalidate>
+                  {{ reset_password_form.hidden_tag() }}
+                  <div class="my-3">
+                    <div class="my-2">
+                      {{ reset_password_form.passwd.label(class="form-label") }}
+                      {{ reset_password_form.passwd(class="form-control") }}
+
+                      {% for error in reset_password_form.passwd.errors %}
+                        <div class="invalid-feedback d-block text-start">{{ error }}</div>
+                      {% endfor %}
+                    </div>
+                    <div class="my-2">
+                      {{ reset_password_form.new_passwd.label(class="form-label") }}
+                      {{ reset_password_form.new_passwd(class="form-control") }}
+
+                      {% for error in reset_password_form.new_passwd.errors %}
+                        <div class="invalid-feedback d-block text-start">{{ error }}</div>
+                      {% endfor %}
+                    </div>
+                    <div class="my-2">
+                      {{ reset_password_form.confirm_new_passwd.label(class="form-label") }}
+                      {{ reset_password_form.confirm_new_passwd(class="form-control") }}
+
+                      {% for error in reset_password_form.confirm_new_passwd.errors %}
+                        <div class="invalid-feedback d-block text-start">{{ error }}</div>
+                      {% endfor %}
+                    </div>
+                  </div>
+                  <div class="d-flex justify-content-end">
+                    <button
+                      type="button"
+                      class="btn btn-secondary me-3"
+                      data-bs-dismiss="modal"
                     >
-                    <input
-                      type="password"
-                      id="inputPassword4"
-                      class="form-control"
-                      aria-describedby="passwordHelpBlock"
-                    />
+                      Close
+                    </button>
+                    <button type="submit" class="btn btn-success">Done</button>
                   </div>
-                  <div class="my-2">
-                    <label for="inputPassword5" class="form-label fw-bold"
-                      >New password</label
-                    >
-                    <input
-                      type="password"
-                      id="inputPassword5"
-                      class="form-control"
-                      aria-describedby="passwordHelpBlock"
-                    />
-                  </div>
-                  <div class="my-2">
-                    <label for="inputPassword6" class="form-label fw-bold"
-                      >New password</label
-                    >
-                    <input
-                      type="password"
-                      id="inputPassword6"
-                      class="form-control"
-                      aria-describedby="passwordHelpBlock"
-                    />
-                  </div>
-                  <div id="passwordHelpBlock" class="form-text">
-                    Your password must be 8-20 characters long, contain letters
-                    and numbers, and must not contain spaces, special
-                    characters, or emoji.
-                  </div>
-                </div>
-                <!--INPUT PASSWORD-->
-              </div>
-              <div class="modal-footer">
-                <button
-                  type="button"
-                  class="btn btn-secondary"
-                  data-bs-dismiss="modal"
-                >
-                  Close
-                </button>
-                <button type="button" class="btn btn-success">Done</button>
+                </form>
+                <!--RESET PASSWORD FORM-->
               </div>
             </div>
           </div>
@@ -435,21 +416,23 @@
         >
           <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
-              <div class="modal-header">
+              <div class="modal-header d-block border-0 text-center">
                 <button
                   type="button"
                   class="btn-close"
                   data-bs-dismiss="modal"
                   aria-label="Close"
                 ></button>
+                <h5 class="mt-4">Are you sure you want to delete your account?</h5>
               </div>
               <div class="modal-body d-grid justify-content-center">
-                <h5>Are you sure you want to delete your account?</h5>
-
-                <div class="d-flex justify-content-center my-3">
-                  <button id="cancel-btn" class="btn me-3">Cancel</button>
-                  <button id="delete-btn" class="btn">Delete</button>
-                </div>
+                <form method="POST" action="{{ url_for('profile.delete_profile') }}">
+                  {{ delete_account_form.hidden_tag() }}
+                  <div class="d-flex justify-content-center my-3">
+                    <button class="btn btn-cancel me-3" data-bs-dismiss="modal" type="button">Cancel</button>
+                    <button class="btn btn-delete" type="submit">Delete</button>
+                  </div>
+                </form>
               </div>
             </div>
           </div>
@@ -457,6 +440,7 @@
         <!--DELETE ACCOUNT MODAL-->
       </div>
     </div>
-    <!--ADMIN PROFILE-->
+    <!--PROFILE-->
+    {% endblock content %}
   </body>
 </html>

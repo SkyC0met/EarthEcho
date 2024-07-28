@@ -9,7 +9,7 @@
     <!--MY CSS-->
       <link
       rel="stylesheet"
-      href="{{ url_for('static', filename='css/sky_cust.css') }}"
+      href="{{ url_for('static', filename='css/sky_user.css') }}"
       />
     <!--MY CSS-->
 
@@ -43,7 +43,7 @@
   <body>
     <nav class="navbar navbar-expand-lg bg-violet">
       <div class="container-fluid">
-        <a class="navbar-brand ms-0 ms-sm-3 me-5" href="{{ url_for('init.homepage') }}"
+        <a class="navbar-brand ms-0 ms-sm-3 me-5" href="{{ url_for('homepage.home') }}"
           >EarthEcho</a
         >
         <button
@@ -75,7 +75,7 @@
                 class="dropdown-menu position-absolute start-50 translate-middle-x mt-1"
               >
                 <li>
-                  <a class="dropdown-item" href="{{ url_for('init.profile') }}"
+                  <a class="dropdown-item" href="{{ url_for('profile.my_profile') }}"
                     >Profile</a
                   >
                 </li>
@@ -90,7 +90,7 @@
                   >
                 </li>
                 <li>
-                  <a class="dropdown-item" href="{{ url_for('init.favourites') }}"
+                  <a class="dropdown-item" href="{{ url_for('fav.favourites') }}"
                     >Favourites</a
                   >
                 </li>
@@ -112,7 +112,7 @@
                   >
                 </li>
                 <li>
-                  <a class="dropdown-item" href="{{ url_for('init.vouchers') }}"
+                  <a class="dropdown-item" href="{{ url_for('reward.vouchers') }}"
                     >Vouchers</a
                   >
                 </li>
@@ -147,7 +147,7 @@
                 </div>
                 <ul class="dropdown-menu">
                   <li>
-                    <a class="dropdown-item" href="{{ url_for('init.profile') }}"
+                    <a class="dropdown-item" href="{{ url_for('profile.my_profile') }}"
                       >Profile</a
                     >
                   </li>
@@ -162,7 +162,7 @@
                     >
                   </li>
                   <li>
-                    <a class="dropdown-item" href="{{ url_for('init.favourites') }}"
+                    <a class="dropdown-item" href="{{ url_for('fav.favourites') }}"
                       >Favourites</a
                     >
                   </li>
@@ -188,7 +188,7 @@
                     >
                   </li>
                   <li>
-                    <a class="dropdown-item" href="{{ url_for('init.vouchers') }}"
+                    <a class="dropdown-item" href="{{ url_for('reward.vouchers') }}"
                       >Vouchers</a
                     >
                   </li>

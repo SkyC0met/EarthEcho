@@ -6,9 +6,16 @@ from blueprints.chatbot.nltk_utils import bag_of_words, tokenize
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
-with open('blueprints/chatbot/intents.json', 'r') as f:
+# if made changes to intents.json, comment out the below lines
+# with open('intents.json', 'r') as f:
+#     intents = json.load(f)
+
+intents_file = 'blueprints/chatbot/intents.json'
+
+with open(intents_file, 'r') as f:
     intents = json.load(f)
 
+# if made changes to intents.json, change the below lines
 # retrieve file and load the data
 FILE = "blueprints/chatbot/data.pth"
 data = torch.load(FILE)

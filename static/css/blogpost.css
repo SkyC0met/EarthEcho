@@ -11,7 +11,8 @@ h1 {
 
 .item.product-review h3 {
     font-size: 1.5em;
-    padding-bottom: 10px;
+    margin-top: 10px;
+    padding-bottom: 5px;
 }
 
 p {
@@ -21,12 +22,12 @@ p {
 
 /* Product Review Section */
 .product-review {
-    margin-top: 30px;
+    margin-top: 5px;
 }
 
 .product-review h3 {
     font-size: 2em;
-    margin-bottom: 10px;
+    margin-bottom: 5px;
 }
 
 .review {
@@ -66,7 +67,7 @@ p {
 
 /* Form Styles */
 .form-group {
-    margin-top: 20px;
+    margin-top: 10px;
 }
 
 .form-group label {

@@ -4,26 +4,28 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>User posts & comments</title>
   </head>
   <body>
-    {% include "navbar/sidebar.html" %}
+    {% extends 'navbar/admin_sidebar.html' %}
+    
+    {% block content %}
 
     <!--USER PROFILE-->
-    <div id="user-profile" class="admin-content-wrapper">
+    <div class="container user-profile">
       <!--BUTTON-->
-      <a href="{{ url_for('init.user_management') }}">
-        <button class="btn my-3">
-          <i class="fa-solid fa-arrow-left-long me-2"></i>Back to user
-          management
-        </button></a
-      >
+      <a href="{{ url_for('admin.user_management') }}">
+        <button class="btn btn-wenge my-3">
+          <i class="fa-solid fa-arrow-left-long me-2"></i>
+          <p class="d-inline p-light">Back to user management</p>
+        </button>
+      </a>
       <!--BUTTON-->
 
       <!--PROFILE TOP-->
       <div class="d-flex align-items-center my-4 mb-md-0">
         <img class="me-4" src="../../static/images/beach.png" alt="" />
-        <h1>Jen</h1>
+        <h1 class="fw-bold">Jen</h1>
       </div>
       <!--PROFILE TOP-->
 
@@ -35,7 +37,7 @@
       >
         <li class="nav-item" role="presentation">
           <p
-            class="active"
+            class="active fw-bold"
             id="pills-home-tab"
             data-bs-toggle="pill"
             data-bs-target="#pills-home"
@@ -49,6 +51,7 @@
         </li>
         <li class="nav-item mx-4" role="presentation">
           <p
+            class="fw-bold"
             id="pills-profile-tab"
             data-bs-toggle="pill"
             data-bs-target="#pills-profile"
@@ -74,9 +77,9 @@
         >
           <div class="container-md p-0 user-profile-posts">
             <hr class="m-0" />
-            <a href="{{ url_for('init.blog') }}" target="_blank" class="post-item">
+            <a href="{{ url_for('review.blog') }}" target="_blank" class="post-item">
               <h5 class="fw-bold">Title</h5>
-              <p class="my-2">
+              <p class="my-2 short-text">
                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempore
                 dolorem tenetur voluptate earum voluptatibus corrupti nisi
                 eligendi suscipit consequuntur, ullam distinctio dolore
@@ -96,9 +99,9 @@
             </a>
 
             <hr class="m-0" />
-            <a href="{{ url_for('init.blog') }}" target="_blank" class="post-item">
+            <a href="{{ url_for('review.blog') }}" target="_blank" class="post-item">
               <h5 class="fw-bold">Title</h5>
-              <p class="my-2">
+              <p class="my-2 short-text">
                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempore
                 dolorem tenetur voluptate earum voluptatibus corrupti nisi
                 eligendi suscipit consequuntur, ullam distinctio dolore
@@ -130,9 +133,9 @@
         >
           <div class="container p-0 user-profile-posts">
             <hr class="m-0" />
-            <a href="{{ url_for('init.blog') }}" target="_blank" class="post-item">
+            <a href="{{ url_for('review.blog') }}" target="_blank" class="post-item">
               <h5 class="fw-bold">Commented on Blog Title</h5>
-              <p class="my-2">
+              <p class="my-2 short-text">
                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Optio
                 nobis facilis deleniti odio. Odit asperiores nihil, provident
                 modi quia esse, explicabo eum ducimus sunt blanditiis animi.
@@ -141,9 +144,9 @@
             </a>
 
             <hr class="m-0" />
-            <a href="{{ url_for('init.blog') }}" target="_blank" class="post-item">
+            <a href="{{ url_for('review.blog') }}" target="_blank" class="post-item">
               <h5 class="fw-bold">Commented on Blog Title</h5>
-              <p class="my-2">
+              <p class="my-2 short-text">
                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Optio
                 nobis facilis deleniti odio. Odit asperiores nihil, provident
                 modi quia esse, explicabo eum ducimus sunt blanditiis animi.
@@ -152,9 +155,9 @@
             </a>
 
             <hr class="m-0" />
-            <a href="{{ url_for('init.blog') }}" target="_blank" class="post-item">
+            <a href="{{ url_for('review.blog') }}" target="_blank" class="post-item">
               <h5 class="fw-bold">Commented on Blog Title</h5>
-              <p class="my-2">
+              <p class="my-2 short-text">
                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Optio
                 nobis facilis deleniti odio. Odit asperiores nihil, provident
                 modi quia esse, explicabo eum ducimus sunt blanditiis animi.
@@ -167,5 +170,7 @@
       </div>
     </div>
     <!--USER PROFILE-->
+
+    {% endblock content %}
   </body>
 </html>

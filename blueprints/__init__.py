@@ -1,5 +1,5 @@
+import html
 import os
-import mysql.connector
 
 from flask import Blueprint, request, jsonify, render_template, flash, url_for, redirect, abort
 from werkzeug.utils import secure_filename
@@ -12,9 +12,9 @@ from wtforms.validators import DataRequired, Length
 from flask_wtf.file import FileAllowed
 
 from blueprints.chatbot.chat import get_response
+from db import get_db_connection
 
 init_bp = Blueprint('init', __name__)
-
 
 def Posts():
     posts = [
@@ -54,8 +54,8 @@ Posts = Posts()
 
 class PostForm(FlaskForm):
     author = "John Doe"
-    title = StringField('Title', validators=[DataRequired() , Length(min=1, max=100)])
-    text = TextAreaField('Text', validators=[DataRequired()])
+    header = StringField('Header', validators=[DataRequired() , Length(min=1, max=120)])
+    body = TextAreaField('Body', validators=[DataRequired(), Length(min=1)])
     topic = SelectField('Topic', choices=[('Sustainability', "Sustainability"), ('Electricity', "Electricity"),('Pollution','Pollution'), ('recycling', 'recycling')])
     image = FileField('Image', validators=[DataRequired(),FileAllowed(['jpg', 'png'])])
     submit = SubmitField('Post!')
@@ -64,50 +64,48 @@ class PostForm(FlaskForm):
 @init_bp.post("/predict")
 def predict():
     text = request.get_json().get("message")
-    response = get_response(text)
+    sanitized_text = html.escape(text)
+    response = get_response(sanitized_text)
     message = {"answer": response}
     return jsonify(message)
 
-
-@init_bp.route('/')
-def homepage():
-    return render_template('customer/homepage.html')
-
-# SKY CUST ROUTES
-@init_bp.route('/profile')
-def profile():
-    return render_template('customer/profile.html')
-
-@init_bp.route('/favourites')
-def favourites():
-    return render_template('customer/favourites.html')
-
-@init_bp.route('/vouchers')
-def vouchers():
-    return render_template('customer/vouchers.html')
-# SKY CUST ROUTES
-
-#SKY ADMIN ROUTES
-@init_bp.route('/admin-profile')
-def admin_profile():
-    return render_template('admin/admin_profile.html')
-
-@init_bp.route('/user-management')
-def user_management():
-    return render_template('admin/user_management.html')
-
-@init_bp.route('/user-profile')
-def user_profile():
-    return render_template('admin/user_profile.html')
-
-@init_bp.route('/points')
-def points():
-    return render_template('customer/points_shop.html')
-#SKY ADMIN ROUTES
-
+# @init_bp.route('/Blog')
+# def blog():
+#     return render_template('user/blogpost.html')
 @init_bp.route('/Blog')
 def blog():
-    return render_template('customer/blogpost.html')
+    post_id = 1  # static
+    connection = None
+    cursor = None
+    reviews = []
+    try:
+        connection = get_db_connection()
+        if not connection:
+            print("Database connection failed.")
+            return render_template('user/blogpost.html', reviews=reviews)
+
+        cursor = connection.cursor()
+        query = """
+            SELECT r.review, r.rating, r.timestamp, u.username
+            FROM review r
+            JOIN users u ON r.user_id = u.user_id
+            WHERE r.post_id = %s
+            ORDER BY r.timestamp DESC
+        """
+        cursor.execute(query, (post_id,))
+        reviews = cursor.fetchall()
+
+    except Exception as e:
+        print(f"Unexpected Error: {e}")
+
+    finally:
+        if cursor:
+            cursor.close()
+        if connection:
+            connection.close()
+
+    return render_template('user/blogpost.html', reviews=reviews)
+
 
 @init_bp.route('/createpost', methods=['GET', 'POST'])
 def CreatePosts():
@@ -133,15 +131,15 @@ def CreatePosts():
         Posts.append(new_post)
         flash("Post created!", "success")
         return redirect(url_for('init.MyPosts'))
-    return render_template("customer/createpost.html", form=form)
+    return render_template("user/createpost.html", form=form)
 
 @init_bp.route('/myposts')
 def MyPosts():
-    return render_template('customer/myposts.html', Posts = Posts)
+    return render_template('user/myposts.html', Posts = Posts)
 
 @init_bp.route('/myposts/<int:id>/')
 def ViewPost(id):
     post = next((post for post in Posts if post['id'] == id), None)
     if post is None:
         abort(404)  # Return a 404 error if the post is not found
-    return render_template('customer/viewpost.html', post=post)
+    return render_template('user/viewpost.html', post=post)

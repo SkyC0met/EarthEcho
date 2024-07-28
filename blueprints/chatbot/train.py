@@ -8,7 +8,13 @@ from torch.utils.data import Dataset, DataLoader
 
 from blueprints.chatbot.model import NeuralNet
 
-with open('blueprints/chatbot/intents.json', 'r') as f:
+# if made changes to intents.json, comment out the below lines
+# with open('intents.json', 'r') as f:
+#     intents = json.load(f)
+
+intents_file = 'blueprints/chatbot/intents.json'
+
+with open(intents_file, 'r') as f:
     intents = json.load(f)
 
 # tokenize + stem
@@ -120,6 +126,7 @@ data = {
     "tags": tags
 }
 
+# if made changes to intents.json, change the below lines
 FILE = "blueprints/chatbot/data.pth"
 torch.save(data, FILE)
 

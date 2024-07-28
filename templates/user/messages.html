@@ -1,0 +1,103 @@
+<!--SKY HTML-->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Messages</title>
+  </head>
+
+  <body>
+    {% include "navbar/user_navbar.html" %}
+    {% include "user/customerBase.html" %}
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <ul class="flashes px-0">
+          {% for category, message in messages %}
+            <li class="alert alert-{{ category }} text-center">{{ message }}</li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
+
+    <!--MESSAGE-->
+    <div class="container-md mt-sm-5 mt-4">
+      <!--MESSAGE TOP-->
+      <div class="container px-0">
+        <h2 class="fw-bold mb-5">Messages</h2>
+
+        <div
+          class="d-md-flex d-block align-items-center justify-content-between dm-users-searchbar"
+        >
+          <!--DM SEARCHBAR-->
+          <div class="search-container">
+            <input
+              class="form-control"
+              type="search"
+              placeholder="Search messages"
+              aria-label="Search"
+            />
+            <i class="fa-solid fa-magnifying-glass icon-dark"></i>
+          </div>
+          <!--DM SEARCHBAR-->
+
+          <!--DM DROPDOWN-->
+          <div class="dropdown-center">
+            <button
+              class="btn btn-rose dropdown-toggle"
+              type="button"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              Inbox
+            </button>
+            <ul class="dropdown-menu bg-rose dm-user-dropdown">
+              <li><a class="dropdown-item p-light" href="#">Inbox</a></li>
+              <li><a class="dropdown-item p-light" href="#">Sent</a></li>
+              <li><a class="dropdown-item p-light" href="#">Unread</a></li>
+              <li><a class="dropdown-item p-light" href="#">Archive</a></li>
+              <li><a class="dropdown-item p-light" href="#">Spam</a></li>
+              <li><a class="dropdown-item p-light" href="#">All</a></li>
+            </ul>
+          </div>
+          <!--DM DROPDOWN-->
+        </div>
+      </div>
+      <!--MESSAGE TOP-->
+
+      <div class="container my-4 dm-users-container bg-light">
+        {% for user in users %}
+          <hr class="hr-nomargin" />
+          <!--MESSAGE-->
+          <a href="{{ url_for('messaging.chat', receiver_id=user['user_id']) }}">
+            <div class="row align-items-center px-md-5 px-2 dm-user">
+              <div class="col-auto">
+                <i class="fa-solid fa-user fa-2xl icon-dark"></i>
+              </div>
+              <div class="col-md-auto col">
+                <div>
+                  <p>{{ user['username'] }}</p>
+                  <p>{{ user['timestamp'] }}</p>
+                </div>
+              </div>
+              <div class="col-md col-auto">
+                <p class="short-text">
+                  {{ user['last_message'] }}
+                </p>
+              </div>
+              <div class="col-auto">
+                <button class="btn btn-secondary">Archive</button>
+              </div>
+            </div>
+          </a>
+          <!--MESSAGE-->
+        {% endfor %}
+      </div>
+      <form action="{{ url_for('messaging.clear_messages') }}" method="post">
+        <button type="submit">Clear All Messages</button>
+      </form>
+    </div>
+    <!--MESSAGE-->
+  </body>
+</html>

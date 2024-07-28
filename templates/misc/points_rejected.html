@@ -1,0 +1,361 @@
+<!--SKY HTML-->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Points shop</title>
+
+    <!--OWL CAROUSEL CSS-->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css"
+    />
+    <!--OWL CAROUSEL CSS-->
+
+    <!--JQUERY-->
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
+      defer
+      integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
+      crossorigin="anonymous"
+    ></script>
+    <!--JQUERY-->
+
+    <!--OWL CAROUSEL JS-->
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"
+      defer
+      integrity="sha512-bPs7Ae6pVvhOSiIcyUClR7/q2OAsRiovw4vAkX+zJbw3ShAeeqezq50RIIcIURq7Oa20rW2n2q+fyXBNcU9lrw=="
+      crossorigin="anonymous"
+    ></script>
+    <!--OWL CAROUSEL JS-->
+
+    <!--MY JS-->
+    <script
+      src="{{ url_for('static', filename='js/points_shop.js') }}"
+      defer
+    ></script>
+    <!--MY JS-->
+  </head>
+  <body>
+    {% include "navbar/user_navbar.html" %}
+    {% include "user/customerBase.html" %}
+    <!--POINTS SHOP TITLE-->
+    <div
+      class="d-flex align-items-center justify-content-between px-2 bg-peri points-title"
+    >
+      <h4 class="fw-bold ms-md-5">POINTS SHOP</h4>
+      <div class="d-flex align-items-center me-md-5 pe-md-5">
+        <i class="fa-solid fa-clover fa-2xl mx-3"></i>
+        <div>
+          <p>YOUR BALANCE</p>
+          <p>{{ points_balance }}</p>
+        </div>
+      </div>
+    </div>
+    <!--POINTS SHOP TITLE-->
+
+    <div class="pb-5">
+
+      <form method="POST" action="{{ url_for('reward.points_shop') }}">
+        {{ add_points_form.hidden_tag() }}
+        {{ add_points_form.submit() }}
+    </form>
+    
+      <!--POINTS SHOP FOOD SECTION-->
+      <div class="container-md mt-sm-5 mt-4">
+        <!--DONATE TOP-->
+        <div class="container-top mb-4">
+          <div class="row align-items-center">
+            <div class="col-auto">
+              <h2 class="fw-bold">Scrumptious offers!</h2>
+            </div>
+            <div class="col"><hr /></div>
+            <div class="col-auto d-flex py-3 px-0">
+              <div class="p-0 ms-3 left-btn-food">
+                <i class="fa-solid fa-caret-left fa-2xl"></i>
+              </div>
+              <div class="p-0 me-3 right-btn-food">
+                <i class="fa-solid fa-caret-right fa-2xl"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!--DONATE TOP-->
+        <!--DONATE CARDS-->
+        <div class="owl-carousel owl-theme food-carousel">
+          {% for reward in food_rewards %}
+          <div class="item">
+            <div
+              class="card"
+              data-bs-toggle="modal"
+              data-bs-target="#RewardModal{{ reward.reward_id }}"
+            >
+              <img
+                src="{{ url_for('static', filename=reward.image_path) }}"
+                class="card-img-top"
+                alt="..."
+              />
+              <div class="card-body d-grid flex-column p-2">
+                <h5 class="card-title mt-2 mb-0">{{ reward.reward_name }}</h5>
+                <p class="short-text">{{ reward.reward }}</p>
+                <div class="d-flex align-items-center justify-content-end align-self-end">
+                  <i class="fa-solid fa-clover fa-xl mx-1 icon-rose"></i>
+                  <p class="text-end fw-bold p-rose">{{ reward.points_required }}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+        <!--DONATE CARDS-->
+
+        <!--DONATE MODALS-->
+        <div class="points-modals">
+          {% for reward in food_rewards %}
+          <!--MODAL1-->
+          <div
+            class="modal fade"
+            id="RewardModal{{ reward.reward_id }}"
+            tabindex="-1"
+            aria-labelledby="exampleModalLabel"
+            aria-hidden="true"
+          >
+            <div class="modal-dialog modal-dialog-centered">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <img
+                    src="{{ url_for('static', filename=reward.image_path) }}"
+                    class="card-img-top"
+                    alt="..."
+                  />
+                  <button
+                    type="button"
+                    class="btn-close bg-white"
+                    data-bs-dismiss="modal"
+                    aria-label="Close"
+                  ></button>
+                </div>
+                <div class="modal-body">
+                  <h5 class="fw-bold mb-3">{{ reward.reward_name }}</h5>
+                  <h5>{{ reward.reward }}</h5>
+                  <p class="mt-2 mb-4">
+                    {{ reward.reward_desc }}
+                  </p>
+                  <div class="d-flex align-items-center">
+                    <i class="fa-solid fa-clover fa-2xl mx-1 icon-rose"></i>
+                    <h4 class="fw-bold p-rose">{{ reward.points_required }}</h4>
+                  </div>
+                </div>
+                <div class="modal-footer d-grid justify-content-center">
+                  <button
+                    class="btn btn-rose"
+                    data-bs-target="#RedeemModal{{ reward.reward_id }}"
+                    data-bs-toggle="modal"
+                  >
+                    Redeem Now
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!--MODAL1-->
+          <!--MODAL2-->
+          <div
+            class="modal fade"
+            id="RedeemModal{{ reward.reward_id }}"
+            aria-hidden="true"
+            aria-labelledby="exampleModalToggleLabel3"
+            tabindex="-1"
+          >
+            <div class="modal-dialog modal-dialog-centered">
+              <div class="modal-content">
+                <div class="modal-header text-center py-3">
+                  <svg
+                    class="checkmark"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 52 52"
+                  >
+                    <circle
+                      class="checkmark__circle"
+                      cx="26"
+                      cy="26"
+                      r="25"
+                      fill="none"
+                    />
+                    <path
+                      class="checkmark__check"
+                      fill="none"
+                      d="M14.1 27.2l7.1 7.2 16.7-16.8"
+                    />
+                  </svg>
+                  <button
+                    type="button"
+                    class="btn-close"
+                    data-bs-dismiss="modal"
+                    aria-label="Close"
+                  ></button>
+                </div>
+                <div class="modal-body text-center">
+                  <h1>Reward Redeemed</h1>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!--MODAL2-->
+          {% endfor %}
+        </div>
+        <!--DONATE MODALS-->
+      </div>
+      <!--POINTS SHOP FOOD SECTION-->
+
+      <!--POINTS SHOP FASHION SECTION-->
+      <div class="container-md mt-sm-5 mt-4">
+        <!--DONATE TOP-->
+        <div class="container-top mb-4">
+          <div class="row align-items-center">
+            <div class="col-auto">
+              <h2 class="fw-bold">Fashion deals!</h2>
+            </div>
+            <div class="col"><hr /></div>
+            <div class="col-auto d-flex py-3 px-0">
+              <div class="p-0 ms-3 left-btn-fashion">
+                <i class="fa-solid fa-caret-left fa-2xl"></i>
+              </div>
+              <div class="p-0 me-3 right-btn-fashion">
+                <i class="fa-solid fa-caret-right fa-2xl"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!--DONATE TOP-->
+        <!--DONATE CARDS-->
+        <div class="owl-carousel owl-theme fashion-carousel">
+          {% for reward in fashion_rewards %}
+          <div class="item">
+            <div
+              class="card"
+              data-bs-toggle="modal"
+              data-bs-target="#RewardModal{{ reward.reward_id }}"
+            >
+              <img
+                src="{{ url_for('static', filename=reward.image_path) }}"
+                class="card-img-top"
+                alt="..."
+              />
+              <div class="card-body d-grid flex-column p-2">
+                <h5 class="card-title mt-2 mb-0">{{ reward.reward_name }}</h5>
+                <p class="short-text">{{ reward.reward }}</p>
+                <div class="d-flex align-items-center justify-content-end align-self-end">
+                  <i class="fa-solid fa-clover fa-xl mx-1 icon-rose"></i>
+                  <p class="text-end fw-bold p-rose">{{ reward.points_required }}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+        <!--DONATE CARDS-->
+
+        <!--DONATE MODALS-->
+        <div class="points-modals">
+          {% for reward in fashion_rewards %}
+          <!--MODAL1-->
+          <div
+            class="modal fade"
+            id="RewardModal{{ reward.reward_id }}"
+            tabindex="-1"
+            aria-labelledby="exampleModalLabel"
+            aria-hidden="true"
+          >
+            <div class="modal-dialog modal-dialog-centered">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <img
+                    src="{{ url_for('static', filename=reward.image_path) }}"
+                    class="card-img-top"
+                    alt="..."
+                  />
+                  <button
+                    type="button"
+                    class="btn-close bg-white"
+                    data-bs-dismiss="modal"
+                    aria-label="Close"
+                  ></button>
+                </div>
+                <div class="modal-body">
+                  <h5 class="fw-bold mb-3">{{ reward.reward_name }}</h5>
+                  <h5>{{ reward.reward }}</h5>
+                  <p class="mt-2 mb-4">
+                    {{ reward.reward_desc }}
+                  </p>
+                  <div class="d-flex align-items-center">
+                    <i class="fa-solid fa-clover fa-2xl mx-1 icon-rose"></i>
+                    <h4 class="fw-bold p-rose">{{ reward.points_required }}</h4>
+                  </div>
+                </div>
+                <div class="modal-footer d-grid justify-content-center">
+                  <button
+                    class="btn btn-rose"
+                    data-bs-target="#RedeemModal{{ reward.reward_id }}"
+                    data-bs-toggle="modal"
+                  >
+                    Redeem Now
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!--MODAL1-->
+          <!--MODAL2-->
+          <div
+            class="modal fade"
+            id="RedeemModal{{ reward.reward_id }}"
+            aria-hidden="true"
+            aria-labelledby="exampleModalToggleLabel3"
+            tabindex="-1"
+          >
+            <div class="modal-dialog modal-dialog-centered">
+              <div class="modal-content">
+                <div class="modal-header text-center py-3">
+                  <svg
+                    class="checkmark"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 52 52"
+                  >
+                    <circle
+                      class="checkmark__circle"
+                      cx="26"
+                      cy="26"
+                      r="25"
+                      fill="none"
+                    />
+                    <path
+                      class="checkmark__check"
+                      fill="none"
+                      d="M14.1 27.2l7.1 7.2 16.7-16.8"
+                    />
+                  </svg>
+                  <button
+                    type="button"
+                    class="btn-close"
+                    data-bs-dismiss="modal"
+                    aria-label="Close"
+                  ></button>
+                </div>
+                <div class="modal-body text-center">
+                  <h1>Reward Redeemed</h1>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!--MODAL2-->
+          {% endfor %}
+        </div>
+        <!--DONATE MODALS-->
+      </div>
+      <!--POINTS SHOP FASHION SECTION-->
+    </div>
+  </body>
+</html>

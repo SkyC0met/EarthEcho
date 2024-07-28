@@ -83,7 +83,7 @@ html {
   display: flex;
   overflow-y: auto;
   flex-direction: column-reverse;
-  height: 220px;
+  height: 275px;
 }
 
 .messages__item {
@@ -149,6 +149,7 @@ html {
 
 .messages__item {
   margin-top: 10px;
+  margin-bottom: 10px;
   background: #e0e0e0;
   padding: 8px 12px;
   max-width: 70%;
