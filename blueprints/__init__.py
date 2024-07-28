@@ -1,20 +1,14 @@
 import os
-import mysql.connector
-
 from flask import Blueprint, request, jsonify, render_template, flash, url_for, redirect, abort
 from werkzeug.utils import secure_filename
-from wtforms.fields import datetime
 from datetime import datetime
-
 from flask_wtf import FlaskForm
-from wtforms import StringField, TextAreaField, SubmitField, FileField, SelectField
+from wtforms import StringField, TextAreaField, SubmitField, SelectField
 from wtforms.validators import DataRequired, Length
-from flask_wtf.file import FileAllowed
-
+from flask_wtf.file import FileField, FileAllowed
 from blueprints.chatbot.chat import get_response
 
 init_bp = Blueprint('init', __name__)
-
 
 def Posts():
     posts = [
@@ -35,7 +29,6 @@ def Posts():
             'date_created': '25-01-2024',
             'topic': 'Pollution',
             'image': 'static/images/electricity.jpg'
-
         },
         {
             'id': 3,
@@ -45,7 +38,6 @@ def Posts():
             'date_created': '26-01-2024',
             'topic': 'Electricity',
             'image': 'static/images/electricity.jpg'
-
         }
     ]
     return posts
@@ -54,10 +46,10 @@ Posts = Posts()
 
 class PostForm(FlaskForm):
     author = "John Doe"
-    title = StringField('Title', validators=[DataRequired() , Length(min=1, max=100)])
+    title = StringField('Title', validators=[DataRequired(), Length(min=1, max=100)])
     text = TextAreaField('Text', validators=[DataRequired()])
-    topic = SelectField('Topic', choices=[('Sustainability', "Sustainability"), ('Electricity', "Electricity"),('Pollution','Pollution'), ('recycling', 'recycling')])
-    image = FileField('Image', validators=[DataRequired(),FileAllowed(['jpg', 'png'])])
+    topic = SelectField('Topic', choices=[('Sustainability', "Sustainability"), ('Electricity', "Electricity"), ('Pollution', 'Pollution'), ('recycling', 'recycling')])
+    image = FileField('Image', validators=[DataRequired(), FileAllowed(['jpg', 'png'])])
     submit = SubmitField('Post!')
 
 # chatbot
@@ -67,7 +59,6 @@ def predict():
     response = get_response(text)
     message = {"answer": response}
     return jsonify(message)
-
 
 @init_bp.route('/')
 def homepage():
@@ -85,9 +76,8 @@ def favourites():
 @init_bp.route('/vouchers')
 def vouchers():
     return render_template('customer/vouchers.html')
-# SKY CUST ROUTES
 
-#SKY ADMIN ROUTES
+# SKY ADMIN ROUTES
 @init_bp.route('/admin-profile')
 def admin_profile():
     return render_template('admin/admin_profile.html')
@@ -103,8 +93,8 @@ def user_profile():
 @init_bp.route('/points')
 def points():
     return render_template('customer/points_shop.html')
-#SKY ADMIN ROUTES
 
+# Blog
 @init_bp.route('/Blog')
 def blog():
     return render_template('customer/blogpost.html')
@@ -137,7 +127,7 @@ def CreatePosts():
 
 @init_bp.route('/myposts')
 def MyPosts():
-    return render_template('customer/myposts.html', Posts = Posts)
+    return render_template('customer/myposts.html', Posts=Posts)
 
 @init_bp.route('/myposts/<int:id>/')
 def ViewPost(id):

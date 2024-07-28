@@ -88,7 +88,7 @@
                 >
               </li>
               <li><a class="dropdown-item" href="#">User Inquiry</a></li>
-              <li><a class="dropdown-item" href="#">Unban request</a></li>
+              <li><a class="dropdown-item" href="{{ url_for('adminunban.admin_unban_requests') }}">Unban request</a></li>
               <li>
                 <a class="dropdown-item" href="{{ url_for('auth.cust_login') }}"
                   >Logout</a
@@ -129,7 +129,7 @@
                   >
                 </li>
                 <li><a class="dropdown-item" href="#">User Inquiry</a></li>
-                <li><a class="dropdown-item" href="#">Unban request</a></li>
+                <li><a class="dropdown-item" href="admin-unban-requests">Unban request</a></li>
                 <li><a class="dropdown-item" href="#">Logout</a></li>
               </ul>
             </li>

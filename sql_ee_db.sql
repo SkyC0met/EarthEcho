@@ -42,3 +42,14 @@ CREATE TABLE IF NOT EXISTS review (
     FOREIGN KEY (user_id) REFERENCES users(user_id),
 	timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
+CREATE TABLE IF NOT EXISTS unban_requests (
+    request_id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    username VARCHAR(50),
+    reason TEXT NOT NULL,
+    status VARCHAR(20) DEFAULT 'Pending',
+    FOREIGN KEY (user_id) REFERENCES users(user_id),
+    FOREIGN KEY (username) REFERENCES users(username)
+    timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
