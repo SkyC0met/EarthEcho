@@ -11,17 +11,17 @@ def create_app(config_class=Config):
     from blueprints.messaging import messaging_bp
     from blueprints.misc import misc_bp
     from blueprints.review import review_bp
-    from blueprints.unban import unban_bp
+
 
     app.register_blueprint(auth_bp)
     app.register_blueprint(init_bp)
     app.register_blueprint(messaging_bp)
     app.register_blueprint(misc_bp)
     app.register_blueprint(review_bp)
-    app.register_blueprint(unban_bp)
 
     return app
 
 if __name__ == '__main__':
     app = create_app()
     app.run(debug=True, host='127.0.0.1', port=80)
+    #app.run(debug=False) to activate 500 error
