@@ -5,7 +5,7 @@ from flask import jsonify
 from datetime import timedelta
 from blueprints.utils import login_manager
 
-#BLUEPRINTS
+# BLUEPRINTS
 from blueprints.auth import auth_bp
 from blueprints.__init__ import init_bp
 from blueprints.messaging import messaging_bp
@@ -16,6 +16,8 @@ from blueprints.profile import profile_bp
 from blueprints.admin import admin_bp
 from blueprints.reward import reward_bp
 from blueprints.favourites import fav_bp
+from blueprints.unban import unban_bp
+
 
 def create_app(config_class=Config):
     app = Flask(__name__)
@@ -44,6 +46,7 @@ def create_app(config_class=Config):
     app.register_blueprint(profile_bp)
     app.register_blueprint(reward_bp)
     app.register_blueprint(fav_bp)
+    app.register_blueprint(unban_bp)
 
     # for chatbot to run
     # csrf.exempt(init_bp)
@@ -51,16 +54,17 @@ def create_app(config_class=Config):
     @app.errorhandler(CSRFError)
     def handle_csrf_error(e):
         return jsonify({"error": "CSRF token missing or incorrect."}), 400
-    
+
     @app.route('/check-session')
     def check_session():
-    # Log the session data
+        # Log the session data
         print(session)
         return 'Check the console for session data'
 
     return app
 
+
 if __name__ == '__main__':
     app = create_app()
     app.run(debug=True, host='127.0.0.1', port=80)
-    #app.run(debug=False) to activate 500 error
+    # app.run(debug=False) to activate 500 error

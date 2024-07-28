@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Unban Request Form</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <style>
+    .form-container {
+      margin-top: 50px;
+    }
+  </style>
+</head>
+<body>
+  {% extends 'user/user_base.html' %}
+
+  {% block content %}
+  <div class="container form-container">
+    <h2>Unban Request Form</h2>
+    <form method="POST" action="{{ url_for('unban.unban_request') }}">
+      {{ form.hidden_tag() }}
+      <div class="form-group">
+        {{ form.first_name.label(class="control-label") }}
+        {{ form.first_name(class="form-control") }}
+      </div>
+      <div class="form-group">
+        {{ form.last_name.label(class="control-label") }}
+        {{ form.last_name(class="form-control") }}
+      </div>
+      <div class="form-group">
+        {{ form.email.label(class="control-label") }}
+        {{ form.email(class="form-control") }}
+      </div>
+      <div class="form-group">
+        {{ form.request.label(class="control-label") }}
+        {{ form.request(class="form-control") }}
+      </div>
+      <div class="form-group">
+        {{ form.submit(class="btn btn-primary", onclick="showConfirmation()") }}
+      </div>
+    </form>
+  </div>
+
+<script>
+  function showConfirmation() {
+    alert("Your unban request has been submitted successfully!");
+  }
+</script>
+{% endblock content %}
+</body>
+</html>
