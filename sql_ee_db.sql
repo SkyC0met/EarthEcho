@@ -1,4 +1,4 @@
-DROP DATABASE earthecho_db;
+DROP DATABASE IF EXISTS earthecho_db;
 
 CREATE DATABASE IF NOT EXISTS earthecho_db;
 
@@ -77,8 +77,6 @@ CREATE TABLE IF NOT EXISTS posts (
     timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- DROP TABLE IF EXISTS review;
-
 -- Create the review table without foreign keys
 CREATE TABLE IF NOT EXISTS review (
     review_id INT AUTO_INCREMENT PRIMARY KEY,
@@ -89,15 +87,26 @@ CREATE TABLE IF NOT EXISTS review (
     timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
+-- Create the unban_requests table
+CREATE TABLE IF NOT EXISTS unban_requests (
+    request_id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    first_name VARCHAR(50) NOT NULL,
+    last_name VARCHAR(50) NOT NULL,
+    email VARCHAR(100) NOT NULL,
+    request TEXT NOT NULL,
+    timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
+);
 
-INSERT INTO users (username, phone_num, email, passwd, acc_type) VALUES 
+INSERT INTO users (username, phone_num, email, passwd, acc_type) VALUES
 ('Tom', '12345678', 'tom@gmail.com', 'scrypt:32768:8:1$GB2hqTmVOBZBXfGO$dcdfa47ebd93848e85079cd0eec0d20b55c48ae9f54cafc21f2085ef5acea53d830148710c17b95fd7003acb524074357c9c5b9ede32e970bdb6abe7f1f04774', 'user'),
 ('Jane', '12345378', 'jane@gmail.com', 'scrypt:32768:8:1$GB2hqTmVOBZBXfGO$dcdfa47ebd93848e85079cd0eec0d20b55c48ae9f54cafc21f2085ef5acea53d830148710c17b95fd7003acb524074357c9c5b9ede32e970bdb6abe7f1f04774', 'user'),
 ('Harry', '12325678', 'harry@gmail.com', 'scrypt:32768:8:1$GB2hqTmVOBZBXfGO$dcdfa47ebd93848e85079cd0eec0d20b55c48ae9f54cafc21f2085ef5acea53d830148710c17b95fd7003acb524074357c9c5b9ede32e970bdb6abe7f1f04774', 'user'),
 ('Richard', '12345648', 'richard@gmail.com', 'scrypt:32768:8:1$GB2hqTmVOBZBXfGO$dcdfa47ebd93848e85079cd0eec0d20b55c48ae9f54cafc21f2085ef5acea53d830148710c17b95fd7003acb524074357c9c5b9ede32e970bdb6abe7f1f04774', 'user'),
 ('Admin', '19045678', 'admin@gmail.com', 'scrypt:32768:8:1$GB2hqTmVOBZBXfGO$dcdfa47ebd93848e85079cd0eec0d20b55c48ae9f54cafc21f2085ef5acea53d830148710c17b95fd7003acb524074357c9c5b9ede32e970bdb6abe7f1f04774', 'admin');
 
-INSERT INTO points_shop (reward_name, reward, reward_desc, points_required, valid_until, image_path, points_type) VALUES 
+INSERT INTO points_shop (reward_name, reward, reward_desc, points_required, valid_until, image_path, points_type) VALUES
 ('Bistro Bella', '15% OFF total bill', 'Bistro Bella is a cozy, rustic bistro serving classic French cuisine with a modern twist, perfect for intimate dinners and casual lunches.', 1500, '31 Dec 2024', 'images/food/food1.jpg', 'food'),
 ('The Culinary Delight', '10% OFF main course', 'A fusion restaurant offering a blend of Asian and European cuisines, known for its innovative dishes and elegant ambiance.', 1000, '31 Dec 2024', 'images/food/food2.jpg', 'food'),
 ('Veggie Haven', 'Free dessert with any entrée', 'A vegetarian and vegan restaurant offering a wide variety of flavorful and healthy dishes made from locally sourced ingredients.', 2000, '31 Dec 2024', 'images/food/food3.jpg', 'food'),
@@ -124,12 +133,12 @@ INSERT INTO user_redemption (user_id, reward_id) VALUES
 ('2', '7'),
 ('4', '8');
 
-INSERT INTO sky_posts_to_test_fav (user_id, header, body, topic, image_path) VALUES 
+INSERT INTO sky_posts_to_test_fav (user_id, header, body, topic, image_path) VALUES
 (1, 'Post 1', 'This is the body of the post.', 'Technology', 'images/fashion/fashion8.jpg'),
 (1, 'Post 2', 'This is the body of the post.', 'Technology', 'images/fashion/fashion7.jpg'),
 (1, 'Post 3', 'This is the body of the post.', 'Technology', 'images/fashion/fashion6.jpg');
 
-INSERT INTO user_favourites (user_id, post_id) VALUES 
+INSERT INTO user_favourites (user_id, post_id) VALUES
 (2, 2),
 (2, 3);
 
