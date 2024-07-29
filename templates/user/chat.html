@@ -55,7 +55,7 @@
 
         <div class="container p-4 bg-peri">
           <form method="POST" class="needs-validation" novalidate>
-            {{ message_form.hidden_tag() }}
+            {{ message_form.csrf_token }}
             <div class="mb-3 mx-auto">
               {{ message_form.receiver() }}
               {{ message_form.message(class="form-control border-0 shadow-none message-reply") }}

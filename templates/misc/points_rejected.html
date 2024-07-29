@@ -59,7 +59,7 @@
     <div class="pb-5">
 
       <form method="POST" action="{{ url_for('reward.points_shop') }}">
-        {{ add_points_form.hidden_tag() }}
+        {{ add_points_form.csrf_token }}
         {{ add_points_form.submit() }}
     </form>
     

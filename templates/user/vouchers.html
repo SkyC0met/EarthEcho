@@ -64,7 +64,7 @@
               </div>
               <div class="modal-footer d-grid justify-content-center">
                 <form method="POST" action="{{ url_for('reward.vouchers') }}">
-                  {{ spend_voucher_form.hidden_tag() }}
+                  {{ spend_voucher_form.csrf_token }}
                   <input type="hidden" id="voucher_id" name="voucher" value="{{ voucher.reward_id }}">
                   <button class="btn btn-rose" type="submit">Spend Voucher</button>
                 </form>

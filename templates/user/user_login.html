@@ -29,7 +29,7 @@
         <h1 class="fw-bold mb-5">Log in</h1>
 
         <form method="POST" class="needs-validation" novalidate>
-          {{ login_form.hidden_tag() }}
+          {{ login_form.csrf_token }}
 
           <div class="mb-3 mx-auto">
             {{ login_form.username_or_email(class="form-control border-0 shadow-none", placeholder="Username or Email") }}
@@ -47,15 +47,8 @@
   
           <div class="d-flex justify-content-between mx-auto">
             <div class="form-check">
-              <input
-                class="form-check-input"
-                type="checkbox"
-                value=""
-                id="remember-checkbox"
-              />
-              <label>
-                Remember me?
-              </label>
+              {{ login_form.remember_me(class="form-check-input") }}
+              {{ login_form.remember_me.label }}
             </div>
   
             <a href="#">Forgot password?</a>

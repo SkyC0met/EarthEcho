@@ -67,7 +67,7 @@
       {% endwith %}
       
       <form method="POST" action="{{ url_for('reward.add_points') }}">
-        {{ add_points_form.hidden_tag() }}
+        {{ add_points_form.csrf_token }}
         <button class="btn btn-rose" type="submit">ADD POINTS</button>
       </form>
     
@@ -135,7 +135,7 @@
                   <form method="POST" action="{{ url_for('reward.points_shop') }}">
                     {{ redeem_voucher_form.csrf_token }}
                     {{ redeem_voucher_form.reward_id(value=reward.reward_id) }}
-                    <!--{{ redeem_voucher_form.hidden_tag() }}-->
+                    <!--{{ redeem_voucher_form.csrf_token }}-->
                     <!--CANNOT USE THIS CAUSE WTFORMS REWARD_ID IS A HIDDEN TAG AS IT WILL NOT WORK-->
                     <!--<input type="hidden" id="reward_id" name="reward" value="{{ reward.reward_id }}">-->
                     <!--PROPER HTML INPUT CODE-->

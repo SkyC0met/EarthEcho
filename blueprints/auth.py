@@ -47,6 +47,7 @@ def user_login():
     if login_form.validate_on_submit():
         identifier = login_form.username_or_email.data
         passwd = login_form.passwd.data
+        remember = login_form.remember_me.data
         user_data = None
 
         # Check if the identifier is an email
@@ -58,7 +59,7 @@ def user_login():
         if user_data and check_password_hash(user_data['passwd'], passwd):
             if user_data['acc_type'] == 'user':
                 user = User(user_data['user_id'], user_data['username'], user_data['passwd'], user_data['acc_type'])
-                login_user(user)
+                login_user(user, remember=remember)
                 next_page = request.args.get('next')
                 if not is_safe_url(next_page):
                     return abort(400)

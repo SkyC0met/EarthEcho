@@ -82,7 +82,7 @@ def spend_voucher(user_id: int, reward_id: int):
 # REWARD VOUCHER FUNCTIONS
 
 # REWARD VOUCHER ROUTES
-@reward_bp.route('/user/points-shop', methods=['GET', 'POST'])
+@reward_bp.route('/points-shop', methods=['GET', 'POST'])
 @user_required
 def points_shop():
     redeem_voucher_form = RedeemVoucherForm()
@@ -108,7 +108,7 @@ def points_shop():
     fashion_rewards = [reward for reward in all_rewards if reward['points_type'] == 'fashion']
     return render_template('user/points_shop.html', points_balance=points_balance, food_rewards=food_rewards, fashion_rewards=fashion_rewards, redeem_voucher_form=redeem_voucher_form, add_points_form=add_points_form)
 
-@reward_bp.route('/user/vouchers', methods=['GET', 'POST'])
+@reward_bp.route('/vouchers', methods=['GET', 'POST'])
 @user_required
 def vouchers():
     spend_voucher_form = SpendVoucherForm()

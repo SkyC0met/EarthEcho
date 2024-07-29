@@ -1,4 +1,4 @@
-DROP DATABASE IF EXISTS earthecho_db;
+-- DROP DATABASE IF EXISTS earthecho_db;
 
 CREATE DATABASE IF NOT EXISTS earthecho_db;
 
@@ -99,7 +99,7 @@ CREATE TABLE IF NOT EXISTS unban_requests (
     FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
 );
 
-INSERT INTO users (username, phone_num, email, passwd, acc_type) VALUES
+/*INSERT INTO users (username, phone_num, email, passwd, acc_type) VALUES
 ('Tom', '12345678', 'tom@gmail.com', 'scrypt:32768:8:1$GB2hqTmVOBZBXfGO$dcdfa47ebd93848e85079cd0eec0d20b55c48ae9f54cafc21f2085ef5acea53d830148710c17b95fd7003acb524074357c9c5b9ede32e970bdb6abe7f1f04774', 'user'),
 ('Jane', '12345378', 'jane@gmail.com', 'scrypt:32768:8:1$GB2hqTmVOBZBXfGO$dcdfa47ebd93848e85079cd0eec0d20b55c48ae9f54cafc21f2085ef5acea53d830148710c17b95fd7003acb524074357c9c5b9ede32e970bdb6abe7f1f04774', 'user'),
 ('Harry', '12325678', 'harry@gmail.com', 'scrypt:32768:8:1$GB2hqTmVOBZBXfGO$dcdfa47ebd93848e85079cd0eec0d20b55c48ae9f54cafc21f2085ef5acea53d830148710c17b95fd7003acb524074357c9c5b9ede32e970bdb6abe7f1f04774', 'user'),
@@ -134,13 +134,10 @@ INSERT INTO user_redemption (user_id, reward_id) VALUES
 ('4', '8');
 
 INSERT INTO sky_posts_to_test_fav (user_id, header, body, topic, image_path) VALUES
-(1, 'Post 1', 'This is the body of the post.', 'Technology', 'images/fashion/fashion8.jpg'),
+(1, 'Embracing Sustainability: A Journey Towards a Greener Future', 'In an age where climate change and environmental degradation are becoming increasingly urgent issues, sustainability is more than just a buzzword;', 'Sustainability', 'images/sky/blogpost1.jpg'),
 (1, 'Post 2', 'This is the body of the post.', 'Technology', 'images/fashion/fashion7.jpg'),
 (1, 'Post 3', 'This is the body of the post.', 'Technology', 'images/fashion/fashion6.jpg');
-
-INSERT INTO user_favourites (user_id, post_id) VALUES
-(2, 2),
-(2, 3);
+*/
 
 SELECT uf.user_id, uf.post_id, sp.header, sp.body, sp.image_path
 FROM user_favourites uf

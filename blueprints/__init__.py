@@ -1,7 +1,7 @@
 import html
 import os
 
-from flask import Blueprint, request, jsonify, render_template, flash, url_for, redirect, abort
+from flask import Blueprint, request, jsonify, render_template, flash, url_for, redirect, abort, session
 from werkzeug.utils import secure_filename
 from wtforms.fields import datetime
 from datetime import datetime
@@ -13,6 +13,7 @@ from flask_wtf.file import FileAllowed
 
 from blueprints.chatbot.chat import get_response
 from db import get_db_connection
+from blueprints.sky_forms import AddFavouritesForm
 
 init_bp = Blueprint('init', __name__)
 
@@ -107,6 +108,13 @@ def blog():
         cursor.execute(query, (post_id, reviews_per_page, offset))
         reviews = cursor.fetchall()
 
+        is_favourite = False
+        user_id = session.get('_user_id')
+
+        # Check if the post is in user's favourites
+        cursor.execute("SELECT COUNT(*) FROM user_favourites WHERE user_id = %s AND post_id = %s", (user_id, post_id))
+        is_favourite = cursor.fetchone()[0] > 0
+
     except Exception as e:
         print(f"Unexpected Error: {e}")
 
@@ -116,7 +124,8 @@ def blog():
         if connection:
             connection.close()
 
-    return render_template('user/blogpost.html', reviews=reviews, current_page=current_page, reviews_per_page=reviews_per_page, total_reviews=total_reviews)
+    add_favourites_form = AddFavouritesForm()
+    return render_template('user/blogpost.html', reviews=reviews, current_page=current_page, reviews_per_page=reviews_per_page, total_reviews=total_reviews, add_favourites_form=add_favourites_form, is_favourite=is_favourite)
 
 @init_bp.route('/createpost', methods=['GET', 'POST'])
 def CreatePosts():

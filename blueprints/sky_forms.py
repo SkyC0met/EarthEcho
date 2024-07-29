@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, EmailField, HiddenField, SubmitField, validators
+from wtforms import StringField, PasswordField, EmailField, HiddenField, SubmitField, BooleanField, validators
 from wtforms.validators import ValidationError
 from blueprints.utils import get_user_by_field
 
@@ -43,6 +43,7 @@ class LoginForm(FlaskForm):
         validators.InputRequired(message="Please enter a password"),
         validators.Length(max=64)
     ])
+    remember_me = BooleanField('Remember Me')
 
 class Searchbar(FlaskForm):
     search = StringField('Search', [
@@ -114,6 +115,7 @@ class SpendVoucherForm(FlaskForm):
     submit = SubmitField('Spend Voucher')
 
 class AddFavouritesForm(FlaskForm):
+    post_id = HiddenField('post_id')
     submit = SubmitField('Add Favourite')
 
 class AddPointsForm(FlaskForm):

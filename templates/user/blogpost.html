@@ -6,14 +6,64 @@
     <title>Blog Post</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/blogpost.css') }}">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script>
+        function submitFavouriteForm(postId, isFavourite) {
+            var form = document.getElementById('favourite-form-' + postId);
+            var action = isFavourite ? '{{ url_for("fav.remove_favourite") }}' : '{{ url_for("fav.add_favourite") }}';
+            form.action = action;
+            form.submit();
+
+            var heart = form.querySelector('.fa-heart');
+            heart.classList.toggle('fa-regular');
+            heart.classList.toggle('fa-solid');
+        }
+
+        function toggleFavourite(postId) {
+            var heart = document.querySelector('#favourite-heart-' + postId);
+            var isFavourite = heart.classList.contains('fa-solid');
+            submitFavouriteForm(postId, isFavourite);
+        }
+    </script>
 </head>
 <body>
     {% include "user/customerBase.html" %}
     {% include "navbar/user_navbar.html" %}
 
     <div class="content">
-        <h1><b>Blog Name</b></h1>
-        <p>Blog content</p>
+        <h1 class="fw-bold">Embracing Sustainability: A Journey Towards a Greener Future</h1>
+        <div class="d-flex align-items-center mb-3">
+            <p class="fw-bold me-3">Author: Jane</p>
+            <form id="favourite-form-1" action="{{ url_for('fav.add_favourite') }}" method="POST">
+                {{ add_favourites_form.csrf_token }}
+                {{ add_favourites_form.post_id(value=1) }}
+                <i id="favourite-heart-1" class="fa-heart fa-xl icon-red {% if is_favourite %}fa-solid{% else %}fa-regular{% endif %}" type="button" onclick="toggleFavourite(1);"></i>
+            </form>
+        </div>
+        <img src="{{ url_for('static', filename='images/sky/blogpost1.jpg') }}" alt="" style="height: 400px; width: 100%; object-fit: cover; object-position: top;">
+        <div class="my-4">
+            <p>In an age where climate change and environmental degradation are becoming increasingly urgent issues, sustainability is more than just a buzzword; it is a necessity. Living sustainably means making choices that contribute to the health and longevity of our planet. It encompasses everything from the food we eat to the way we travel. Here, we explore practical ways to integrate sustainability into our daily lives, ensuring a greener future for generations to come.</p>
+            <h4 class="my-3 fw-bold">Understanding Sustainability</h4>
+            <p>Sustainability is about meeting our present needs without compromising the ability of future generations to meet their own needs. It involves three main pillars: environmental, economic, and social. To achieve true sustainability, we must balance these aspects by protecting the environment, ensuring economic viability, and promoting social well-being.</p>
+            <h4 class="my-3 fw-bold">Reducing Waste</h4>
+            <p>One of the simplest ways to start living sustainably is by reducing waste. The mantra "Reduce, Reuse, Recycle" remains as relevant as ever. Here are a few practical steps:</p>
+            <ul style="list-style-type: square;">
+                <li>Reduce: Be mindful of the products you buy. Opt for items with minimal packaging, and avoid single-use plastics.</li>
+                <li>Reuse: Before throwing things away, consider if they can be repurposed. Glass jars, for example, make excellent storage containers.</li>
+                <li>Recycle: Make sure to recycle paper, plastic, and metal. Educate yourself on local recycling guidelines to ensure you're doing it correctly.</li>
+            </ul>
+            <h4 class="my-3 fw-bold">Sustainable Eating</h4>
+            <p>Our food choices have a significant impact on the environment. Here is how you can make your diet more sustainable:</p>
+            <ul style="list-style-type: square;">
+                <li>Eat locally: Support local farmers and reduce your carbon footprint by buying locally produced foods.</li>
+                <li>Choose plant-based: Reducing meat consumption can significantly lower greenhouse gas emissions. Consider incorporating more plant-based meals into your diet.</li>
+                <li>Avoid food waste: Plan your meals, store food properly, and get creative with leftovers to minimize waste.</li>
+            </ul>
+            <h4 class="my-3 fw-bold">Conclusion</h4>
+            <p>Living sustainably is about making small, conscious choices that collectively make a significant impact. By reducing waste, eating sustainably, choosing eco-friendly transportation, conserving energy, and supporting responsible brands, we can all contribute to a healthier planet. Embrace sustainability today and be a part of the journey towards a greener future.</p>
+            <p>Together, we can make a difference.</p>
+
+        </div>
 
         <!-- hidden inputs for JavaScript pagination -->
         <input type="hidden" id="currentPage" value="{{ current_page }}">

@@ -1,6 +1,7 @@
-from flask import Blueprint, render_template, session, redirect, url_for
+from flask import Blueprint, render_template, session, redirect, url_for, request, flash
 from db import get_db_connection
 from blueprints.sky_forms import AddFavouritesForm
+from blueprints.utils import *
 
 fav_bp = Blueprint('fav', __name__)
 
@@ -8,6 +9,15 @@ def insert_into_fav(user_id: int, post_id: int):
     conn = get_db_connection()
     cursor = conn.cursor(dictionary=True)
     cursor.execute("INSERT INTO user_favourites (user_id, post_id) VALUES  (%s, %s)", (user_id, post_id))
+    conn.commit()
+    cursor.close()
+    conn.close()
+
+def remove_from_fav(user_id: int, post_id: int):
+    conn = get_db_connection()
+    cursor = conn.cursor(dictionary=True)
+    cursor.execute("DELETE FROM user_favourites WHERE user_id = %s AND post_id = %s", (user_id, post_id))
+    conn.commit()
     cursor.close()
     conn.close()
 
@@ -26,11 +36,36 @@ def get_fav(user_id: int):
     return favourites
 
 @fav_bp.route('/favourites')
+@user_required
 def favourites():
     add_favourites_form = AddFavouritesForm()
-    if add_favourites_form.validate_on_submit():
-        insert_into_fav(session['_user_id'], 1)
-        return redirect(url_for('fav.favourites'))
-    
     favourites = get_fav(session['_user_id'])
     return render_template('user/favourites.html', favourites=favourites, add_favourites_form=add_favourites_form)
+
+@fav_bp.route('/add_favourite', methods=['POST'])
+def add_favourite():
+    form = AddFavouritesForm()
+    if form.validate_on_submit():
+        user_id = session.get('_user_id')
+        post_id = request.form.get('post_id')
+
+        if user_id and post_id:
+            insert_into_fav(user_id, int(post_id))
+        else:
+            flash('Failed to add to favourites.', 'error')
+
+    return redirect(url_for('init.blog'))
+
+@fav_bp.route('/remove_favourite', methods=['POST'])
+def remove_favourite():
+    form = AddFavouritesForm()
+    if form.validate_on_submit():
+        user_id = session.get('_user_id')
+        post_id = request.form.get('post_id')
+
+        if user_id and post_id:
+            remove_from_fav(user_id, int(post_id))
+        else:
+            flash('Failed to remove from favourites.', 'error')
+
+    return redirect(url_for('fav.favourites'))
