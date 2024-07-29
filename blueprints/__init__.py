@@ -75,24 +75,36 @@ def predict():
 @init_bp.route('/Blog')
 def blog():
     post_id = 1  # static
+    current_page = 1
+    reviews_per_page = 3
+    total_reviews = 0
+    reviews = []
+
     connection = None
     cursor = None
-    reviews = []
     try:
         connection = get_db_connection()
         if not connection:
             print("Database connection failed.")
-            return render_template('user/blogpost.html', reviews=reviews)
+            return render_template('user/blogpost.html', reviews=reviews, current_page=current_page, reviews_per_page=reviews_per_page, total_reviews=total_reviews)
 
         cursor = connection.cursor()
+
+        # Get total number of reviews
+        cursor.execute("SELECT COUNT(*) FROM review WHERE post_id = %s", (post_id,))
+        total_reviews = cursor.fetchone()[0]
+
+        # Fetch reviews
         query = """
             SELECT r.review, r.rating, r.timestamp, u.username
             FROM review r
             JOIN users u ON r.user_id = u.user_id
             WHERE r.post_id = %s
             ORDER BY r.timestamp DESC
+            LIMIT %s OFFSET %s
         """
-        cursor.execute(query, (post_id,))
+        offset = (current_page - 1) * reviews_per_page
+        cursor.execute(query, (post_id, reviews_per_page, offset))
         reviews = cursor.fetchall()
 
     except Exception as e:
@@ -104,8 +116,7 @@ def blog():
         if connection:
             connection.close()
 
-    return render_template('user/blogpost.html', reviews=reviews)
-
+    return render_template('user/blogpost.html', reviews=reviews, current_page=current_page, reviews_per_page=reviews_per_page, total_reviews=total_reviews)
 
 @init_bp.route('/createpost', methods=['GET', 'POST'])
 def CreatePosts():

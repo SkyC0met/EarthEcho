@@ -83,6 +83,17 @@ p {
     border: 1px solid #ccc;
 }
 
+.chart-container {
+            width: 80%; /
+            height: 200px;
+            position: relative;
+        }
+
+#ratingChart {
+    width: 100%;
+    height: 100%;
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
     .container {

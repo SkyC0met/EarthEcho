@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Blog Post</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/blogpost.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
     {% include "user/customerBase.html" %}
@@ -14,25 +15,34 @@
         <h1><b>Blog Name</b></h1>
         <p>Blog content</p>
 
+        <!-- hidden inputs for JavaScript pagination -->
+        <input type="hidden" id="currentPage" value="{{ current_page }}">
+        <input type="hidden" id="reviewsPerPage" value="{{ reviews_per_page }}">
+        <input type="hidden" id="totalReviews" value="{{ total_reviews }}">
+
         <div class="item product-review">
             <h3><b>Product Review</b></h3>
-            <div id="reviews">
-                {% if reviews %}
-                    {% for review in reviews %}
-                    <div class="review">
-                        <p>Username: {{ review[3] }}</p>
-                        <p>Date: {{ review[2].strftime('%Y-%m-%d') }}</p>
-                        <p>Time: {{ review[2].strftime('%H:%M:%S') }}</p>
-                        <p>Rating: {{ review[1] }}</p>
-                        <p>Review: {{ review[0] }}</p>
-                        <hr>
-                    </div>
-                {% endfor %}
-            {% else %}
-                <p>No reviews yet</p>
-            {% endif %}
+
+            <!-- avg rating -->
+            <div id="ratingSummary">
+                <p><span id="averageRating">0</span></p>
+                <div class="chart-container">
+                    <canvas id="ratingChart"></canvas>
+                </div>
             </div>
 
+            <div id="reviews"></div>
+
+            <!-- Show More button -->
+            {% if reviews|length > 0 and reviews|length < total_reviews %}
+                <div class="pt-3">
+                    <button id="showMoreBtn" type="button" class="btn btn-secondary">Show More</button>
+                </div>
+            {% endif %}
+
+            <hr class="solid">
+
+            <!-- Add Review Form -->
             <h3><b>Add Review</b></h3>
             <form id="reviewForm" method="POST" action="{{ url_for('review.submit_review') }}">
                 <!-- CSRF Token -->
