@@ -69,6 +69,7 @@
             <ul
               class="dropdown-menu position-absolute start-50 translate-middle-x mt-1"
             >
+              <li><a class="dropdown-item" href="{{ url_for('unban.unban_request') }}">Unban request</a></li>
               <li>
                 <a class="dropdown-item" href="{{ url_for('auth.register') }}"
                   >Register</a
@@ -99,6 +100,7 @@
                 <i class="fa-solid fa-caret-down mx-2"></i>
               </div>
               <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="{{ url_for('unban.unban_request') }}">Unban request</a></li>
                 <li>
                   <a class="dropdown-item" href="{{ url_for('auth.register') }}"
                     >Register</a

@@ -8,19 +8,73 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
   <style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f9f9f9;
+        color: #333;
+    }
+
+    .container {
+        max-width: 960px;
+        margin: 0 auto;
+    }
+
     .form-container {
-      margin-top: 50px;
+        margin-top: 50px;
+    }
+
+    h2 {
+        font-weight: bold;
+        margin-top: 50px;
+    }
+
+    .card {
+        background-color: transparent;
+        border: 0;
+    }
+
+    .card img {
+        width: 100%;
+        height: auto;
+    }
+
+    .card h4, .card h5 {
+        margin-top: 15px;
+    }
+
+    footer {
+        background-color: #f1f1f1;
+        padding: 20px;
+    }
+
+    footer p {
+        font-weight: bold;
+    }
+
+    footer .form-text {
+        font-size: 0.875rem;
+        color: #6c757d;
+    }
+
+    .breadcrumb {
+        background: none;
+        padding: 0;
+        margin-bottom: 0;
     }
   </style>
 </head>
 <body>
-  {% extends 'user/user_base.html' %}
+  {% include "user/customerBase.html" %}
 
   {% block content %}
   <div class="container form-container">
     <h2>Unban Request Form</h2>
     <form method="POST" action="{{ url_for('unban.unban_request') }}">
       {{ form.hidden_tag() }}
+      <div class="form-group">
+        {{ form.user_id.label(class="control-label") }}
+        {{ form.user_id(class="form-control") }}
+      </div>
       <div class="form-group">
         {{ form.first_name.label(class="control-label") }}
         {{ form.first_name(class="form-control") }}
@@ -43,11 +97,11 @@
     </form>
   </div>
 
-<script>
-  function showConfirmation() {
-    alert("Your unban request has been submitted successfully!");
-  }
-</script>
-{% endblock content %}
+  <script>
+    function showConfirmation() {
+      alert("Your unban request has been submitted successfully!");
+    }
+  </script>
+  {% endblock content %}
 </body>
 </html>

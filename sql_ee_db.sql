@@ -89,15 +89,14 @@ CREATE TABLE IF NOT EXISTS review (
 
 -- Create the unban_requests table
 CREATE TABLE IF NOT EXISTS unban_requests (
-    request_id INT AUTO_INCREMENT PRIMARY KEY,
-    user_id INT NOT NULL,
-    first_name VARCHAR(50) NOT NULL,
-    last_name VARCHAR(50) NOT NULL,
-    email VARCHAR(100) NOT NULL,
+    user_id INT AUTO_INCREMENT PRIMARY KEY,
+    first_name VARCHAR(255) NOT NULL,
+    last_name VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL,
     request TEXT NOT NULL,
-    timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
 
 /*INSERT INTO review (review_id, review, rating, post_id, user_id, timestamp) VALUES
 ('77', 'well written', '5', '1', '3', '2024-07-30 10:12:23');
