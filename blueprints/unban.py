@@ -2,8 +2,8 @@ from flask import Blueprint, render_template, request, flash, redirect, url_for
 from flask_wtf import FlaskForm
 from wtforms import StringField, TextAreaField, SubmitField
 from wtforms.validators import DataRequired, Email
-import mysql.connector
 from mysql.connector import Error
+from blueprints.utils import *
 
 class UnbanRequestForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired()])
@@ -13,21 +13,6 @@ class UnbanRequestForm(FlaskForm):
     submit = SubmitField('Submit')
 
 unban_bp = Blueprint('unban', __name__, template_folder='templates')
-
-
-def create_connection():
-    """ create a database connection to the MySQL database """
-    connection = None
-    try:
-        connection = mysql.connector.connect(
-            host='localhost',
-            database='earthecho_db',
-            user='root',
-            password='XiaoZhan1005'
-        )
-    except Error as e:
-        print(f"Error: '{e}'")
-    return connection
 
 @unban_bp.route('/unbanreq', methods=['GET', 'POST'])
 def unban_request():
@@ -40,21 +25,21 @@ def unban_request():
         request_text = form.request.data
 
         # Here you save the data to a database
-        connection = create_connection()
-        cursor = connection.cursor()
+        conn = get_db_connection()
+        cursor = conn.cursor()
         try:
             cursor.execute("""
                 INSERT INTO unban_requests (username, first_name, last_name, request)
                 VALUES (%s, %s, %s, %s)
             """, (username, first_name, last_name, request_text))
-            connection.commit()
+            conn.commit()
             flash('Unban request submitted successfully!', 'success')
         except Error as e:
-            connection.rollback()
+            conn.rollback()
             flash(f'An error occurred: {e}', 'danger')
         finally:
             cursor.close()
-            connection.close()
+            conn.close()
 
         return redirect(url_for('unban.unban_request'))
 

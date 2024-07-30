@@ -96,7 +96,6 @@ CREATE TABLE IF NOT EXISTS unban_requests (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-
 /*INSERT INTO review (review_id, review, rating, post_id, user_id, timestamp) VALUES
 ('77', 'well written', '5', '1', '3', '2024-07-30 10:12:23');
 
@@ -140,12 +139,15 @@ INSERT INTO sky_posts_to_test_fav (user_id, header, body, topic, image_path) VAL
 (1, 'Post 3', 'This is the body of the post.', 'Technology', 'images/fashion/fashion6.jpg');
 */
 
-SELECT uf.user_id, uf.post_id, sp.header, sp.body, sp.image_path
-FROM user_favourites uf
-INNER JOIN sky_posts_to_test_fav sp ON uf.post_id = sp.post_id
-WHERE uf.user_id = 2;
+SELECT * FROM unban_requests;
 
 /*SELECT ur.user_id, ur.reward_id, ur.redemption_date, ps.reward_name, ps.reward, ps.reward_desc, ps.valid_until, ps.image_path
 FROM user_redemption ur
 INNER JOIN points_shop ps ON ur.reward_id = ps.reward_id
-WHERE ur.user_id = 2;*/
+WHERE ur.user_id = 2;
+
+SELECT uf.user_id, uf.post_id, sp.header, sp.body, sp.image_path
+FROM user_favourites uf
+INNER JOIN sky_posts_to_test_fav sp ON uf.post_id = sp.post_id
+WHERE uf.user_id = 2;
+*/
