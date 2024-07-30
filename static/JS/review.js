@@ -33,21 +33,7 @@ document.addEventListener('DOMContentLoaded', function () {
         .then(response => response.json())
         .then(data => {
             if (data.status === 'success') {
-                const reviewsContainer = document.getElementById('reviews');
-                const newReview = document.createElement('div');
-                newReview.classList.add('review');
-                newReview.innerHTML = `
-                    <p>Username: ${data.username}</p>
-                    <p>Date and Time: ${data.timestamp}</p>
-                    <p>Rating: ${data.rating}</p>
-                    <p>Review: ${data.review}</p>
-                    <hr>
-                `;
-                reviewsContainer.prepend(newReview);
-                clearRatingAndReviewInputs();
-
-                // Fetch updated reviews and rating distribution
-                fetchReviews(currentPage);
+                window.location.reload(); // Refresh the page to update reviews and chart
             } else {
                 console.error('Error response:', data.message);
                 alert('Error: ' + data.message);
@@ -78,19 +64,13 @@ document.addEventListener('DOMContentLoaded', function () {
         document.getElementById('rating').value = '';
     }
 
-    // Clear rating and review inputs
-    function clearRatingAndReviewInputs() {
-        document.getElementById('rating').value = '';
-        document.getElementById('review').value = '';
-        clearStarRating();
-    }
-
     // Display reviews with pagination
     let currentPage = parseInt(document.getElementById('currentPage').value) || 1;
     const reviewsPerPage = parseInt(document.getElementById('reviewsPerPage').value) || 3;
     const reviewsContainer = document.getElementById('reviews');
     const showMoreBtn = document.getElementById('showMoreBtn');
-    let isShowingAllReviews = false; // Track if all reviews are shown
+    let totalReviews = 0; // Total number of reviews
+    let reviewsDisplayed = 0; // Number of reviews currently displayed
 
     // Fetch reviews function
     function fetchReviews(page) {
@@ -100,6 +80,9 @@ document.addEventListener('DOMContentLoaded', function () {
                 console.log('Fetched Reviews Data:', data);
 
                 if (data.reviews && data.reviews.length > 0) {
+                    // Update the total number of reviews
+                    totalReviews = data.total_reviews || totalReviews;
+
                     data.reviews.forEach(review => {
                         const reviewElement = document.createElement('div');
                         reviewElement.classList.add('review');
@@ -126,9 +109,13 @@ document.addEventListener('DOMContentLoaded', function () {
                     currentPage++;
                     document.getElementById('currentPage').value = currentPage;
 
-                    if (data.reviews.length < reviewsPerPage) {
-                        showMoreBtn.textContent = 'Show Less'; // Change to make it become show less
-                        isShowingAllReviews = true;
+                    reviewsDisplayed += data.reviews.length;
+
+                    // Update button text and visibility
+                    if (reviewsDisplayed >= totalReviews) {
+                        showMoreBtn.textContent = 'Show Less';
+                    } else {
+                        showMoreBtn.textContent = 'Show More';
                     }
                 } else {
                     showMoreBtn.style.display = 'none'; // Hide button if no more reviews
@@ -156,7 +143,7 @@ document.addEventListener('DOMContentLoaded', function () {
             data: {
                 labels: ['1 Star', '2 Stars', '3 Stars', '4 Stars', '5 Stars'],
                 datasets: [{
-                    label: 'no of reviews',
+                    label: 'No. of Reviews',
                     data: ratingDistribution,
                     backgroundColor: 'rgba(75, 192, 192, 0.2)',
                     borderColor: 'rgba(75, 192, 192, 1)',
@@ -179,7 +166,6 @@ document.addEventListener('DOMContentLoaded', function () {
                         ticks: {
                             stepSize: 1,
                         }
-
                     },
                     y: {
                         beginAtZero: true,
@@ -196,13 +182,13 @@ document.addEventListener('DOMContentLoaded', function () {
     if (showMoreBtn) {
         showMoreBtn.addEventListener('click', function (event) {
             event.preventDefault();
-            if (isShowingAllReviews) {
+            if (showMoreBtn.textContent === 'Show Less') {
                 reviewsContainer.innerHTML = ''; // Clear all reviews
                 currentPage = 1;
+                reviewsDisplayed = 0;
                 document.getElementById('currentPage').value = currentPage;
                 fetchReviews(currentPage);
                 showMoreBtn.textContent = 'Show More';
-                isShowingAllReviews = false;
             } else {
                 fetchReviews(currentPage);
             }
