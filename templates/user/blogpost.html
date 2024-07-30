@@ -33,11 +33,26 @@
     <div class="content">
         <h1 class="fw-bold">Embracing Sustainability: A Journey Towards a Greener Future</h1>
         <div class="d-flex align-items-center mb-3">
-            <p class="fw-bold me-3">Author: Jane</p>
+            <p class="fw-bold">Author:</p>
+            <div class="dropdown text-center me-3 ms-2">
+                <p data-bs-toggle="dropdown">Jane</p>
+                <ul
+                  class="dropdown-menu position-absolute start-50 translate-middle-x"
+                >
+                  <li>
+                    <a class="dropdown-item" href="{{ url_for('messaging.chat', receiver_id=2) }}"
+                      ><i class="fa-regular fa-comment-dots fa-xl icon-dark"></i>
+                      Message
+                    </a>
+                  </li>
+                </ul>
+            </div>
             <form id="favourite-form-1" action="{{ url_for('fav.add_favourite') }}" method="POST">
                 {{ add_favourites_form.csrf_token }}
                 {{ add_favourites_form.post_id(value=1) }}
-                <i id="favourite-heart-1" class="fa-heart fa-xl icon-red {% if is_favourite %}fa-solid{% else %}fa-regular{% endif %}" type="button" onclick="toggleFavourite(1);"></i>
+                {% if current_user.is_authenticated %}
+                    <i id="favourite-heart-1" class="fa-heart fa-xl icon-red {% if is_favourite %}fa-solid{% else %}fa-regular{% endif %}" type="button" onclick="toggleFavourite(1);"></i>
+                {% endif %}
             </form>
         </div>
         <img src="{{ url_for('static', filename='images/sky/blogpost1.jpg') }}" alt="" style="height: 400px; width: 100%; object-fit: cover; object-position: top;">

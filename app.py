@@ -30,7 +30,7 @@ def create_app(config_class=Config):
     login_manager.login_message_category = "primary"
 
     # timeout after 30 mins
-    # app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(minutes=30)
+    app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(minutes=30)
     # remove remember cookie
     app.config['REMEMBER_COOKIE_DURATION'] = timedelta(days=7)
 

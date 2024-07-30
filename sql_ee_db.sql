@@ -99,10 +99,10 @@ CREATE TABLE IF NOT EXISTS unban_requests (
     FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
 );
 
-INSERT INTO review (review_id, review, rating, post_id, user_id, timestamp) VALUES
-('77', 'well written', '5', '1', '3', '2024-07-30 10:12:23')
+/*INSERT INTO review (review_id, review, rating, post_id, user_id, timestamp) VALUES
+('77', 'well written', '5', '1', '3', '2024-07-30 10:12:23');
 
-/*INSERT INTO users (username, phone_num, email, passwd, acc_type) VALUES
+INSERT INTO users (username, phone_num, email, passwd, acc_type) VALUES
 ('Tom', '12345678', 'tom@gmail.com', 'scrypt:32768:8:1$GB2hqTmVOBZBXfGO$dcdfa47ebd93848e85079cd0eec0d20b55c48ae9f54cafc21f2085ef5acea53d830148710c17b95fd7003acb524074357c9c5b9ede32e970bdb6abe7f1f04774', 'user'),
 ('Jane', '12345378', 'jane@gmail.com', 'scrypt:32768:8:1$GB2hqTmVOBZBXfGO$dcdfa47ebd93848e85079cd0eec0d20b55c48ae9f54cafc21f2085ef5acea53d830148710c17b95fd7003acb524074357c9c5b9ede32e970bdb6abe7f1f04774', 'user'),
 ('Harry', '12325678', 'harry@gmail.com', 'scrypt:32768:8:1$GB2hqTmVOBZBXfGO$dcdfa47ebd93848e85079cd0eec0d20b55c48ae9f54cafc21f2085ef5acea53d830148710c17b95fd7003acb524074357c9c5b9ede32e970bdb6abe7f1f04774', 'user'),

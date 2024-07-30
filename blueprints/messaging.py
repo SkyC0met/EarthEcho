@@ -95,7 +95,7 @@ def messages():
 @user_required
 def chat(receiver_id):
     sender_id = session['_user_id']
-    if sender_id == int(receiver_id):
+    if sender_id == receiver_id:
         flash('You cannot message yourself.', 'warning')
         return redirect(url_for('messaging.messages'))
 

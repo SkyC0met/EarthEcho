@@ -43,6 +43,7 @@ def favourites():
     return render_template('user/favourites.html', favourites=favourites, add_favourites_form=add_favourites_form)
 
 @fav_bp.route('/add_favourite', methods=['POST'])
+@user_required
 def add_favourite():
     form = AddFavouritesForm()
     if form.validate_on_submit():
@@ -51,12 +52,11 @@ def add_favourite():
 
         if user_id and post_id:
             insert_into_fav(user_id, int(post_id))
-        else:
-            flash('Failed to add to favourites.', 'error')
 
     return redirect(url_for('init.blog'))
 
 @fav_bp.route('/remove_favourite', methods=['POST'])
+@user_required
 def remove_favourite():
     form = AddFavouritesForm()
     if form.validate_on_submit():
@@ -65,7 +65,5 @@ def remove_favourite():
 
         if user_id and post_id:
             remove_from_fav(user_id, int(post_id))
-        else:
-            flash('Failed to remove from favourites.', 'error')
 
     return redirect(url_for('fav.favourites'))

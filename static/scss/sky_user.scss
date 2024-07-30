@@ -340,6 +340,25 @@ nav .search-container {
 
 /*MY PROFILE*/
 
+/*BLOG USER*/
+.content .dropdown-menu {
+  min-width: 0;
+  background-color: $peri;
+}
+
+.content .dropdown-item:active {
+  color: $violet;
+  background-color: $white;
+}
+
+@media only screen and (min-width: 992px) {
+  .content .dropdown:hover .dropdown-menu {
+    display: block;
+  }
+}
+
+/*BLOG USER*/
+
 /*MESSAGE USER CONTAINER*/
 .dm-users-searchbar .search-container {
   position: relative;

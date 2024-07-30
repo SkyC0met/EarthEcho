@@ -12879,6 +12879,23 @@ nav .search-container {
 }
 
 /*MY PROFILE*/
+/*BLOG USER*/
+.content .dropdown-menu {
+  min-width: 0;
+  background-color: #a6b1e1;
+}
+
+.content .dropdown-item:active {
+  color: #4e4c67;
+  background-color: #ffffff;
+}
+
+@media only screen and (min-width: 992px) {
+  .content .dropdown:hover .dropdown-menu {
+    display: block;
+  }
+}
+/*BLOG USER*/
 /*MESSAGE USER CONTAINER*/
 .dm-users-searchbar .search-container {
   position: relative;
