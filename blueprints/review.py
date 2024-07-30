@@ -1,20 +1,12 @@
-from flask import Blueprint, jsonify, request, session, render_template
-from datetime import datetime
+from flask import Blueprint, jsonify, request, session
+from datetime import datetime, timedelta
 from db import get_db_connection
 from blueprints.utils import get_user_by_field
 import bleach
 
 review_bp = Blueprint('review', __name__)
 
-# @review_bp.route('/submit_review', methods=['POST'])
-# def submit_review():
-#     return jsonify({
-#         'status': 'success',
-#         'date': datetime.now().strftime('%Y-%m-%d'),
-#         'time': datetime.now().strftime('%H:%M:%S'),
-#         'review': 'Test review'
-#     }), 200
-
+# Function to sanitize input
 def sanitize_input(input_str):
     allowed_tags = ['b', 'i', 'u', 'em', 'strong', 'a']
     return bleach.clean(input_str, tags=allowed_tags)
@@ -27,12 +19,19 @@ def submit_review():
         rating = request.form.get('rating')
         review = request.form.get('review')
         post_id = 1
-        user = get_user_by_field('user_id', session['_user_id'])
+        user_id = session.get('_user_id')
+
+        # Check if user is logged in
+        if not user_id:
+            print("User not logged in")
+            return jsonify({'status': 'error', 'message': 'User not logged in'}), 401
+
+        # Retrieve user data
+        user = get_user_by_field('user_id', user_id)
         username = user['username']
 
-        print(f"Retrieved form data - Rating: {rating}, Review: {review}, Post ID: {post_id}")
-
-        if not rating or not review or not post_id:
+        # Check for missing fields
+        if not rating or not review:
             print("Missing fields detected")
             return jsonify({'status': 'error', 'message': 'Missing fields'}), 400
 
@@ -42,17 +41,29 @@ def submit_review():
             print("Invalid rating value detected")
             return jsonify({'status': 'error', 'message': 'Invalid rating value'}), 400
 
-        user_id = session.get('_user_id')
-        if not user_id:
-            print("User not logged in")
-            return jsonify({'status': 'error', 'message': 'User not logged in'}), 401
-
+        # Sanitize review input
         review = sanitize_input(review)
         print(f"Sanitized review: {review}")
 
+        # Check review count for today
         connection = get_db_connection()
         if connection:
             cursor = connection.cursor()
+            today_start = datetime.now().date()
+            today_end = today_start + timedelta(days=1)
+
+            count_query = """
+                SELECT COUNT(*) FROM review 
+                WHERE user_id = %s AND timestamp >= %s AND timestamp < %s
+            """
+            cursor.execute(count_query, (user_id, today_start, today_end))
+            review_count = cursor.fetchone()[0]
+
+            if review_count >= 5:
+                print("Daily review limit reached")
+                return jsonify({'status': 'error', 'message': 'You have reached the daily review limit'}), 429
+
+            # Insert new review
             now = datetime.now()
             insert_query = "INSERT INTO review (review, rating, post_id, user_id, timestamp) VALUES (%s, %s, %s, %s, %s)"
             cursor.execute(insert_query, (review, rating, post_id, user_id, now))
@@ -79,7 +90,6 @@ def submit_review():
             print("Connection closed")
 
     return jsonify({'status': 'error', 'message': 'Unknown error occurred'}), 400
-
 
 @review_bp.route('/get_reviews', methods=['GET'])
 def get_reviews():
