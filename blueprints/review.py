@@ -2,6 +2,7 @@ from flask import Blueprint, jsonify, request, session, render_template
 from datetime import datetime
 from db import get_db_connection
 from blueprints.utils import get_user_by_field
+import bleach
 
 review_bp = Blueprint('review', __name__)
 
@@ -14,6 +15,9 @@ review_bp = Blueprint('review', __name__)
 #         'review': 'Test review'
 #     }), 200
 
+def sanitize_input(input_str):
+    allowed_tags = ['b', 'i', 'u', 'em', 'strong', 'a']
+    return bleach.clean(input_str, tags=allowed_tags)
 
 @review_bp.route('/submit_review', methods=['POST'])
 def submit_review():
@@ -42,6 +46,9 @@ def submit_review():
         if not user_id:
             print("User not logged in")
             return jsonify({'status': 'error', 'message': 'User not logged in'}), 401
+
+        review = sanitize_input(review)
+        print(f"Sanitized review: {review}")
 
         connection = get_db_connection()
         if connection:
