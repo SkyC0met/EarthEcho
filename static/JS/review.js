@@ -1,143 +1,41 @@
 document.addEventListener('DOMContentLoaded', function () {
-    // Star rating click handlers
     const stars = document.querySelectorAll('.rating-wrapper img');
-    stars.forEach(star => {
-        star.addEventListener('click', function () {
-            const rating = this.id;
-            updateStarRating(rating);
-        });
-    });
-
-    // Clear button handler
     const clearButton = document.querySelector('.rating-wrapper button');
-    if (clearButton) {
-        clearButton.addEventListener('click', clearStarRating);
-    }
+    const reviewForm = document.getElementById('reviewForm');
+    const reviewsContainer = document.getElementById('reviews');
+    const showMoreBtn = document.getElementById('showMoreBtn');
+    const currentPageInput = document.getElementById('currentPage');
+    const reviewsPerPageInput = document.getElementById('reviewsPerPage');
+    const averageRatingElem = document.getElementById('averageRating');
+    const ratingChartElem = document.getElementById('ratingChart');
 
-    // Review form submit handler
-    document.getElementById('reviewForm').addEventListener('submit', function (event) {
-        event.preventDefault();
+    let currentPage = parseInt(currentPageInput.value) || 1;
+    const reviewsPerPage = parseInt(reviewsPerPageInput.value) || 3;
+    let totalReviews = 0;
+    let reviewsDisplayed = 0;
 
-        const formData = new FormData(this);
-
-        // CSRF token from hidden input
-        const csrfToken = document.querySelector('input[name="csrf_token"]').value;
-
-        fetch(this.action, {
-            method: 'POST',
-            body: formData,
-            headers: {
-                'X-CSRFToken': csrfToken
-            }
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.status === 'success') {
-                window.location.reload(); // Refresh the page to update reviews and chart
-            } else {
-                console.error('Error response:', data.message);
-                alert('Error: ' + data.message);
-            }
-        })
-        .catch(error => {
-            console.error('Fetch error:', error);
-        });
-    });
-
-    // Update star rating display
     function updateStarRating(clickedRating) {
-        const stars = document.querySelectorAll('.rating-wrapper img');
         stars.forEach(star => star.classList.remove('rating-checked'));
-
         for (let i = 0; i < clickedRating; i++) {
             stars[i].classList.add('rating-checked');
         }
-
         document.getElementById('rating').value = clickedRating;
     }
 
-    // Clear star rating display
     function clearStarRating() {
-        const stars = document.querySelectorAll('.rating-wrapper img');
         stars.forEach(star => star.classList.remove('rating-checked'));
-
         document.getElementById('rating').value = '';
     }
 
-    // Display reviews with pagination
-    let currentPage = parseInt(document.getElementById('currentPage').value) || 1;
-    const reviewsPerPage = parseInt(document.getElementById('reviewsPerPage').value) || 3;
-    const reviewsContainer = document.getElementById('reviews');
-    const showMoreBtn = document.getElementById('showMoreBtn');
-    let totalReviews = 0; // Total number of reviews
-    let reviewsDisplayed = 0; // Number of reviews currently displayed
-
-    // Fetch reviews function
-    function fetchReviews(page) {
-        fetch(`/get_reviews?page=${page}&limit=${reviewsPerPage}`)
-            .then(response => response.json())
-            .then(data => {
-                console.log('Fetched Reviews Data:', data);
-
-                if (data.reviews && data.reviews.length > 0) {
-                    // Update the total number of reviews
-                    totalReviews = data.total_reviews || totalReviews;
-
-                    data.reviews.forEach(review => {
-                        const reviewElement = document.createElement('div');
-                        reviewElement.classList.add('review');
-                        reviewElement.innerHTML = `
-                            <p>Username: ${review.username}</p>
-                            <p>Date and Time: ${review.timestamp}</p>
-                            <p>Rating: ${review.rating}</p>
-                            <p>Review: ${review.review}</p>
-                            <hr>
-                        `;
-                        reviewsContainer.appendChild(reviewElement);
-                    });
-
-                    // Update average rating
-                    const averageRatingElem = document.getElementById('averageRating');
-                    if (averageRatingElem) {
-                        const averageRating = parseFloat(data.average_rating);
-                        averageRatingElem.innerHTML = `Average Rating: ${isNaN(averageRating) ? 'N/A' : averageRating.toFixed(1)} / 5`;
-                    }
-
-                    // Update rating distribution chart
-                    updateRatingChart(data.rating_distribution);
-
-                    currentPage++;
-                    document.getElementById('currentPage').value = currentPage;
-
-                    reviewsDisplayed += data.reviews.length;
-
-                    // Update button text and visibility
-                    if (reviewsDisplayed >= totalReviews) {
-                        showMoreBtn.textContent = 'Show Less';
-                    } else {
-                        showMoreBtn.textContent = 'Show More';
-                    }
-                } else {
-                    showMoreBtn.style.display = 'none'; // Hide button if no more reviews
-                }
-            })
-            .catch(error => {
-                console.error('Fetch error:', error);
-            });
-    }
-
-    // Update rating chart function
     function updateRatingChart(ratingDistribution) {
-        console.log('Updating Rating Chart with:', ratingDistribution);
+        if (!ratingChartElem) return;
 
-        const ctx = document.getElementById('ratingChart').getContext('2d');
+        const ctx = ratingChartElem.getContext('2d');
 
-        // Destroy the existing chart if it exists
         if (window.ratingChart && window.ratingChart.destroy) {
             window.ratingChart.destroy();
         }
 
-        // Create a new chart
         window.ratingChart = new Chart(ctx, {
             type: 'bar',
             data: {
@@ -175,18 +73,106 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    // Initial load
-    fetchReviews(currentPage);
+    function fetchReviews(page) {
+        fetch(`/get_reviews?page=${page}&limit=${reviewsPerPage}`)
+            .then(response => {
+                if (!response.ok) throw new Error('Network response was not ok');
+                return response.json();
+            })
+            .then(data => {
+                if (data.reviews && data.reviews.length > 0) {
+                    totalReviews = data.total_reviews || totalReviews;
+                    reviewsDisplayed += data.reviews.length;
 
-    // Show more button handler
+                    data.reviews.forEach(review => {
+                        const reviewElement = document.createElement('div');
+                        reviewElement.classList.add('review');
+                        reviewElement.innerHTML = `
+                            <p>Username: ${review.username}</p>
+                            <p>Date and Time: ${review.timestamp}</p>
+                            <p>Rating: ${review.rating}</p>
+                            <p>Review: ${review.review}</p>
+                            <hr>
+                        `;
+                        reviewsContainer.appendChild(reviewElement);
+                    });
+
+                    if (averageRatingElem) {
+                        const averageRating = parseFloat(data.average_rating);
+                        averageRatingElem.textContent = `Average Rating: ${isNaN(averageRating) ? 'N/A' : averageRating.toFixed(1)} / 5`;
+                    }
+
+                    updateRatingChart(data.rating_distribution);
+
+                    currentPage++;
+                    currentPageInput.value = currentPage;
+
+                    showMoreBtn.textContent = reviewsDisplayed >= totalReviews ? 'Show Less' : 'Show More';
+                } else {
+                    showMoreBtn.style.display = 'none';
+                }
+            })
+            .catch(error => {
+                console.error('Fetch error:', error);
+                alert('Error fetching reviews. Please try again later.');
+            });
+    }
+
+    if (stars.length > 0) {
+        stars.forEach(star => {
+            star.addEventListener('click', function () {
+                const rating = this.id;
+                updateStarRating(rating);
+            });
+        });
+    }
+
+    if (clearButton) {
+        clearButton.addEventListener('click', clearStarRating);
+    }
+
+    if (reviewForm) {
+        reviewForm.addEventListener('submit', function (event) {
+            event.preventDefault();
+
+            const formData = new FormData(this);
+            const csrfToken = document.querySelector('input[name="csrf_token"]').value;
+
+            fetch(this.action, {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-CSRFToken': csrfToken
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    window.location.reload();
+                } else {
+                    console.error('Error response:', data.message);
+                    if (data.message === "You have submitted too many reviews today") {
+                        alert('You have reached the max no of reviews you can submit today')
+                    } else{
+                        alert('Error: ' + data.message);
+                    }
+                }
+            })
+            .catch(error => {
+                console.error('Fetch error:', error);
+                alert('Error submitting review. Please try again later.');
+            });
+        });
+    }
+
     if (showMoreBtn) {
         showMoreBtn.addEventListener('click', function (event) {
             event.preventDefault();
             if (showMoreBtn.textContent === 'Show Less') {
-                reviewsContainer.innerHTML = ''; // Clear all reviews
+                reviewsContainer.innerHTML = '';
                 currentPage = 1;
                 reviewsDisplayed = 0;
-                document.getElementById('currentPage').value = currentPage;
+                currentPageInput.value = currentPage;
                 fetchReviews(currentPage);
                 showMoreBtn.textContent = 'Show More';
             } else {
@@ -194,4 +180,7 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
     }
+
+    // Initial load
+    fetchReviews(currentPage);
 });
