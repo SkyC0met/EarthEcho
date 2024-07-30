@@ -72,8 +72,8 @@
     <form method="POST" action="{{ url_for('unban.unban_request') }}">
       {{ form.hidden_tag() }}
       <div class="form-group">
-        {{ form.user_id.label(class="control-label") }}
-        {{ form.user_id(class="form-control") }}
+        {{ form.username.label(class="control-label") }}
+        {{ form.username(class="form-control") }}
       </div>
       <div class="form-group">
         {{ form.first_name.label(class="control-label") }}
@@ -82,10 +82,6 @@
       <div class="form-group">
         {{ form.last_name.label(class="control-label") }}
         {{ form.last_name(class="form-control") }}
-      </div>
-      <div class="form-group">
-        {{ form.email.label(class="control-label") }}
-        {{ form.email(class="form-control") }}
       </div>
       <div class="form-group">
         {{ form.request.label(class="control-label") }}

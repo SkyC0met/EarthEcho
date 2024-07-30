@@ -6,14 +6,14 @@ import mysql.connector
 from mysql.connector import Error
 
 class UnbanRequestForm(FlaskForm):
-    user_id = StringField('User ID', validators=[DataRequired()])
+    username = StringField('Username', validators=[DataRequired()])
     first_name = StringField('First Name', validators=[DataRequired()])
     last_name = StringField('Last Name', validators=[DataRequired()])
-    email = StringField('Email Address', validators=[DataRequired(), Email()])
     request = TextAreaField('Unban Request', validators=[DataRequired()])
     submit = SubmitField('Submit')
 
 unban_bp = Blueprint('unban', __name__, template_folder='templates')
+
 
 def create_connection():
     """ create a database connection to the MySQL database """
@@ -22,8 +22,8 @@ def create_connection():
         connection = mysql.connector.connect(
             host='localhost',
             database='earthecho_db',
-            user='your_username',
-            password='your_password'
+            user='root',
+            password='XiaoZhan1005'
         )
     except Error as e:
         print(f"Error: '{e}'")
@@ -34,10 +34,9 @@ def unban_request():
     form = UnbanRequestForm()
     if form.validate_on_submit():
         # Process the form data
-        user_id = form.user_id.data
+        username = form.username.data
         first_name = form.first_name.data
         last_name = form.last_name.data
-        email = form.email.data
         request_text = form.request.data
 
         # Here you save the data to a database
@@ -45,9 +44,9 @@ def unban_request():
         cursor = connection.cursor()
         try:
             cursor.execute("""
-                INSERT INTO unban_requests (user_id, first_name, last_name, email, request)
+                INSERT INTO unban_requests (username, first_name, last_name, request)
                 VALUES (%s, %s, %s, %s)
-            """, (user_id, first_name, last_name, email, request_text))
+            """, (username, first_name, last_name, request_text))
             connection.commit()
             flash('Unban request submitted successfully!', 'success')
         except Error as e:
