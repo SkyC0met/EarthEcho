@@ -5,6 +5,7 @@ from flask import jsonify
 from datetime import timedelta
 from blueprints.utils import login_manager
 
+
 # BLUEPRINTS
 from blueprints.__init__ import init_bp
 from blueprints.homepage import homepage_bp
@@ -17,11 +18,12 @@ from blueprints.reward import reward_bp
 from blueprints.misc import misc_bp
 from blueprints.review import review_bp
 from blueprints.unban import unban_bp
+from blueprints.adminunban import adminunban_bp
 
 
-def create_app(config_class=Config):
+def create_app():
     app = Flask(__name__)
-    app.config.from_object(config_class)
+    app.config.from_object(Config)
     app.secret_key = app.config['SECRET_KEY']
 
     csrf = CSRFProtect(app)
@@ -38,6 +40,10 @@ def create_app(config_class=Config):
     app.config['SESSION_COOKIE_HTTPONLY'] = True
     app.config['SESSION_COOKIE_SAMESITE'] = 'Strict'
 
+    # reCAPTCHA
+    app.config['RECAPTCHA_SITE_KEY'] = '6LeDmxsqAAAAAIQKTcChogPkiUnenRppl4WiXGh0'
+    app.config['RECAPTCHA_SECRET_KEY'] = '6LeDmxsqAAAAALGcfuu8CLdH92N_SHfM5T1xvGTK'
+
     app.register_blueprint(init_bp)
     app.register_blueprint(homepage_bp)
     app.register_blueprint(admin_bp, url_prefix='/admin')
@@ -49,6 +55,7 @@ def create_app(config_class=Config):
     app.register_blueprint(misc_bp)
     app.register_blueprint(review_bp)
     app.register_blueprint(unban_bp)
+    app.register_blueprint(adminunban_bp)
 
     # for chatbot to run
     # csrf.exempt(init_bp)
@@ -61,6 +68,8 @@ def create_app(config_class=Config):
     def check_session():
         print(session)
         return 'Check the console for session data'
+
+
 
     return app
 

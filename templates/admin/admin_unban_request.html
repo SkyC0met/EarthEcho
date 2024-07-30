@@ -87,70 +87,45 @@
     {% extends 'navbar/admin_sidebar.html' %}
 
     {% block content %}
-
     <div class="container">
       <h1 class="fw-bold my-3">Unban Requests</h1>
 
       <!-- Search Bar -->
       <div class="search-container my-4">
-        <input
-          class="form-control"
-          type="search"
-          placeholder="Search Usernames Here"
-          aria-label="Search"
-        />
+        <input class="form-control" type="search" placeholder="Search Usernames Here" aria-label="Search" />
         <i class="fa-solid fa-magnifying-glass icon-dark"></i>
       </div>
       <!-- Search Bar -->
 
       <!-- Unban Requests List -->
       <ul class="unban-request-list">
+        {% for request in requests %}
         <li class="unban-request-item">
           <div class="user-info">
             <img src="{{ url_for('static', filename='images/user.png') }}" alt="User Image" width="40" height="40" />
             <div>
-              <div class="username">Username</div>
-              <div class="date">January 10, 2024</div>
+              <div class="username">{{ request.username }}</div>
+              <div class="date">{{ request.created_at.strftime('%B %d, %Y') }}</div>
             </div>
           </div>
-          <div class="message">Would like to ask if it is possible to......</div>
+          <div class="message">{{ request.request }}</div>
           <div class="actions">
-            <button class="btn btn-success">Unban</button>
-            <button class="btn btn-danger">Delete</button>
+            <form action="{{ url_for('adminunban.unban', request_id=request.id) }}" method="post" style="display:inline;">
+              <button class="btn btn-success" type="submit">Unban</button>
+            </form>
+            <form action="{{ url_for('adminunban.delete_request', request_id=request.id) }}" method="post" style="display:inline;">
+              <button class="btn btn-danger" type="submit">Delete</button>
+            </form>
           </div>
         </li>
+        {% else %}
         <li class="unban-request-item">
-          <div class="user-info">
-            <img src="{{ url_for('static', filename='images/user.png') }}" alt="User Image" width="40" height="40" />
-            <div>
-              <div class="username">Username</div>
-              <div class="date">January 10, 2024</div>
-            </div>
-          </div>
-          <div class="message">Could I have some help here? I was......</div>
-          <div class="actions">
-            <button class="btn btn-success">Unban</button>
-            <button class="btn btn-danger">Delete</button>
-          </div>
+          <div class="message">No unban requests found.</div>
         </li>
-        <li class="unban-request-item">
-          <div class="user-info">
-            <img src="{{ url_for('static', filename='images/user.png') }}" alt="User Image" width="40" height="40" />
-            <div>
-              <div class="username">Username</div>
-              <div class="date">January 10, 2024</div>
-            </div>
-          </div>
-          <div class="message">Hello! Not sure why I was banned from......</div>
-          <div class="actions">
-            <button class="btn btn-success">Unban</button>
-            <button class="btn btn-danger">Delete</button>
-          </div>
-        </li>
+        {% endfor %}
       </ul>
       <!-- Unban Requests List -->
     </div>
-
     {% endblock content %}
   </body>
 </html>

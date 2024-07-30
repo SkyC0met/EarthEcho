@@ -1,11 +1,13 @@
 from flask import Blueprint, render_template, redirect, url_for, flash, abort, session, request
 from werkzeug.security import check_password_hash
 from urllib.parse import urlparse, urljoin
-from flask_login import login_user, logout_user
+from flask_login import login_user, logout_user, current_user
 from blueprints.utils import *
 from blueprints.profile import handle_edit_form, delete_account
 from blueprints.sky_forms import LoginForm, EditUsernameForm, EditPhoneNumForm, EditEmailForm, ResetPasswordForm, DeleteAccountForm
 from blueprints.models import User
+from db import get_db_connection
+
 
 admin_bp = Blueprint('admin', __name__)
 
@@ -94,4 +96,6 @@ def user_management():
 def user_profile():
     return render_template('admin/user_profile.html')
 
+
+    return redirect(url_for('admin.user_management'))
 # ADMIN ROUTES
