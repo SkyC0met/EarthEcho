@@ -5,7 +5,6 @@ from flask import jsonify
 from datetime import timedelta
 from blueprints.utils import login_manager
 
-
 # BLUEPRINTS
 from blueprints.__init__ import init_bp
 from blueprints.homepage import homepage_bp
@@ -18,32 +17,31 @@ from blueprints.reward import reward_bp
 from blueprints.misc import misc_bp
 from blueprints.review import review_bp
 from blueprints.unban import unban_bp
-from blueprints.adminunban import adminunban_bp
-
+from blueprints.admin_unban import admin_unban_bp
 
 def create_app():
     app = Flask(__name__)
     app.config.from_object(Config)
     app.secret_key = app.config['SECRET_KEY']
 
+    # Initialize CSRF protection
     csrf = CSRFProtect(app)
     login_manager.init_app(app)
     login_manager.login_view = 'auth.user_login'
     login_manager.login_message_category = "primary"
 
-    # timeout after 30 mins
+    # Session and security settings
     app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(minutes=30)
-    # remove remember cookie
     app.config['REMEMBER_COOKIE_DURATION'] = timedelta(days=7)
-
     app.config['SESSION_COOKIE_SECURE'] = True
     app.config['SESSION_COOKIE_HTTPONLY'] = True
     app.config['SESSION_COOKIE_SAMESITE'] = 'Strict'
 
-    # reCAPTCHA
+    # reCAPTCHA configuration
     app.config['RECAPTCHA_SITE_KEY'] = '6LeDmxsqAAAAAIQKTcChogPkiUnenRppl4WiXGh0'
     app.config['RECAPTCHA_SECRET_KEY'] = '6LeDmxsqAAAAALGcfuu8CLdH92N_SHfM5T1xvGTK'
 
+    # Register blueprints
     app.register_blueprint(init_bp)
     app.register_blueprint(homepage_bp)
     app.register_blueprint(admin_bp, url_prefix='/admin')
@@ -55,11 +53,9 @@ def create_app():
     app.register_blueprint(misc_bp)
     app.register_blueprint(review_bp)
     app.register_blueprint(unban_bp)
-    app.register_blueprint(adminunban_bp)
+    app.register_blueprint(admin_unban_bp, url_prefix='/admin')
 
-    # for chatbot to run
-    # csrf.exempt(init_bp)
-
+    # Error handler for CSRF errors
     @app.errorhandler(CSRFError)
     def handle_csrf_error(e):
         return jsonify({"error": "CSRF token missing or incorrect."}), 400
@@ -69,12 +65,8 @@ def create_app():
         print(session)
         return 'Check the console for session data'
 
-
-
     return app
-
 
 if __name__ == '__main__':
     app = create_app()
     app.run(debug=True, host='127.0.0.1', port=80)
-    # app.run(debug=False) to activate 500 error

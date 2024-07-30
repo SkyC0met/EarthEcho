@@ -1,131 +1,128 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+<head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Unban Requests</title>
     <!-- Font and Icons -->
-    <link
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
-      rel="stylesheet"
-    />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet" />
     <!-- Styles -->
     <style>
-      body {
-        font-family: Arial, sans-serif;
-        background-color: #f0f2f5;
-        margin: 0;
-        padding: 0;
-      }
-      .container {
-        padding: 20px;
-      }
-      .fw-bold {
-        font-weight: bold;
-      }
-      .my-3 {
-        margin-top: 1rem;
-        margin-bottom: 1rem;
-      }
-      .search-container {
-        position: relative;
-        margin-bottom: 20px;
-      }
-      .search-container input {
-        width: 100%;
-        padding: 10px;
-        border-radius: 5px;
-        border: 1px solid #ccc;
-      }
-      .search-container .fa-magnifying-glass {
-        position: absolute;
-        top: 50%;
-        right: 10px;
-        transform: translateY(-50%);
-        color: #ccc;
-      }
-      .unban-request-list {
-        list-style: none;
-        padding: 0;
-      }
-      .unban-request-item {
-        background-color: #fff;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-        padding: 15px;
-        margin-bottom: 10px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-      }
-      .unban-request-item .user-info {
-        display: flex;
-        align-items: center;
-      }
-      .unban-request-item .user-info img {
-        border-radius: 50%;
-        margin-right: 10px;
-      }
-      .unban-request-item .user-info .username {
-        font-weight: bold;
-      }
-      .unban-request-item .user-info .date {
-        color: #777;
-        font-size: 0.9em;
-      }
-      .unban-request-item .message {
-        flex-grow: 1;
-        margin-left: 20px;
-        color: #555;
-      }
-      .unban-request-item .actions button {
-        margin-left: 5px;
-      }
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f2f5;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            padding: 20px;
+        }
+        .fw-bold {
+            font-weight: bold;
+        }
+        .my-3 {
+            margin-top: 1rem;
+            margin-bottom: 1rem;
+        }
+        .search-container {
+            position: relative;
+            margin-bottom: 20px;
+        }
+        .search-container input {
+            width: 100%;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        .search-container .fa-magnifying-glass {
+            position: absolute;
+            top: 50%;
+            right: 10px;
+            transform: translateY(-50%);
+            color: #ccc;
+        }
+        .unban-request-list {
+            list-style: none;
+            padding: 0;
+        }
+        .unban-request-item {
+            background-color: #fff;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 15px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .unban-request-item .user-info {
+            display: flex;
+            align-items: center;
+        }
+        .unban-request-item .user-info img {
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+        .unban-request-item .user-info .username {
+            font-weight: bold;
+        }
+        .unban-request-item .user-info .date {
+            color: #777;
+            font-size: 0.9em;
+        }
+        .unban-request-item .message {
+            flex-grow: 1;
+            margin-left: 20px;
+            color: #555;
+        }
+        .unban-request-item .actions button {
+            margin-left: 5px;
+        }
     </style>
-  </head>
-  <body>
+</head>
+<body>
     {% extends 'navbar/admin_sidebar.html' %}
 
     {% block content %}
     <div class="container">
-      <h1 class="fw-bold my-3">Unban Requests</h1>
+        <h1 class="fw-bold my-3">Unban Requests</h1>
 
-      <!-- Search Bar -->
-      <div class="search-container my-4">
-        <input class="form-control" type="search" placeholder="Search Usernames Here" aria-label="Search" />
-        <i class="fa-solid fa-magnifying-glass icon-dark"></i>
-      </div>
-      <!-- Search Bar -->
+        <!-- Search Bar -->
+        <div class="search-container my-4">
+            <input class="form-control" type="search" placeholder="Search Usernames Here" aria-label="Search" />
+            <i class="fa-solid fa-magnifying-glass icon-dark"></i>
+        </div>
+        <!-- Search Bar -->
 
-      <!-- Unban Requests List -->
-      <ul class="unban-request-list">
-        {% for request in requests %}
-        <li class="unban-request-item">
-          <div class="user-info">
-            <img src="{{ url_for('static', filename='images/user.png') }}" alt="User Image" width="40" height="40" />
-            <div>
-              <div class="username">{{ request.username }}</div>
-              <div class="date">{{ request.created_at.strftime('%B %d, %Y') }}</div>
-            </div>
-          </div>
-          <div class="message">{{ request.request }}</div>
-          <div class="actions">
-            <form action="{{ url_for('adminunban.unban', request_id=request.id) }}" method="post" style="display:inline;">
-              <button class="btn btn-success" type="submit">Unban</button>
-            </form>
-            <form action="{{ url_for('adminunban.delete_request', request_id=request.id) }}" method="post" style="display:inline;">
-              <button class="btn btn-danger" type="submit">Delete</button>
-            </form>
-          </div>
-        </li>
-        {% else %}
-        <li class="unban-request-item">
-          <div class="message">No unban requests found.</div>
-        </li>
-        {% endfor %}
-      </ul>
-      <!-- Unban Requests List -->
+        <!-- Unban Requests List -->
+        <ul class="unban-request-list">
+            {% for request in requests %}
+            <li class="unban-request-item">
+                <div class="user-info">
+                    <img src="{{ url_for('static', filename='images/user.png') }}" alt="User Image" width="40" height="40" />
+                    <div>
+                        <div class="username">{{ request.username }}</div>
+                        <div class="date">{{ request.created_at.strftime('%B %d, %Y') }}</div>
+                    </div>
+                </div>
+                <div class="message">{{ request.request }}</div>
+                <div class="actions">
+                    <form action="{{ url_for('admin_unban.unban', request_id=request.id) }}" method="post" style="display:inline;">
+                        <button class="btn btn-success" type="submit">Unban</button>
+                    </form>
+                    <form action="{{ url_for('admin_unban.delete_request', request_id=request.id) }}" method="post" style="display:inline;">
+                        <button class="btn btn-danger" type="submit">Delete</button>
+                    </form>
+                </div>
+            </li>
+            {% else %}
+            <li class="unban-request-item">
+                <div class="message">No unban requests found.</div>
+            </li>
+            {% endfor %}
+        </ul>
+        <!-- Unban Requests List -->
     </div>
     {% endblock content %}
-  </body>
+</body>
 </html>
