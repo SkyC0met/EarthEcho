@@ -33,7 +33,6 @@ def unban_request():
                 VALUES (%s, %s, %s, %s)
             """, (username, first_name, last_name, request_text))
             conn.commit()
-            flash('Unban request submitted successfully!', 'success')
         except Error as e:
             conn.rollback()
             flash(f'An error occurred: {e}', 'danger')
