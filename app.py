@@ -6,7 +6,6 @@ from datetime import timedelta
 from blueprints.utils import login_manager
 from flask_talisman import Talisman
 
-
 # BLUEPRINTS
 from blueprints.__init__ import init_bp
 from blueprints.homepage import homepage_bp
@@ -20,7 +19,6 @@ from blueprints.misc import misc_bp
 from blueprints.review import review_bp
 from blueprints.unban import unban_bp
 from blueprints.admin_unban import admin_unban_bp
-
 
 # Define the Content Security Policy (CSP)
 csp = {

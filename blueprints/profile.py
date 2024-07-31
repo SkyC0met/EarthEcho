@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, flash, redirect, url_for, session, request
 from werkzeug.security import generate_password_hash, check_password_hash
-from flask_login import logout_user
+from flask_login import logout_user, login_required
 from db import get_db_connection
 from blueprints.utils import *
 from blueprints.sky_forms import EditUsernameForm, EditPhoneNumForm, EditEmailForm, ResetPasswordForm, DeleteAccountForm
@@ -88,8 +88,8 @@ def my_profile():
 
     return render_template('user/my_profile.html', user=user, edit_username_form=edit_username_form, edit_phone_num_form=edit_phone_num_form, edit_email_form=edit_email_form, reset_password_form=reset_password_form, delete_account_form=delete_account_form)
 
-@profile_bp.route('/user/profile/delete', methods=['POST'])
-@user_required
+@profile_bp.route('/profile/delete', methods=['POST'])
+@login_required
 def delete_profile():
     delete_account_form = DeleteAccountForm()
     if delete_account_form.validate_on_submit():
