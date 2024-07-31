@@ -20,7 +20,6 @@ from blueprints.review import review_bp
 from blueprints.unban import unban_bp
 from blueprints.admin_unban import admin_unban_bp
 
-# Define the Content Security Policy (CSP)
 csp = {
     'default-src': [
         '\'self\'',
@@ -28,27 +27,27 @@ csp = {
     ],
     'script-src': [
         '\'self\'',
-        '*',  # Allow any source for scripts
-        '\'unsafe-inline\'',  # Allow inline scripts
-        '\'unsafe-eval\'',  # Allow eval() in scripts
+        '*',
+        '\'unsafe-inline\'',
+        '\'unsafe-eval\'',
     ],
     'style-src': [
         '\'self\'',
-        '*',  # Allow any source for styles
-        '\'unsafe-inline\'',  # Allow inline styles
+        '*',
+        '\'unsafe-inline\'',
     ],
     'img-src': [
         '\'self\'',
         'data:',
-        '*',  # Allow any source for images
+        '*',
     ],
     'font-src': [
         '\'self\'',
-        '*',  # Allow any source for fonts
+        '*',
     ],
     'connect-src': [
         '\'self\'',
-        '*',  # Allow any source for connections
+        '*',
     ],
     'object-src': [
         '*'
@@ -57,7 +56,7 @@ csp = {
         '*'
     ]
 }
-# Define HSTS policy
+
 hsts = {
     'max_age': 31536000,
     'include_subdomains': True,
@@ -74,7 +73,6 @@ def create_app(config_class=Config):
     login_manager.login_view = 'auth.user_login'
     login_manager.login_message_category = "primary"
 
-    # Apply Talisman for security
     talisman = Talisman(
         app,
         content_security_policy=csp,
