@@ -59,67 +59,51 @@
     <h2 class="fw-bold mt-5">Recent Posts</h2>
     <div class="row my-4 justify-content-center">
       <div class="col-2">
-        <a href="#">
+        <a href="{{ url_for('init.blog') }}">
           <div class="card bg-transparent" style="border: 0;">
-            <img src="{{ url_for('static', filename='images/deforestation.jpg') }}" class="card-img-top" alt="...">
-            <h4 class="my-3">Deforestation</h4>
-            <h5>Username</h5>
+            <img src="{{ url_for('static', filename='images/sky/blogpost1.jpg') }}" class="card-img-top" alt="...">
+            <h4 class="my-3 short-text">Embracing Sustainability: A Journey Towards a Greener Future</h4>
+            <h5>Jane</h5>
           </div>
         </a>
       </div>
       <div class="col-2">
         <a href="#">
           <div class="card bg-transparent" style="border: 0;">
-            <img src="{{ url_for('static', filename='images/deforestation.jpg') }}" class="card-img-top" alt="...">
-            <h4 class="my-3">Deforestation</h4>
-            <h5>Username</h5>
+            <img src="{{ url_for('static', filename='images/sky/hp1.jpg') }}" class="card-img-top" alt="...">
+            <h4 class="my-3 short-text">How to prevent water pollution</h4>
+            <h5>Ben10</h5>
           </div>
         </a>
       </div>
       <div class="col-2">
         <a href="#">
           <div class="card bg-transparent" style="border: 0;">
-            <img src="{{ url_for('static', filename='images/deforestation.jpg') }}" class="card-img-top" alt="...">
-            <h4 class="my-3">Deforestation</h4>
-            <h5>Username</h5>
+            <img src="{{ url_for('static', filename='images/sky/hp2.jpg') }}" class="card-img-top" alt="...">
+            <h4 class="my-3 short-text">Effects of air pollution</h4>
+            <h5>Adam</h5>
           </div>
         </a>
       </div>
       <div class="col-2">
         <a href="#">
           <div class="card bg-transparent" style="border: 0;">
-            <img src="{{ url_for('static', filename='images/deforestation.jpg') }}" class="card-img-top" alt="...">
-            <h4 class="my-3">Deforestation</h4>
-            <h5>Username</h5>
+            <img src="{{ url_for('static', filename='images/sky/hp3.jpg') }}" class="card-img-top" alt="...">
+            <h4 class="my-3 short-text">Reduce, Reuse, Recycle</h4>
+            <h5>Mary_poppins</h5>
           </div>
         </a>
       </div>
       <div class="col-2">
         <a href="#">
           <div class="card bg-transparent" style="border: 0;">
-            <img src="{{ url_for('static', filename='images/deforestation.jpg') }}" class="card-img-top" alt="...">
-            <h4 class="my-3">Deforestation</h4>
-            <h5>Username</h5>
+            <img src="{{ url_for('static', filename='images/sky/hp4.jpg') }}" class="card-img-top" alt="...">
+            <h4 class="my-3 short-text">Saving animals</h4>
+            <h5>Jimmy</h5>
           </div>
         </a>
       </div>
     </div>
-
-    <!--SKY MESSAGE TEST TEMP-->
-    <div class="row my-4 justify-content-center">
-      {% for user in users %}
-      <div class="col-2">
-        <a href="{{ url_for('messaging.chat', receiver_id=user['user_id']) }}">
-          <div class="card bg-transparent" style="border: 0;">
-            <img src="{{ url_for('static', filename='images/deforestation.jpg') }}" class="card-img-top" alt="...">
-            <h4 class="my-3">Deforestation</h4>
-            <h5>{{ user.username }}</h5>
-          </div>
-        </a>
-      </div>
-      {% endfor %}
-    </div>
-    <!--SKY MESSAGE TEST TEMP-->
   </div>
 
   <footer class="p-4" style="background-color: #f1f1f1;">

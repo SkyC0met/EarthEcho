@@ -1,4 +1,4 @@
--- DROP DATABASE IF EXISTS earthecho_db;
+DROP DATABASE IF EXISTS earthecho_db;
 
 CREATE DATABASE IF NOT EXISTS earthecho_db;
 
@@ -96,7 +96,7 @@ CREATE TABLE IF NOT EXISTS unban_requests (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-/*INSERT INTO review (review_id, review, rating, post_id, user_id, timestamp) VALUES
+INSERT INTO review (review_id, review, rating, post_id, user_id, timestamp) VALUES
 ('77', 'well written', '5', '1', '3', '2024-07-30 10:12:23');
 
 INSERT INTO users (username, phone_num, email, passwd, acc_type) VALUES
@@ -137,7 +137,7 @@ INSERT INTO sky_posts_to_test_fav (user_id, header, body, topic, image_path) VAL
 (1, 'Embracing Sustainability: A Journey Towards a Greener Future', 'In an age where climate change and environmental degradation are becoming increasingly urgent issues, sustainability is more than just a buzzword;', 'Sustainability', 'images/sky/blogpost1.jpg'),
 (1, 'Post 2', 'This is the body of the post.', 'Technology', 'images/fashion/fashion7.jpg'),
 (1, 'Post 3', 'This is the body of the post.', 'Technology', 'images/fashion/fashion6.jpg');
-*/
+
 
 /*SELECT ur.user_id, ur.reward_id, ur.redemption_date, ps.reward_name, ps.reward, ps.reward_desc, ps.valid_until, ps.image_path
 FROM user_redemption ur
@@ -150,4 +150,4 @@ INNER JOIN sky_posts_to_test_fav sp ON uf.post_id = sp.post_id
 WHERE uf.user_id = 2;
 */
 
-SELECT * FROM messages;
+SELECT * FROM users;
