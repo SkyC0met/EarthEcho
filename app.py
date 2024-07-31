@@ -19,8 +19,12 @@ from blueprints.misc import misc_bp
 from blueprints.review import review_bp
 from blueprints.unban import unban_bp
 from blueprints.admin_unban import admin_unban_bp
+from blueprints.createpost import create_bp
+from blueprints.myposts import myposts_bp
+from blueprints.viewpost import view_bp
+from blueprints.edit import edit_bp
+from blueprints.delete import delete_bp
 
-# Define the Content Security Policy (CSP)
 csp = {
     'default-src': [
         '\'self\'',
@@ -28,27 +32,27 @@ csp = {
     ],
     'script-src': [
         '\'self\'',
-        '*',  # Allow any source for scripts
-        '\'unsafe-inline\'',  # Allow inline scripts
-        '\'unsafe-eval\'',  # Allow eval() in scripts
+        '*',
+        '\'unsafe-inline\'',
+        '\'unsafe-eval\'',
     ],
     'style-src': [
         '\'self\'',
-        '*',  # Allow any source for styles
-        '\'unsafe-inline\'',  # Allow inline styles
+        '*',
+        '\'unsafe-inline\'',
     ],
     'img-src': [
         '\'self\'',
         'data:',
-        '*',  # Allow any source for images
+        '*',
     ],
     'font-src': [
         '\'self\'',
-        '*',  # Allow any source for fonts
+        '*',
     ],
     'connect-src': [
         '\'self\'',
-        '*',  # Allow any source for connections
+        '*',
     ],
     'object-src': [
         '*'
@@ -57,7 +61,7 @@ csp = {
         '*'
     ]
 }
-# Define HSTS policy
+
 hsts = {
     'max_age': 31536000,
     'include_subdomains': True,
@@ -69,12 +73,13 @@ def create_app(config_class=Config):
     app.config.from_object(Config)
     app.secret_key = app.config['SECRET_KEY']
 
+    app.config['UPLOAD_FOLDER'] = 'static/images/user_post_images'
+
     csrf = CSRFProtect(app)
     login_manager.init_app(app)
     login_manager.login_view = 'auth.user_login'
     login_manager.login_message_category = "primary"
 
-    # Apply Talisman for security
     talisman = Talisman(
         app,
         content_security_policy=csp,
@@ -113,6 +118,11 @@ def create_app(config_class=Config):
     app.register_blueprint(review_bp)
     app.register_blueprint(unban_bp)
     app.register_blueprint(admin_unban_bp)
+    app.register_blueprint(create_bp)
+    app.register_blueprint(myposts_bp)
+    app.register_blueprint(view_bp)
+    app.register_blueprint(edit_bp)
+    app.register_blueprint(delete_bp)
 
     # for chatbot to run
     # csrf.exempt(init_bp)

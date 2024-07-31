@@ -84,7 +84,8 @@ def delete_profile():
 @admin_bp.route('/user-management')
 @admin_required
 def user_management():
-    return render_template('admin/user_management.html')
+    users = get_all_users(session['_user_id'])
+    return render_template('admin/user_management.html', users=users)
 
 @admin_bp.route('/user-profile')
 @admin_required

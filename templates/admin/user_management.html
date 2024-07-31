@@ -43,19 +43,18 @@
               <th scope="col">Username</th>
               <th scope="col">Phone number</th>
               <th scope="col">Email</th>
-              <th scope="col">Password</th>
               <th scope="col">Role</th>
               <th scope="col">Action</th>
             </tr>
           </thead>
           <tbody>
+            {% for user in users %}
             <tr>
-              <th scope="row">1</th>
-              <td>Mark</td>
-              <td>12345678</td>
-              <td>mark@gmail.com</td>
-              <td>Mark@123</td>
-              <td>User</td>
+              <th scope="row">{{ user.user_id }}</th>
+              <td>{{ user.username }}</td>
+              <td>{{ user.phone_num }}</td>
+              <td>{{ user.email }}</td>
+              <td>{{ user.acc_type }}</td>
               <td class="d-flex justify-content-between">
                 <button class="btn btn-primary edit-user-btn">
                   <i class="fa-solid fa-pen-to-square"></i>
@@ -66,193 +65,7 @@
                 </button>
               </td>
             </tr>
-            <tr>
-              <th scope="row">2</th>
-              <td>Jacob</td>
-              <td>86554454</td>
-              <td>jacob@gmail.com</td>
-              <td>jacob@123</td>
-              <td>User</td>
-              <td class="d-flex justify-content-between">
-                <button class="btn btn-primary edit-user-btn">
-                  <i class="fa-solid fa-pen-to-square"></i>
-                </button>
-
-                <button class="btn btn-danger delete-user-btn">
-                  <i class="fa-solid fa-trash"></i>
-                </button>
-              </td>
-            </tr>
-            <tr>
-              <th scope="row">3</th>
-              <td>Mark</td>
-              <td>12345678</td>
-              <td>mark@gmail.com</td>
-              <td>Mark@123</td>
-              <td>User</td>
-              <td class="d-flex justify-content-between">
-                <button class="btn btn-primary edit-user-btn">
-                  <i class="fa-solid fa-pen-to-square"></i>
-                </button>
-
-                <button class="btn btn-danger delete-user-btn">
-                  <i class="fa-solid fa-trash"></i>
-                </button>
-              </td>
-            </tr>
-            <tr>
-              <th scope="row">4</th>
-              <td>Jacob</td>
-              <td>86554454</td>
-              <td>jacob@gmail.com</td>
-              <td>jacob@123</td>
-              <td>User</td>
-              <td class="d-flex justify-content-between">
-                <button class="btn btn-primary edit-user-btn">
-                  <i class="fa-solid fa-pen-to-square"></i>
-                </button>
-
-                <button class="btn btn-danger delete-user-btn">
-                  <i class="fa-solid fa-trash"></i>
-                </button>
-              </td>
-            </tr>
-            <tr>
-              <th scope="row">5</th>
-              <td>Mark</td>
-              <td>12345678</td>
-              <td>mark@gmail.com</td>
-              <td>Mark@123</td>
-              <td>User</td>
-              <td class="d-flex justify-content-between">
-                <button class="btn btn-primary edit-user-btn">
-                  <i class="fa-solid fa-pen-to-square"></i>
-                </button>
-
-                <button class="btn btn-danger delete-user-btn">
-                  <i class="fa-solid fa-trash"></i>
-                </button>
-              </td>
-            </tr>
-            <tr>
-              <th scope="row">6</th>
-              <td>Jacob</td>
-              <td>86554454</td>
-              <td>jacob@gmail.com</td>
-              <td>jacob@123</td>
-              <td>User</td>
-              <td class="d-flex justify-content-between">
-                <button class="btn btn-primary edit-user-btn">
-                  <i class="fa-solid fa-pen-to-square"></i>
-                </button>
-
-                <button class="btn btn-danger delete-user-btn">
-                  <i class="fa-solid fa-trash"></i>
-                </button>
-              </td>
-            </tr>
-            <tr>
-              <th scope="row">7</th>
-              <td>Mark</td>
-              <td>12345678</td>
-              <td>mark@gmail.com</td>
-              <td>Mark@123</td>
-              <td>User</td>
-              <td class="d-flex justify-content-between">
-                <button class="btn btn-primary edit-user-btn">
-                  <i class="fa-solid fa-pen-to-square"></i>
-                </button>
-
-                <button class="btn btn-danger delete-user-btn">
-                  <i class="fa-solid fa-trash"></i>
-                </button>
-              </td>
-            </tr>
-            <tr>
-              <th scope="row">8</th>
-              <td>Jacob</td>
-              <td>86554454</td>
-              <td>jacob@gmail.com</td>
-              <td>jacob@123</td>
-              <td>User</td>
-              <td class="d-flex justify-content-between">
-                <button class="btn btn-primary edit-user-btn">
-                  <i class="fa-solid fa-pen-to-square"></i>
-                </button>
-
-                <button class="btn btn-danger delete-user-btn">
-                  <i class="fa-solid fa-trash"></i>
-                </button>
-              </td>
-            </tr>
-            <tr>
-              <th scope="row">9</th>
-              <td>Mark</td>
-              <td>12345678</td>
-              <td>mark@gmail.com</td>
-              <td>Mark@123</td>
-              <td>User</td>
-              <td class="d-flex justify-content-between">
-                <button class="btn btn-primary edit-user-btn">
-                  <i class="fa-solid fa-pen-to-square"></i>
-                </button>
-
-                <button class="btn btn-danger delete-user-btn">
-                  <i class="fa-solid fa-trash"></i>
-                </button>
-              </td>
-            </tr>
-            <tr>
-              <th scope="row">10</th>
-              <td>Jacob</td>
-              <td>86554454</td>
-              <td>jacob@gmail.com</td>
-              <td>jacob@123</td>
-              <td>User</td>
-              <td class="d-flex justify-content-between">
-                <button class="btn btn-primary edit-user-btn">
-                  <i class="fa-solid fa-pen-to-square"></i>
-                </button>
-
-                <button class="btn btn-danger delete-user-btn">
-                  <i class="fa-solid fa-trash"></i>
-                </button>
-              </td>
-            </tr>
-            <tr>
-              <th scope="row">11</th>
-              <td>Mark</td>
-              <td>12345678</td>
-              <td>mark@gmail.com</td>
-              <td>Mark@123</td>
-              <td>User</td>
-              <td class="d-flex justify-content-between">
-                <button class="btn btn-primary edit-user-btn">
-                  <i class="fa-solid fa-pen-to-square"></i>
-                </button>
-
-                <button class="btn btn-danger delete-user-btn">
-                  <i class="fa-solid fa-trash"></i>
-                </button>
-              </td>
-            </tr>
-            <tr>
-              <th scope="row">12</th>
-              <td>Jacob</td>
-              <td>86554454</td>
-              <td>jacob@gmail.com</td>
-              <td>jacob@123</td>
-              <td>User</td>
-              <td class="d-flex justify-content-between">
-                <button class="btn btn-primary edit-user-btn">
-                  <i class="fa-solid fa-pen-to-square"></i>
-                </button>
-
-                <button class="btn btn-danger delete-user-btn">
-                  <i class="fa-solid fa-trash"></i>
-                </button>
-              </td>
-            </tr>
+            {% endfor %}
           </tbody>
         </table>
       </div>

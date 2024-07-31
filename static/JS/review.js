@@ -9,8 +9,8 @@ document.addEventListener('DOMContentLoaded', function () {
     const averageRatingElem = document.getElementById('averageRating');
     const ratingChartElem = document.getElementById('ratingChart');
 
-    let currentPage = parseInt(currentPageInput.value) || 1;
-    const reviewsPerPage = parseInt(reviewsPerPageInput.value) || 3;
+    let currentPage = parseInt(currentPageInput?.value) || 1;
+    const reviewsPerPage = parseInt(reviewsPerPageInput?.value) || 3;
     let totalReviews = 0;
     let reviewsDisplayed = 0;
 
@@ -88,11 +88,10 @@ document.addEventListener('DOMContentLoaded', function () {
                         const reviewElement = document.createElement('div');
                         reviewElement.classList.add('review');
                         reviewElement.innerHTML = `
-                            <p>Username: ${review.username}</p>
-                            <p>Date and Time: ${review.timestamp}</p>
-                            <p>Rating: ${review.rating}</p>
-                            <p>Review: ${review.review}</p>
-                            <hr>
+                            <p><b>Username:</b> ${review.username}</p>
+                            <p><b>Date and Time:</b> ${review.timestamp}</p>
+                            <p><b>Rating:</b> ${review.rating}</p>
+                            <p><b>Review:</b> ${review.review}</p>
                         `;
                         reviewsContainer.appendChild(reviewElement);
                     });
@@ -114,7 +113,8 @@ document.addEventListener('DOMContentLoaded', function () {
             })
             .catch(error => {
                 console.error('Fetch error:', error);
-                alert('Error fetching reviews. Please try again later.');
+                // Remove or comment out the alert
+                // alert('Error fetching reviews. Please try again later.');
             });
     }
 
@@ -153,7 +153,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     console.error('Error response:', data.message);
                     if (data.message === "You have submitted too many reviews today") {
                         alert('You have reached the max no of reviews you can submit today')
-                    } else{
+                    } else {
                         alert('Error: ' + data.message);
                     }
                 }
