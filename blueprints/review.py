@@ -33,7 +33,7 @@ def submit_review():
         # Check for missing fields
         if not rating or not review:
             print("Missing fields detected")
-            return jsonify({'status': 'error', 'message': 'Missing fields'}), 400
+            return jsonify({'status': 'error', 'message': 'Please fill in both the rating and review before submitting'}), 400
 
         try:
             rating = int(rating)
@@ -59,6 +59,7 @@ def submit_review():
             cursor.execute(count_query, (user_id, today_start, today_end))
             review_count = cursor.fetchone()[0]
 
+            # rate limiting
             if review_count >= 5:
                 print("Daily review limit reached")
                 return jsonify({'status': 'error', 'message': 'You have reached the daily review limit'}), 429
