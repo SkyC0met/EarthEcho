@@ -74,7 +74,9 @@ CREATE TABLE IF NOT EXISTS posts (
     topic TEXT NOT NULL,
     FOREIGN KEY (username) REFERENCES users(username),
     FOREIGN KEY (user_id) REFERENCES users(user_id),
-    timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    image_data BLOB,
+    image_name VARCHAR(255)
 );
 
 -- Create the review table without foreign keys

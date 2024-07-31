@@ -62,7 +62,7 @@
       >
         <!--NOT DROPDOWN BIG SCREEN-->
         <div class="order-last mx-5 d-lg-flex d-none align-items-center">
-          <a href="{{ url_for('init.CreatePosts') }}">
+          <a href="{{ url_for('create.create_post') }}">
             <i class="fa-solid fa-square-plus fa-2xl mx-3"></i>
           </a>
           <div class="dropdown text-center">
@@ -79,7 +79,7 @@
                 >
               </li>
               <li>
-                <a class="dropdown-item" href="{{ url_for('init.MyPosts') }}"
+                <a class="dropdown-item" href="{{ url_for('myposts.my_posts') }}"
                   >My posts</a
                 >
               </li>
@@ -124,7 +124,7 @@
           <ul class="navbar-nav gap-3">
             <li class="nav-item">
               <a
-                href="{{ url_for('init.CreatePosts') }}"
+                href="{{ url_for('create.create_post') }}"
                 class="d-flex align-items-center"
               >
                 <i class="fa-solid fa-square-plus fa-2xl mx-3"></i>
@@ -150,7 +150,7 @@
                   >
                 </li>
                 <li>
-                  <a class="dropdown-item" href="{{ url_for('init.MyPosts') }}"
+                  <a class="dropdown-item" href="{{ url_for('myposts.my_posts') }}"
                     >My posts</a
                   >
                 </li>
