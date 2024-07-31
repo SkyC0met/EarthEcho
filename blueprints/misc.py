@@ -10,13 +10,10 @@ def four_o_four(e):
     if '_user_id' in session:
         user = get_user_by_field('user_id', session['_user_id'])
         if user['acc_type'] == 'admin':
-            print('1')
             return render_template('misc/admin_404.html'), 404
         else:
-            print('2')
             return render_template('misc/user_404.html'), 404
     else:
-        print('3')
         return render_template('misc/user_404.html'), 404
 
 @misc_bp.app_errorhandler(500)

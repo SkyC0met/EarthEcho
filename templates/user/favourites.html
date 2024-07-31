@@ -6,27 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Favourites</title>
 
-    <script>
-      function submitFavouriteForm(postId, isFavourite) {
-          var form = document.getElementById('favourite-form-' + postId);
-          var action = isFavourite === 'true' ? "{{ url_for('fav.remove_favourite') }}" : "{{ url_for('fav.add_favourite') }}";
-          form.action = action;
-          form.submit();
-
-          var heart = form.querySelector('.fa-heart');
-          heart.classList.toggle('fa-solid');
-          heart.classList.toggle('fa-regular');
-      }
-
-      function toggleFavourite(event) {
-          event.stopPropagation();
-          event.preventDefault();
-          var heart = event.currentTarget;
-          var postId = heart.getAttribute('data-post-id');
-          var isFavourite = heart.getAttribute('data-is-favourite');
-          submitFavouriteForm(postId, isFavourite);
-      }
-    </script>
+    <script src="../../static/js/fav.js"></script>
   </head>
 
   <body>
@@ -48,17 +28,7 @@
                   alt="..."
                 />
                 <div class="card-body p-2">
-                  <div
-                    class="d-flex align-items-center justify-content-between my-2"
-                  >
-                    <h5 class="fw-bold short-text">{{ favourite.header }}</h5>
-  
-                    <form id="favourite-form-1" action="{{ url_for('fav.add_favourite') }}" method="POST">
-                      {{ add_favourites_form.csrf_token }}
-                      {{ add_favourites_form.post_id(value=1) }}
-                      <i id="favourite-heart-{{ favourite.post_id }}" class="fa-heart fa-xl icon-red {% if is_favourite %}fa-regular{% else %}fa-solid{% endif %}" type="button" data-post-id="{{ favourite.post_id }}" data-is-favourite="{% if is_favourite %}false{% else %}true{% endif %}" onclick="toggleFavourite(event);"></i>
-                    </form>
-                  </div>
+                  <h5 class="fw-bold short-text my-2">{{ favourite.header }}</h5>
                   <p class="mt-4 short-text">{{ favourite.body }}</p>
                 </div>
               </div>

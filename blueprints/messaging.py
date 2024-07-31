@@ -3,6 +3,7 @@ from flask_login import login_required
 from db import get_db_connection
 from blueprints.utils import *
 from blueprints.sky_forms import MessageForm
+from blueprints.rate_limiter import *
 
 messaging_bp = Blueprint('messaging', __name__)
 
@@ -50,6 +51,14 @@ def insert_message(sender_user_id: int, receiver_user_id: int, message: str):
     cursor.close()
     conn.close()
 
+    # Update rate limit store
+    current_time = time.time()
+    if sender_user_id not in rate_limit_store:
+        rate_limit_store[sender_user_id] = [[current_time], 1]
+    else:
+        rate_limit_store[sender_user_id][0].append(current_time)
+        rate_limit_store[sender_user_id][1] += 1
+
 def get_messages_between_users(user_id1: int, user_id2: int):
     conn = get_db_connection()
     cursor = conn.cursor(dictionary=True)
@@ -93,6 +102,7 @@ def messages():
 
 @messaging_bp.route('/chat/<receiver_id>', methods=['GET', 'POST'])
 @user_required
+@rate_limit(2)
 def chat(receiver_id):
     sender_id = session['_user_id']
     if sender_id == receiver_id:
@@ -113,13 +123,5 @@ def chat(receiver_id):
         return redirect(url_for('messaging.chat', receiver_id=receiver_id))
     messages = get_messages_between_users(sender_id, receiver_id)
     return render_template('user/chat.html', sender=sender['username'], receiver=receiver['username'], message_form=message_form, messages=messages)
-
-@messaging_bp.route('/clear_messages', methods=['POST'])
-@user_required
-def clear_messages():
-    if 'user_id' not in session:
-        return redirect(url_for('auth.user_login'))
-    clear_all_messages()
-    return redirect(url_for('messaging.messages'))
 
 # MESSAGING ROUTES

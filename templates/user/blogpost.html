@@ -6,25 +6,7 @@
     <title>Blog Post</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/blogpost.css') }}">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-    <script>
-        function submitFavouriteForm(postId, isFavourite) {
-            var form = document.getElementById('favourite-form-' + postId);
-            var action = isFavourite ? '{{ url_for("fav.remove_favourite") }}' : '{{ url_for("fav.add_favourite") }}';
-            form.action = action;
-            form.submit();
-
-            var heart = form.querySelector('.fa-heart');
-            heart.classList.toggle('fa-regular');
-            heart.classList.toggle('fa-solid');
-        }
-
-        function toggleFavourite(postId) {
-            var heart = document.querySelector('#favourite-heart-' + postId);
-            var isFavourite = heart.classList.contains('fa-solid');
-            submitFavouriteForm(postId, isFavourite);
-        }
-    </script>
+    <script src="{{ url_for('static', filename='js/fav.js') }}"></script>
 </head>
 <body>
     {% include "user/customerBase.html" %}
@@ -51,7 +33,12 @@
                 {{ add_favourites_form.csrf_token }}
                 {{ add_favourites_form.post_id(value=1) }}
                 {% if current_user.is_authenticated %}
-                    <i id="favourite-heart-1" class="fa-heart fa-xl icon-red {% if is_favourite %}fa-solid{% else %}fa-regular{% endif %}" type="button" onclick="toggleFavourite(1);"></i>
+                    <i id="favourite-heart-1" 
+                       class="fa-heart fa-xl icon-red {% if is_favourite %}fa-solid{% else %}fa-regular{% endif %}"
+                       data-post-id="1"
+                       data-add-url="{{ url_for('fav.add_favourite') }}"
+                       data-remove-url="{{ url_for('fav.remove_favourite') }}"
+                       type="button"></i>
                 {% endif %}
             </form>
         </div>
