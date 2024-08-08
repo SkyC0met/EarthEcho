@@ -20,6 +20,7 @@
         </ul>
       {% endif %}
     {% endwith %}
+    </div>
     
     {% block body %}
     <div class="form-container d-grid justify-content-center p-3" >
@@ -35,18 +36,20 @@
           </div>
 
 
+          <div>
+            {{ form.csrf_token }}
+            <label for="{{ form.header.id }}" class="form-label">Header:</label><br>
+            {{ form.header(size=60) }}<br><br>
+            <label for="{{ form.image.id }}" class="form-label">Image:</label>
+            {{ form.image() }}
+            <label for="{{ form.topic.id }}" class="form-label">Topic:</label>
+            {{ form.topic() }}<br><br>
+            <label for="{{ form.body.id }}" class="form-label">Body:</label><br>
+            {{ form.body(rows=10,cols=60) }}<br><br>
+            {{ form.submit() }}
+          </div>
         </div>
-        {{ form.csrf_token }}
-        <label for="{{ form.header.id }}" class="form-label">Header:</label><br>
-        {{ form.header(size=60) }}<br><br>
-        <label for="{{ form.image.id }}" class="form-label">Image:</label>
-        {{ form.image() }}
-        <label for="{{ form.topic.id }}" class="form-label">Topic:</label>
-        {{ form.topic() }}<br><br>
-        <label for="{{ form.body.id }}" class="form-label">Body:</label><br>
-        {{ form.body(rows=10) }}<br><br>
-        {{ form.submit() }}
-    </form>
+      </form>
     </div>
 
     <ul class="list-group">

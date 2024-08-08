@@ -16,7 +16,6 @@ def my_posts():
 
     # Retrieve all posts made by the current user, ordered by most recent first
     conn = get_db_connection()
-    print("Database connection:", conn)  # Check the connection object
     cursor = conn.cursor()
     cursor.execute(
         "SELECT post_id, header, image_data FROM posts WHERE user_id = %s ORDER BY timestamp DESC",

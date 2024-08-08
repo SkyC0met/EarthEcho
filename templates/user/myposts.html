@@ -4,31 +4,41 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>My Posts</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/myposts.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
 </head>
 <body>
     {% include "navbar/user_navbar.html" %}
     {% include "user/customerBase.html" %}
 
-    <div class="container-md mt-sm-5 mt-4 mb-5">
-        <h2 class="fw-bold">My Posts</h2>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+          <ul class="flashes px-0">
+            {% for category, message in messages %}
+              <li class="alert alert-{{ category }} text-center">{{ message }}</li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+    {% endwith %}
 
-        <div class="posts-container mt-sm-5 mt-4">
-            <div class="row align-items-center">
-                {% for post in posts %}
-                    <div class="col-md-4 mb-3 d-flex justify-content-center">
-                        <div class="post-card">
-                            <img src="data:image/jpeg;base64,{{ post[2] }}" alt="Post Image" class="post-image">
-                            <div class="post-content d-flex align-items-center justify-content-between my-2">
-                                <h5 class="fw-bold">{{ post[1] }}</h5>
-                                <p><a href="{{ url_for('view.view_post', post_id=post[0]) }}" class="view-post-link">View Post</a></p>
-                            </div>
+    <div class="container">
+        <h2 class="fw-bold text-center my-4">My Posts</h2>
+
+        <div class="row">
+            {% for post in posts %}
+                <div class="col-lg-2 col-md-4 col-sm-6 mb-4 d-flex justify-content-center">
+                    <div class="card post-card" style="width: 100%;">
+                        <img src="data:image/jpeg;base64,{{ post[2] }}" alt="Post Image" class="card-img-top post-image">
+                        <div class="card-body post-content text-center">
+                            <h5 class="fw-bold">{{ post[1] }}</h5>
+                            <p><a href="{{ url_for('view.view_post', post_id=post[0]) }}" class="view-post-link">View Post</a></p>
                         </div>
                     </div>
-                {% endfor %}
-            </div>
+                </div>
+            {% endfor %}
         </div>
     </div>
+
+    <script src="{{ url_for('static', filename='js/bootstrap.bundle.min.js') }}"></script>
 </body>
 </html>
 

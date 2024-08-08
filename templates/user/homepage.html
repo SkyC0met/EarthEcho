@@ -124,6 +124,22 @@
           <button type="submit" class="btn btn-primary">Submit</button>
         </form>
       </div>
+
+      <h2 class="fw-bold mt-5">All Posts</h2>
+      <div class="row">
+          {% for post in all_posts %}
+              <div class="col-lg-2 col-md-4 col-sm-6 mb-4 d-flex justify-content-center">
+                  <div class="card post-card" style="width: 100%;">
+                      <img src="{{ url_for('static', filename=post.image_name) }}" alt="Post Image" class="card-img-top post-image">
+                      <div class="card-body post-content text-center">
+                          <h5 class="fw-bold">{{ post.header }}</h5>
+                          <p><a href="{{ url_for('bp.post', post_id=post.post_id) }}" class="blog-post-link">blog Post</a></p>
+                      </div>
+                  </div>
+              </div>
+          {% endfor %}
+      </div>
+      </div>
       
       <div class="nav-links">
         <h1>EarthEcho</h1>

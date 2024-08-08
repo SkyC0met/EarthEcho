@@ -1,6 +1,6 @@
 import os
 from datetime import datetime
-from flask import Blueprint, flash, url_for, redirect, render_template, current_app, request
+from flask import Blueprint, flash, url_for, redirect, render_template, current_app, request, jsonify
 from flask_login import login_required, current_user
 from flask_wtf import FlaskForm
 from werkzeug.utils import secure_filename
@@ -23,6 +23,10 @@ class EditPostForm(FlaskForm):
     body = TextAreaField('Body', validators=[DataRequired()])
     submit = SubmitField('Update Post')
 
+    def validate_image(form, field):
+        if field.data:
+            if field.data.filename.split('.')[-1].lower() not in ['jpg', 'jpeg', 'png']:
+                raise ValidationError('Only JPEG and PNG images are allowed')
 
 @edit_bp.route('/editpost/<int:post_id>', methods=['GET', 'POST'])
 @login_required
@@ -75,3 +79,23 @@ def edit_post(post_id):
         return redirect(url_for('view.view_post', post_id=post_id))
 
     return render_template('user/editpost.html', form=form, post=post)
+
+
+@edit_bp.route('/delete_post/<int:post_id>', methods=['POST'])
+@login_required
+def delete_post(post_id):
+    conn = get_db_connection()
+    cursor = conn.cursor(dictionary=True)
+
+    try:
+        cursor.execute("DELETE FROM posts WHERE post_id = %s", (post_id,))
+        conn.commit()
+        flash('Post deleted successfully!', 'success')
+    except Exception as e:
+        conn.rollback()
+        flash('Error deleting post: ' + str(e), 'danger')
+    finally:
+        cursor.close()
+        conn.close()
+
+    return redirect(url_for('myposts.my_posts'))

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog Post</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/blogpost.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="{{ url_for('static', filename='js/fav.js') }}"></script>
+</head>
+<body>
+    {% include "user/customerBase.html" %}
+    {% include "navbar/user_navbar.html" %}
+
+
+    {% block content %}
+    <div class="container-md mt-sm-5 mt-4 mb-5">
+        <div class="content">
+            <h1 class="fw-bold">{{ post.header }}</h1> <!-- Header -->
+            <div class="d-flex align-items-center mb-3">
+                <p class="fw-bold">Posted By:</p>
+                    <p>{{ post.username }}</p> <!-- Username -->
+                    <p class="fw-bold">On:</p>
+                    <p>{{ post.timestamp }}</p> <!-- Date and time posted -->
+                    <p class="fw-bold">Topic:</p>
+                    <p>{{ post.topic }}</p> <!-- Topic of post -->
+                </div>
+            </div>
+            <img src="data:image/png;base64,{{ post.image_data }}" alt="Post Image" style="height: 400px; width: 100%; object-fit: cover; object-position: top;"> <!-- Image -->
+            <div class="my-4">
+                <p>{{ post.body }}</p> <!-- Body Text -->
+            </div>
+        </div>
+    </div>
+    {%  endblock  %}
+</body>
+</html>

@@ -23,7 +23,7 @@ from blueprints.createpost import create_bp
 from blueprints.myposts import myposts_bp
 from blueprints.viewpost import view_bp
 from blueprints.edit import edit_bp
-from blueprints.delete import delete_bp
+from blueprints.blogpost import blogpost_bp
 
 csp = {
     'default-src': [
@@ -122,7 +122,7 @@ def create_app(config_class=Config):
     app.register_blueprint(myposts_bp)
     app.register_blueprint(view_bp)
     app.register_blueprint(edit_bp)
-    app.register_blueprint(delete_bp)
+    app.register_blueprint(blogpost_bp)
 
     # for chatbot to run
     # csrf.exempt(init_bp)

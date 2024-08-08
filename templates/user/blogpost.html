@@ -33,7 +33,7 @@
                 {{ add_favourites_form.csrf_token }}
                 {{ add_favourites_form.post_id(value=1) }}
                 {% if current_user.is_authenticated %}
-                    <i id="favourite-heart-1" 
+                    <i id="favourite-heart-1"
                        class="fa-heart fa-xl icon-red {% if is_favourite %}fa-solid{% else %}fa-regular{% endif %}"
                        data-post-id="1"
                        data-add-url="{{ url_for('fav.add_favourite') }}"
