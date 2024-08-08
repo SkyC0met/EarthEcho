@@ -17,6 +17,10 @@ from blueprints.sky_forms import AddFavouritesForm
 
 init_bp = Blueprint('init', __name__)
 
+@init_bp.route('/game')
+def game():
+    return render_template('game/First Game.html')
+
 # chatbot
 @init_bp.post("/predict")
 def predict():

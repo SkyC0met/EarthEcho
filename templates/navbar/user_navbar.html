@@ -105,6 +105,11 @@
               class="dropdown-menu position-absolute start-50 translate-middle-x mt-1"
             >
               <li>
+                <a class="dropdown-item" href="{{ url_for('game') }}"
+                  >Game</a
+                >
+              </li>
+              <li>
                 <a class="dropdown-item" href="{{ url_for('reward.points_shop') }}"
                   >Points shop</a
                 >
@@ -175,10 +180,15 @@
                 aria-expanded="false"
               >
                 <i class="fa-solid fa-clover fa-2xl mx-3"></i>
-                <p class="p-light">Points shop & Vouchers</p>
+                <p class="p-light">Points</p>
                 <i class="fa-solid fa-caret-down mx-2"></i>
               </div>
               <ul class="dropdown-menu">
+                <li>
+                  <a class="dropdown-item" href="{{ url_for('game') }}"
+                    >Game</a
+                  >
+                </li>
                 <li>
                   <a class="dropdown-item" href="{{ url_for('reward.points_shop') }}"
                     >Points Shop</a

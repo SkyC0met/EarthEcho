@@ -1,4 +1,4 @@
-from flask import Flask, session
+from flask import Flask, session, send_from_directory, request
 from config import Config
 from flask_wtf.csrf import CSRFProtect, CSRFError
 from flask import jsonify
@@ -135,6 +135,36 @@ def create_app(config_class=Config):
     def check_session():
         print(session)
         return 'Check the console for session data'
+    
+    # Middleware to set the necessary headers
+    @app.after_request
+    def add_security_headers(response):
+        response.headers['Cross-Origin-Opener-Policy'] = 'same-origin'
+        response.headers['Cross-Origin-Embedder-Policy'] = 'require-corp'
+        return response
+    
+    # Serve the game page
+    @app.route('/game/index.html')
+    def game():
+        return send_from_directory('game', 'index.html')
+
+    # Serve static files (JavaScript, images, etc.)
+    @app.route('/game/<path:path>')
+    def serve_static_file(path):
+        return send_from_directory('game', path)
+    
+    # API endpoint to update the coin count
+    @app.route('/update_coins', methods=['GET'])
+    def update_coins():
+        global coin_count
+        coin_count = int(request.args.get('coin_count', 0))
+        return jsonify({'status': 'success', 'coin_count': coin_count})
+
+    # API endpoint to get the current coin count
+    @app.route('/get_coin_count', methods=['GET'])
+    def get_coin_count():
+        global coin_count
+        return jsonify({'coin_count': coin_count})
     
     return app
 
