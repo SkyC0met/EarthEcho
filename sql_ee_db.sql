@@ -1,4 +1,4 @@
--- DROP DATABASE IF EXISTS earthecho_db;
+-- DROP DATABASE earthecho_db;
 
 CREATE DATABASE IF NOT EXISTS earthecho_db;
 
@@ -75,9 +75,12 @@ CREATE TABLE IF NOT EXISTS posts (
     FOREIGN KEY (username) REFERENCES users(username),
     FOREIGN KEY (user_id) REFERENCES users(user_id),
     timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    image_data BLOB,
+    image_data MEDIUMBLOB,
     image_name VARCHAR(255)
 );
+
+
+-- DROP TABLE IF EXISTS review;
 
 -- Create the review table without foreign keys
 CREATE TABLE IF NOT EXISTS review (
@@ -89,26 +92,15 @@ CREATE TABLE IF NOT EXISTS review (
     timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- Create the unban_requests table
-CREATE TABLE IF NOT EXISTS unban_requests (
-    username VARCHAR(255) PRIMARY KEY,
-    first_name VARCHAR(255) NOT NULL,
-    last_name VARCHAR(255) NOT NULL,
-    request TEXT NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
 
-/*INSERT INTO review (review_id, review, rating, post_id, user_id, timestamp) VALUES
-('77', 'well written', '5', '1', '3', '2024-07-30 10:12:23');
-
-INSERT INTO users (username, phone_num, email, passwd, acc_type) VALUES
+/*INSERT INTO users (username, phone_num, email, passwd, acc_type) VALUES 
 ('Tom', '12345678', 'tom@gmail.com', 'scrypt:32768:8:1$GB2hqTmVOBZBXfGO$dcdfa47ebd93848e85079cd0eec0d20b55c48ae9f54cafc21f2085ef5acea53d830148710c17b95fd7003acb524074357c9c5b9ede32e970bdb6abe7f1f04774', 'user'),
 ('Jane', '12345378', 'jane@gmail.com', 'scrypt:32768:8:1$GB2hqTmVOBZBXfGO$dcdfa47ebd93848e85079cd0eec0d20b55c48ae9f54cafc21f2085ef5acea53d830148710c17b95fd7003acb524074357c9c5b9ede32e970bdb6abe7f1f04774', 'user'),
 ('Harry', '12325678', 'harry@gmail.com', 'scrypt:32768:8:1$GB2hqTmVOBZBXfGO$dcdfa47ebd93848e85079cd0eec0d20b55c48ae9f54cafc21f2085ef5acea53d830148710c17b95fd7003acb524074357c9c5b9ede32e970bdb6abe7f1f04774', 'user'),
 ('Richard', '12345648', 'richard@gmail.com', 'scrypt:32768:8:1$GB2hqTmVOBZBXfGO$dcdfa47ebd93848e85079cd0eec0d20b55c48ae9f54cafc21f2085ef5acea53d830148710c17b95fd7003acb524074357c9c5b9ede32e970bdb6abe7f1f04774', 'user'),
 ('Admin', '19045678', 'admin@gmail.com', 'scrypt:32768:8:1$GB2hqTmVOBZBXfGO$dcdfa47ebd93848e85079cd0eec0d20b55c48ae9f54cafc21f2085ef5acea53d830148710c17b95fd7003acb524074357c9c5b9ede32e970bdb6abe7f1f04774', 'admin');
 
-INSERT INTO points_shop (reward_name, reward, reward_desc, points_required, valid_until, image_path, points_type) VALUES
+INSERT INTO points_shop (reward_name, reward, reward_desc, points_required, valid_until, image_path, points_type) VALUES 
 ('Bistro Bella', '15% OFF total bill', 'Bistro Bella is a cozy, rustic bistro serving classic French cuisine with a modern twist, perfect for intimate dinners and casual lunches.', 1500, '31 Dec 2024', 'images/food/food1.jpg', 'food'),
 ('The Culinary Delight', '10% OFF main course', 'A fusion restaurant offering a blend of Asian and European cuisines, known for its innovative dishes and elegant ambiance.', 1000, '31 Dec 2024', 'images/food/food2.jpg', 'food'),
 ('Veggie Haven', 'Free dessert with any entrée', 'A vegetarian and vegan restaurant offering a wide variety of flavorful and healthy dishes made from locally sourced ingredients.', 2000, '31 Dec 2024', 'images/food/food3.jpg', 'food'),
@@ -135,22 +127,23 @@ INSERT INTO user_redemption (user_id, reward_id) VALUES
 ('2', '7'),
 ('4', '8');
 
-INSERT INTO sky_posts_to_test_fav (user_id, header, body, topic, image_path) VALUES
-(1, 'Embracing Sustainability: A Journey Towards a Greener Future', 'In an age where climate change and environmental degradation are becoming increasingly urgent issues, sustainability is more than just a buzzword;', 'Sustainability', 'images/sky/blogpost1.jpg'),
+INSERT INTO sky_posts_to_test_fav (user_id, header, body, topic, image_path) VALUES 
+(1, 'Post 1', 'This is the body of the post.', 'Technology', 'images/fashion/fashion8.jpg'),
 (1, 'Post 2', 'This is the body of the post.', 'Technology', 'images/fashion/fashion7.jpg'),
 (1, 'Post 3', 'This is the body of the post.', 'Technology', 'images/fashion/fashion6.jpg');
-*/
 
-
-/*SELECT ur.user_id, ur.reward_id, ur.redemption_date, ps.reward_name, ps.reward, ps.reward_desc, ps.valid_until, ps.image_path
-FROM user_redemption ur
-INNER JOIN points_shop ps ON ur.reward_id = ps.reward_id
-WHERE ur.user_id = 2;
+INSERT INTO user_favourites (user_id, post_id) VALUES 
+(2, 2),
+(2, 3);
 
 SELECT uf.user_id, uf.post_id, sp.header, sp.body, sp.image_path
 FROM user_favourites uf
 INNER JOIN sky_posts_to_test_fav sp ON uf.post_id = sp.post_id
-WHERE uf.user_id = 2;
-*/
+WHERE uf.user_id = 2;*/
 
-SELECT * FROM users;
+/*SELECT ur.user_id, ur.reward_id, ur.redemption_date, ps.reward_name, ps.reward, ps.reward_desc, ps.valid_until, ps.image_path
+FROM user_redemption ur
+INNER JOIN points_shop ps ON ur.reward_id = ps.reward_id
+WHERE ur.user_id = 2;*/
+
+SELECT * FROM posts;
