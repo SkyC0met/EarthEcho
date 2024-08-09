@@ -8,11 +8,16 @@ document.addEventListener('DOMContentLoaded', function () {
     const reviewsPerPageInput = document.getElementById('reviewsPerPage');
     const averageRatingElem = document.getElementById('averageRating');
     const ratingChartElem = document.getElementById('ratingChart');
+    const postIdInput = document.getElementById('postId'); // Hidden input for post ID
 
     let currentPage = parseInt(currentPageInput?.value) || 1;
     const reviewsPerPage = parseInt(reviewsPerPageInput?.value) || 3;
     let totalReviews = 0;
     let reviewsDisplayed = 0;
+    const postId = postIdInput?.value; // Get the post ID
+
+    // Log postId to verify
+    console.log('Post ID:', postId);
 
     function updateStarRating(clickedRating) {
         stars.forEach(star => star.classList.remove('rating-checked'));
@@ -74,7 +79,9 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function fetchReviews(page) {
-        fetch(`/get_reviews?page=${page}&limit=${reviewsPerPage}`)
+        if (!postId) return; // Ensure postId is present
+
+        fetch(`/get_reviews?page=${page}&limit=${reviewsPerPage}&post_id=${postId}`)
             .then(response => {
                 if (!response.ok) throw new Error('Network response was not ok');
                 return response.json();
@@ -113,8 +120,6 @@ document.addEventListener('DOMContentLoaded', function () {
             })
             .catch(error => {
                 console.error('Fetch error:', error);
-                // Remove or comment out the alert
-                // alert('Error fetching reviews. Please try again later.');
             });
     }
 
@@ -138,6 +143,9 @@ document.addEventListener('DOMContentLoaded', function () {
             const formData = new FormData(this);
             const csrfToken = document.querySelector('input[name="csrf_token"]').value;
 
+            // Log FormData to verify
+            console.log('FormData:', Array.from(formData.entries()));
+
             fetch(this.action, {
                 method: 'POST',
                 body: formData,
@@ -152,7 +160,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 } else {
                     console.error('Error response:', data.message);
                     if (data.message === "You have submitted too many reviews today") {
-                        alert('You have reached the max no of reviews you can submit today')
+                        alert('You have reached the max number of reviews you can submit today');
                     } else {
                         alert('Error: ' + data.message);
                     }

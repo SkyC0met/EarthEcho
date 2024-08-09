@@ -10,7 +10,12 @@
 </head>
 <body>
     {% include "user/customerBase.html" %}
-    {% include "navbar/user_navbar.html" %}
+    {% if session.get('logged_in') %}
+        {% include "navbar/user_navbar.html" %}
+    {% else %}
+        {% include "navbar/user_guest_navbar.html" %}
+    {% endif %}
+
 
 
     {% block content %}
@@ -19,19 +24,82 @@
             <h1 class="fw-bold">{{ post.header }}</h1> <!-- Header -->
             <div class="d-flex align-items-center mb-3">
                 <p class="fw-bold">Posted By:</p>
-                    <p>{{ post.username }}</p> <!-- Username -->
-                    <p class="fw-bold">On:</p>
-                    <p>{{ post.timestamp }}</p> <!-- Date and time posted -->
-                    <p class="fw-bold">Topic:</p>
-                    <p>{{ post.topic }}</p> <!-- Topic of post -->
-                </div>
+                <p>{{ post.username }}</p> <!-- Username -->
+                <p class="fw-bold">On:</p>
+                <p>{{ post.timestamp }}</p> <!-- Date and time posted -->
+                <p class="fw-bold">Topic:</p>
+                <p>{{ post.topic }}</p> <!-- Topic of post -->
             </div>
             <img src="data:image/png;base64,{{ post.image_data }}" alt="Post Image" style="height: 400px; width: 100%; object-fit: cover; object-position: top;"> <!-- Image -->
             <div class="my-4">
                 <p>{{ post.body }}</p> <!-- Body Text -->
             </div>
+
+            <!-- Reviews Section -->
+            <div class="item product-review">
+            <div class="item product-review">
+                <h3><b>Product Review</b></h3>
+
+                <!-- Hidden inputs for JavaScript pagination -->
+                <input type="hidden" id="currentPage" value="{{ current_page }}">
+                <input type="hidden" id="reviewsPerPage" value="{{ reviews_per_page }}">
+                <input type="hidden" id="totalReviews" value="{{ total_reviews }}">
+                <input type="hidden" id="postId" name="post_id" value="{{ post.post_id }}">
+
+                {% if total_reviews > 0 %}
+                    <div id="ratingSummary">
+                        <p><span id="averageRating">0</span></p>
+                        <div class="chart-container">
+                            <canvas id="ratingChart"></canvas>
+                        </div>
+                    </div>
+                    <div id="reviews"></div>
+                {% else %}
+                    <p>No reviews yet.</p>
+                {% endif %}
+
+                <!-- Show More button -->
+                {% if reviews|length > 0 and reviews|length < total_reviews %}
+                    <div class="pt-3">
+                        <button id="showMoreBtn" type="button" class="btn btn-secondary">Show More</button>
+                    </div>
+                {% endif %}
+
+                <hr class="solid">
+
+                <!-- Add Review Form -->
+                <h3><b>Add Review</b></h3>
+                <form id="reviewForm" method="POST" action="{{ url_for('review.submit_review') }}">
+                    <!-- CSRF Token -->
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                    <input type="hidden" name="post_id" value="{{ post.post_id }}"> <!-- Hidden input for post ID -->
+
+                    <div class="form-group mb-4">
+                        <div class="rating-wrapper">
+                            <p>Rating:</p>
+                            <img id="1" src="{{ url_for('static', filename='images/star.png') }}" width="20">
+                            <img id="2" src="{{ url_for('static', filename='images/star.png') }}" width="20">
+                            <img id="3" src="{{ url_for('static', filename='images/star.png') }}" width="20">
+                            <img id="4" src="{{ url_for('static', filename='images/star.png') }}" width="20">
+                            <img id="5" src="{{ url_for('static', filename='images/star.png') }}" width="20">
+                            <button type="button" onclick="clearStarRating()" class="btn btn-primary">Clear</button>
+                        </div>
+                        <input type="hidden" id="rating" name="rating" value="">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="review">Write your review:</label>
+                        <textarea name="review" id="review" rows="5" class="form-control" placeholder="Enter your review..." required></textarea>
+                    </div>
+                    <div class="pt-3">
+                        <button type="submit" class="btn btn-secondary">Submit</button>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
-    {%  endblock  %}
+    {% endblock %}
+
+    <script src="{{ url_for('static', filename='js/review.js') }}"></script>
 </body>
 </html>

@@ -30,9 +30,9 @@ def predict():
     message = {"answer": response}
     return jsonify(message)
 
-# @init_bp.route('/Blog')
-# def blog():
-#     return render_template('user/blogpost.html')
+# # @init_bp.route('/Blog')
+# # def blog():
+# #     return render_template('user/blogpost.html')
 @init_bp.route('/Blog')
 def blog():
     post_id = 1  # static
