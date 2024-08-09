@@ -58,11 +58,12 @@
                 {% endif %}
 
                 <!-- Show More button -->
-                {% if reviews|length > 0 and reviews|length < total_reviews %}
+                {% if reviews|length > 0 and total_reviews > reviews_per_page %}
                     <div class="pt-3">
                         <button id="showMoreBtn" type="button" class="btn btn-secondary">Show More</button>
                     </div>
                 {% endif %}
+
 
                 <hr class="solid">
 

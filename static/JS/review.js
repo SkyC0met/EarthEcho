@@ -18,6 +18,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Log postId to verify
     console.log('Post ID:', postId);
+    console.log('Show More Button:', showMoreBtn);
+
 
     function updateStarRating(clickedRating) {
         stars.forEach(star => star.classList.remove('rating-checked'));
