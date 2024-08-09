@@ -5,6 +5,7 @@ from flask import jsonify
 from datetime import timedelta
 from blueprints.utils import login_manager
 from flask_talisman import Talisman
+from authlib.integrations.flask_client import OAuth
 
 # BLUEPRINTS
 from blueprints.__init__ import init_bp
@@ -26,40 +27,14 @@ from blueprints.edit import edit_bp
 from blueprints.blogpost import blogpost_bp
 
 csp = {
-    'default-src': [
-        '\'self\'',
-        '*'
-    ],
-    'script-src': [
-        '\'self\'',
-        '*',
-        '\'unsafe-inline\'',
-        '\'unsafe-eval\'',
-    ],
-    'style-src': [
-        '\'self\'',
-        '*',
-        '\'unsafe-inline\'',
-    ],
-    'img-src': [
-        '\'self\'',
-        'data:',
-        '*',
-    ],
-    'font-src': [
-        '\'self\'',
-        '*',
-    ],
-    'connect-src': [
-        '\'self\'',
-        '*',
-    ],
-    'object-src': [
-        '*'
-    ],
-    'frame-ancestors': [
-        '*'
-    ]
+    'default-src': ['\'self\'', '*'],
+    'script-src': ['\'self\'', '*', '\'unsafe-inline\'', '\'unsafe-eval\''],
+    'style-src': ['\'self\'', '*', '\'unsafe-inline\''],
+    'img-src': ['\'self\'', 'data:', '*'],
+    'font-src': ['\'self\'', '*'],
+    'connect-src': ['\'self\'', '*'],
+    'object-src': ['*'],
+    'frame-ancestors': ['*']
 }
 
 hsts = {
@@ -70,10 +45,29 @@ hsts = {
 
 def create_app(config_class=Config):
     app = Flask(__name__)
-    app.config.from_object(Config)
+    app.config.from_object(config_class)
     app.secret_key = app.config['SECRET_KEY']
 
     app.config['UPLOAD_FOLDER'] = 'static/images/user_post_images'
+
+    # Initialize OAuth
+    oauth = OAuth(app)
+    app.extensions['authlib'] = {'oauth': oauth}
+
+    google = oauth.register(
+        name='google',
+        client_id=app.config['GOOGLE_CLIENT_ID'],
+        client_secret=app.config['GOOGLE_CLIENT_SECRET'],
+        authorize_url='https://accounts.google.com/o/oauth2/auth',
+        access_token_url='https://accounts.google.com/o/oauth2/token',
+        access_token_params=None,
+        redirect_uri='http://127.0.0.1:80/user/login/google/authorized',
+        api_base_url='https://www.googleapis.com/oauth2/v1/',
+        access_token_method='POST',
+        userinfo_endpoint='https://www.googleapis.com/oauth2/v2/userinfo',
+        jwks_uri='https://www.googleapis.com/oauth2/v3/certs',
+        scope='openid profile email',
+    )
 
     csrf = CSRFProtect(app)
     login_manager.init_app(app)
@@ -93,19 +87,21 @@ def create_app(config_class=Config):
         x_xss_protection=True
     )
 
-    # timeout after 30 mins
+    # Timeout after 30 mins
     app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(minutes=30)
-    # remove remember cookie
+    # Remove remember cookie
     app.config['REMEMBER_COOKIE_DURATION'] = timedelta(days=7)
 
     app.config['SESSION_COOKIE_SECURE'] = True
     app.config['SESSION_COOKIE_HTTPONLY'] = True
-    app.config['SESSION_COOKIE_SAMESITE'] = 'Strict'
+    app.config['SESSION_COOKIE_SAMESITE'] = 'Lax'
+
 
     # reCAPTCHA
     app.config['RECAPTCHA_SITE_KEY'] = '6LeDmxsqAAAAAIQKTcChogPkiUnenRppl4WiXGh0'
     app.config['RECAPTCHA_SECRET_KEY'] = '6LeDmxsqAAAAALGcfuu8CLdH92N_SHfM5T1xvGTK'
 
+    # Register your blueprints
     app.register_blueprint(init_bp)
     app.register_blueprint(homepage_bp)
     app.register_blueprint(admin_bp, url_prefix='/admin')
@@ -124,8 +120,6 @@ def create_app(config_class=Config):
     app.register_blueprint(edit_bp)
     app.register_blueprint(blogpost_bp)
 
-    # for chatbot to run
-    # csrf.exempt(init_bp)
 
     @app.errorhandler(CSRFError)
     def handle_csrf_error(e):
@@ -135,14 +129,14 @@ def create_app(config_class=Config):
     def check_session():
         print(session)
         return 'Check the console for session data'
-    
+
     # Middleware to set the necessary headers
     @app.after_request
     def add_security_headers(response):
         response.headers['Cross-Origin-Opener-Policy'] = 'same-origin'
         response.headers['Cross-Origin-Embedder-Policy'] = 'require-corp'
         return response
-    
+
     # Serve the game page
     @app.route('/game/index.html')
     def game():
@@ -152,7 +146,7 @@ def create_app(config_class=Config):
     @app.route('/game/<path:path>')
     def serve_static_file(path):
         return send_from_directory('game', path)
-    
+
     # API endpoint to update the coin count
     @app.route('/update_coins', methods=['GET'])
     def update_coins():
@@ -165,10 +159,11 @@ def create_app(config_class=Config):
     def get_coin_count():
         global coin_count
         return jsonify({'coin_count': coin_count})
-    
+
     return app
 
 if __name__ == '__main__':
     app = create_app()
     app.run(debug=True, host='127.0.0.1', port=80)
-    # app.run(debug=False) to activate 500 error
+
+

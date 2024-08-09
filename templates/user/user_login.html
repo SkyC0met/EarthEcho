@@ -93,15 +93,17 @@
         <!--LOGIN BUTTONS-->
         <div class="row row-cols-1 row-cols-sm-2 gy-2 gx-5 mb-4">
           <div class="col">
-            <button
+            <a
+              href="{{ url_for('auth.google_login') }}"
               class="btn btn-violet d-flex align-items-center justify-content-center p-3 google-btn"
             >
               <i class="fa-brands fa-google fa-2xl"></i>
               <p class="fw-bold ms-3 p-light">
                 Log in with Google
               </p>
-            </button>
+            </a>
           </div>
+
           <div class="col">
             <button
               class="btn btn-violet d-flex align-items-center justify-content-center p-3 microsoft-btn"
