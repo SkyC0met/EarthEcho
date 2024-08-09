@@ -132,6 +132,13 @@ html {
   margin-right: 10px;
 }
 
+#chatbotIcon {
+    width: 70px;  /* Set the desired width */
+    height: 50px; /* Set the desired height */
+    object-fit: contain;
+    filter: brightness(0) invert(1);
+}
+
 .chatbox__heading--header {
   font-size: 1.2rem;
   color: white;

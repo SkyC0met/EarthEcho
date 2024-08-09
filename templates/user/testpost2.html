@@ -9,14 +9,13 @@
     <script src="{{ url_for('static', filename='js/fav.js') }}"></script>
 </head>
 <body>
-    {% include "user/customerBase.html" %}
-    {% if session.get('logged_in') %}
-        {% include "navbar/user_navbar.html" %}
+    {% if current_user.is_authenticated %}
+      {% include "navbar/user_navbar.html" %}
     {% else %}
-        {% include "navbar/user_guest_navbar.html" %}
+      {% include "navbar/user_guest_navbar.html" %}
     {% endif %}
 
-
+    {% include "user/customerBase.html" %}
 
     {% block content %}
     <div class="container-md mt-sm-5 mt-4 mb-5">
