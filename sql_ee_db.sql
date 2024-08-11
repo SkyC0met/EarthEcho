@@ -10,8 +10,9 @@ CREATE TABLE IF NOT EXISTS users (
     phone_num INT NOT NULL DEFAULT 0,
     email VARCHAR(100) UNIQUE NOT NULL,
     passwd VARCHAR(255) NOT NULL,
-    acc_type VARCHAR(5) NOT NULL
+    acc_type VARCHAR(100) NOT NULL
 );
+ALTER TABLE users ADD COLUMN is_banned BOOLEAN DEFAULT FALSE;
 
 CREATE TABLE IF NOT EXISTS messages (
     message_id INT AUTO_INCREMENT PRIMARY KEY,
@@ -88,7 +89,14 @@ CREATE TABLE IF NOT EXISTS unban_requests (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-
+-- Create a table for banned users if it doesn't exist
+CREATE TABLE IF NOT EXISTS BANNED_USERS (
+    ban_id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT,
+    ban_reason TEXT,
+    banned_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(user_id)
+);
 
 
 -- DROP TABLE IF EXISTS review;

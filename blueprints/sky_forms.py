@@ -120,3 +120,6 @@ class AddFavouritesForm(FlaskForm):
 
 class AddPointsForm(FlaskForm):
     submit = SubmitField('Add Points')
+
+class BanUserForm(FlaskForm):
+    csrf_token = HiddenField()

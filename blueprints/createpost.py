@@ -11,15 +11,19 @@ from flask_wtf.file import FileAllowed
 from db import get_db_connection
 
 create_bp = Blueprint('create', __name__)
-
 class PostForm(FlaskForm):
     username = StringField('Username', render_kw={'readonly': True})
     date_created = DateField('Date', default=date.today, render_kw={'readonly': True})
     header = StringField('Header', validators=[DataRequired(), Length(max=120)])
-    image = FileField('Image', validators=[DataRequired(), FileAllowed(['jpg', 'jpeg', 'png'], 'Only JPEG and PNG images are allowed')])
+    image = FileField('Image', validators=[DataRequired()])
     topic = SelectField('Topic', choices=[(1, 'Sustainability'), (2, 'Pollution'), (3, 'Recycling'), (4, 'Water/Oceans'), (5, 'DIY'), (6, 'Energy'), (7, 'Composting'), (8, 'Others')], validators=[DataRequired()])
     body = TextAreaField('Body', validators=[DataRequired()])
     submit = SubmitField('Post!')
+
+    def validate_image(form, field):
+        if field.data:
+            if field.data.filename.split('.')[-1].lower() not in ['jpg', 'jpeg', 'png']:
+                raise ValidationError('Only JPEG and PNG images are allowed')
 
 @create_bp.route('/createpost', methods=['GET', 'POST'])
 @login_required
@@ -36,17 +40,21 @@ def create_post():
         topic = form.topic.data
         body = form.body.data
 
-        # Save the image to the designated folder
+        # Save image to database
         image_name = secure_filename(image.filename)
         image_path = os.path.join(current_app.config['UPLOAD_FOLDER'], image_name)
         image.save(image_path)
 
-        # Save post details including image filename to the database
+        # Read the image data
+        with open(image_path, 'rb') as f:
+            image_data = f.read()
+
+        # Save data to database
         conn = get_db_connection()
         cursor = conn.cursor()
         cursor.execute(
-            "INSERT INTO posts (user_id, username, header, topic, body, timestamp, image_name) VALUES (%s, %s, %s, %s, %s, %s, %s)",
-            (user_id, username, header, topic, body, date_created, image_name)
+            "INSERT INTO posts (user_id, username, header, topic, body, timestamp, image_data, image_name) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)",
+            (user_id, username, header, topic, body, date_created, image_data, image_name)
         )
         conn.commit()
         cursor.close()
@@ -55,4 +63,3 @@ def create_post():
         flash("Post created!", "success")
         return redirect(url_for('myposts.my_posts'))
     return render_template('user/createpost.html', form=form)
-

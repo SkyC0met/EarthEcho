@@ -1,17 +1,17 @@
-<!--SKY HTML-->
 <!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>User management</title>
 
-      <!--MY JS-->
-      <script
-        src="{{ url_for('static', filename='js/user_management.js') }}"
-        defer
-      ></script>
-      <!--MY JS-->
+    <!--MY JS-->
+    <script
+      src="{{ url_for('static', filename='js/user_management.js') }}"
+      defer
+    ></script>
+    <!--MY JS-->
   </head>
   <body>
     {% extends 'navbar/admin_sidebar.html' %}
@@ -63,6 +63,14 @@
                 <button class="btn btn-danger delete-user-btn">
                   <i class="fa-solid fa-trash"></i>
                 </button>
+
+                <!-- Ban User Button -->
+                <form action="{{ url_for('admin.ban_user', user_id=user.user_id) }}" method="POST">
+                  <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                  <button class="btn btn-warning ban-user-btn">
+                    <i class="fa-solid fa-ban"></i>
+                  </button>
+                </form>
               </td>
             </tr>
             {% endfor %}

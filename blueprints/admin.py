@@ -35,14 +35,19 @@ def admin_login():
             user_data = get_user_by_field('username', identifier)
 
         if user_data and check_password_hash(user_data['passwd'], passwd):
-            if user_data['acc_type'] == 'admin':
+            if user_data['is_banned']:
+                flash('Your account is banned and cannot be accessed.', 'danger')
+            elif user_data['acc_type'] == 'admin':
                 user = User(user_data['user_id'], user_data['username'], user_data['passwd'], user_data['acc_type'])
                 login_user(user, remember=remember)
                 next_page = request.args.get('next')
                 if not is_safe_url(next_page):
                     return abort(400)
                 return redirect(next_page or url_for('admin.admin_profile'))
-        flash('Invalid username/email or password.', 'warning')
+            else:
+                flash('You do not have admin privileges.', 'warning')
+        else:
+            flash('Invalid username/email or password.', 'warning')
     return render_template('admin/admin_login.html', login_form=login_form)
 
 @admin_bp.route('/admin/profile', methods=['GET', 'POST'])
@@ -114,9 +119,12 @@ def unban(username):
     connection = get_db_connection()
     cursor = connection.cursor()
     try:
+        # Update the user account type to 'user' or another non-banned value
+        cursor.execute('UPDATE users SET acc_type = "user" WHERE username = %s', (username,))
+        # Remove the unban request
         cursor.execute('DELETE FROM unban_requests WHERE username = %s', (username,))
         connection.commit()
-        flash(f'User {username} has been unbanned successfully.', 'success')
+        flash(f'User {username} has been unbanned and can now log in.', 'success')
     except mysql.connector.Error as err:
         flash(f'Error: {err}', 'error')
     finally:
@@ -141,3 +149,19 @@ def delete_request(username):
         connection.close()
 
     return redirect(url_for('admin.unban_requests'))
+
+@admin_bp.route('/ban_user/<int:user_id>', methods=['POST'])
+@admin_required
+def ban_user(user_id):
+    connection = get_db_connection()
+    cursor = connection.cursor()
+    try:
+        cursor.execute('UPDATE users SET acc_type = "banned" WHERE user_id = %s', (user_id,))
+        connection.commit()
+        flash(f'User with ID {user_id} has been banned.', 'success')
+    except mysql.connector.Error as err:
+        flash(f'Error: {err}', 'error')
+    finally:
+        cursor.close()
+        connection.close()
+    return redirect(url_for('admin.user_management'))
