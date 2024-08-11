@@ -2,10 +2,13 @@ from flask import Blueprint, render_template, redirect, url_for, flash, abort, s
 from werkzeug.security import check_password_hash
 from urllib.parse import urlparse, urljoin
 from flask_login import login_user, logout_user, login_required
+import mysql.connector
+from db import get_db_connection
 from blueprints.utils import *
 from blueprints.profile import handle_edit_form, delete_account
 from blueprints.sky_forms import LoginForm, EditUsernameForm, EditPhoneNumForm, EditEmailForm, ResetPasswordForm, DeleteAccountForm
 from blueprints.models import User
+from datetime import datetime
 
 admin_bp = Blueprint('admin', __name__)
 
@@ -91,4 +94,50 @@ def user_management():
 @admin_required
 def user_profile():
     return render_template('admin/user_profile.html')
-# ADMIN ROUTES
+
+# Unban Requests Routes
+@admin_bp.route('/unban_requests', methods=['GET'])
+@login_required
+def unban_requests():
+    connection = get_db_connection()
+    cursor = connection.cursor(dictionary=True)
+    cursor.execute("SELECT username, first_name, last_name, request, created_at FROM unban_requests")
+    requests = cursor.fetchall()
+    cursor.close()
+    connection.close()
+
+    return render_template('admin/admin_unban_request.html', requests=requests)
+
+@admin_bp.route('/unban/<string:username>', methods=['POST'])
+@login_required
+def unban(username):
+    connection = get_db_connection()
+    cursor = connection.cursor()
+    try:
+        cursor.execute('DELETE FROM unban_requests WHERE username = %s', (username,))
+        connection.commit()
+        flash(f'User {username} has been unbanned successfully.', 'success')
+    except mysql.connector.Error as err:
+        flash(f'Error: {err}', 'error')
+    finally:
+        cursor.close()
+        connection.close()
+
+    return redirect(url_for('admin.unban_requests'))
+
+@admin_bp.route('/delete/<string:username>', methods=['POST'])
+@login_required
+def delete_request(username):
+    connection = get_db_connection()
+    cursor = connection.cursor()
+    try:
+        cursor.execute('DELETE FROM unban_requests WHERE username = %s', (username,))
+        connection.commit()
+        flash(f'Unban request for user {username} has been deleted.', 'success')
+    except mysql.connector.Error as err:
+        flash(f'Error: {err}', 'error')
+    finally:
+        cursor.close()
+        connection.close()
+
+    return redirect(url_for('admin.unban_requests'))

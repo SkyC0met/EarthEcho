@@ -3,10 +3,9 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Unban Requests</title>
-    <!-- Font and Icons -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet" />
-    <!-- Styles -->
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -41,42 +40,34 @@
             transform: translateY(-50%);
             color: #ccc;
         }
-        .unban-request-list {
-            list-style: none;
-            padding: 0;
+        table {
+            width: 100%;
+            border-collapse: collapse;
         }
-        .unban-request-item {
-            background-color: #fff;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            padding: 15px;
-            margin-bottom: 10px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+        table, th, td {
+            border: 1px solid #ddd;
         }
-        .unban-request-item .user-info {
-            display: flex;
-            align-items: center;
+        th, td {
+            padding: 12px;
+            text-align: left;
         }
-        .unban-request-item .user-info img {
-            border-radius: 50%;
-            margin-right: 10px;
-        }
-        .unban-request-item .user-info .username {
+        th {
+            background-color: #f4f4f4;
             font-weight: bold;
         }
-        .unban-request-item .user-info .date {
-            color: #777;
-            font-size: 0.9em;
+        .btn {
+            padding: 8px 12px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
         }
-        .unban-request-item .message {
-            flex-grow: 1;
-            margin-left: 20px;
-            color: #555;
+        .btn-success {
+            background-color: #28a745;
+            color: white;
         }
-        .unban-request-item .actions button {
-            margin-left: 5px;
+        .btn-danger {
+            background-color: #dc3545;
+            color: white;
         }
     </style>
 </head>
@@ -87,41 +78,44 @@
     <div class="container">
         <h1 class="fw-bold my-3">Unban Requests</h1>
 
-        <!-- Search Bar -->
         <div class="search-container my-4">
             <input class="form-control" type="search" placeholder="Search Usernames Here" aria-label="Search" />
             <i class="fa-solid fa-magnifying-glass icon-dark"></i>
         </div>
-        <!-- Search Bar -->
 
-        <!-- Unban Requests List -->
-        <ul class="unban-request-list">
-            {% for request in requests %}
-            <li class="unban-request-item">
-                <div class="user-info">
-                    <img src="{{ url_for('static', filename='images/user.png') }}" alt="User Image" width="40" height="40" />
-                    <div>
-                        <div class="username">{{ request.username }}</div>
-                        <div class="date">{{ request.created_at.strftime('%B %d, %Y') }}</div>
-                    </div>
-                </div>
-                <div class="message">{{ request.request }}</div>
-                <div class="actions">
-                    <form action="{{ url_for('admin_unban.unban', request_id=request.id) }}" method="post" style="display:inline;">
-                        <button class="btn btn-success" type="submit">Unban</button>
-                    </form>
-                    <form action="{{ url_for('admin_unban.delete_request', request_id=request.id) }}" method="post" style="display:inline;">
-                        <button class="btn btn-danger" type="submit">Delete</button>
-                    </form>
-                </div>
-            </li>
-            {% else %}
-            <li class="unban-request-item">
-                <div class="message">No unban requests found.</div>
-            </li>
-            {% endfor %}
-        </ul>
-        <!-- Unban Requests List -->
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Username</th>
+                    <th>Unban Request</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for req in requests %}
+                <tr>
+                    <td>{{ loop.index }}</td>
+                    <td>{{ req.username }}</td>
+                    <td>{{ req.request }}</td>
+                    <td>
+                        <form action="{{ url_for('admin.unban', username=req.username) }}" method="post" style="display:inline;">
+                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                            <button class="btn btn-success" type="submit">Unban</button>
+                        </form>
+                        <form action="{{ url_for('admin.delete_request', username=req.username) }}" method="post" style="display:inline;">
+                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                            <button class="btn btn-danger" type="submit">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="4">No unban requests found.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
     </div>
     {% endblock content %}
 </body>

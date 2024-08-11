@@ -79,6 +79,17 @@ CREATE TABLE IF NOT EXISTS posts (
     image_name VARCHAR(255)
 );
 
+-- Create the unban_requests table
+CREATE TABLE IF NOT EXISTS unban_requests (
+    username VARCHAR(255) PRIMARY KEY,
+    first_name VARCHAR(255) NOT NULL,
+    last_name VARCHAR(255) NOT NULL,
+    request TEXT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+
+
 
 -- DROP TABLE IF EXISTS review;
 
@@ -149,4 +160,3 @@ FROM user_redemption ur
 INNER JOIN points_shop ps ON ur.reward_id = ps.reward_id
 WHERE ur.user_id = 2;*/
 
-SELECT * FROM posts;

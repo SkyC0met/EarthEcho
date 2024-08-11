@@ -55,7 +55,7 @@
         <a href="#">
           <button class="btn btn-rosy mb-5">User Inquiries</button>
         </a>
-        <a href="#">
+        <a href="{{ url_for('admin.unban_requests') }}">
           <button class="btn btn-rosy mb-5">Unban Requests</button>
         </a>
         <a href="{{ url_for('auth.logout') }}">
@@ -104,7 +104,7 @@
               >
             </li>
             <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="#"
+              <a class="nav-link active" aria-current="page" href="{{ url_for('admin.unban_requests') }}"
                 >Unban Requests</a
               >
             </li>

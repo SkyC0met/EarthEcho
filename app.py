@@ -19,7 +19,6 @@ from blueprints.reward import reward_bp
 from blueprints.misc import misc_bp
 from blueprints.review import review_bp
 from blueprints.unban import unban_bp
-from blueprints.admin_unban import admin_unban_bp
 from blueprints.createpost import create_bp
 from blueprints.myposts import myposts_bp
 from blueprints.viewpost import view_bp
@@ -109,7 +108,6 @@ def create_app(config_class=Config):
     app.register_blueprint(misc_bp)
     app.register_blueprint(review_bp)
     app.register_blueprint(unban_bp)
-    app.register_blueprint(admin_unban_bp)
     app.register_blueprint(create_bp)
     app.register_blueprint(myposts_bp)
     app.register_blueprint(view_bp)
