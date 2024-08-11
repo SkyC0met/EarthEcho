@@ -1,4 +1,4 @@
-from flask import Flask, session, send_from_directory, request
+from flask import Flask, session, send_from_directory, request, render_template
 from config import Config
 from flask_wtf.csrf import CSRFProtect, CSRFError
 from flask import jsonify
@@ -42,6 +42,7 @@ hsts = {
     'include_subdomains': True,
     'preload': True
 }
+
 
 def create_app(config_class=Config):
     app = Flask(__name__)
@@ -96,11 +97,6 @@ def create_app(config_class=Config):
     app.config['SESSION_COOKIE_HTTPONLY'] = True
     app.config['SESSION_COOKIE_SAMESITE'] = 'Lax'
 
-
-    # reCAPTCHA
-    app.config['RECAPTCHA_SITE_KEY'] = '6LeDmxsqAAAAAIQKTcChogPkiUnenRppl4WiXGh0'
-    app.config['RECAPTCHA_SECRET_KEY'] = '6LeDmxsqAAAAALGcfuu8CLdH92N_SHfM5T1xvGTK'
-
     # Register your blueprints
     app.register_blueprint(init_bp)
     app.register_blueprint(homepage_bp)
@@ -119,7 +115,6 @@ def create_app(config_class=Config):
     app.register_blueprint(view_bp)
     app.register_blueprint(edit_bp)
     app.register_blueprint(blogpost_bp)
-
 
     @app.errorhandler(CSRFError)
     def handle_csrf_error(e):
@@ -160,10 +155,10 @@ def create_app(config_class=Config):
         global coin_count
         return jsonify({'coin_count': coin_count})
 
+
     return app
+
 
 if __name__ == '__main__':
     app = create_app()
     app.run(debug=True, host='127.0.0.1', port=80)
-
-
