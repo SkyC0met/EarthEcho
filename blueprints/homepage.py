@@ -30,7 +30,8 @@ def homepage():
     conn = get_db_connection()
     cursor = conn.cursor(dictionary=True)
 
-    cursor.execute("SELECT * FROM posts ORDER BY created_at DESC")
+    cursor.execute(
+        "SELECT * FROM posts ORDER BY created_at DESC")
     all_posts = cursor.fetchall()
 
     cursor.close()
