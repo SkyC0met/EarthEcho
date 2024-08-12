@@ -66,10 +66,12 @@
         {% endif %}
       {% endwith %}
       
-      <form method="POST" action="{{ url_for('reward.add_points') }}">
+      <!--
+        <form method="POST" action="{{ url_for('reward.add_points') }}">
         {{ add_points_form.csrf_token }}
         <button class="btn btn-rose" type="submit">ADD POINTS</button>
-      </form>
+        </form>
+      -->
     
       <!--POINTS SHOP FOOD SECTION-->
       <div class="container-md mt-sm-5 mt-4">

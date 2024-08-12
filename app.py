@@ -4,9 +4,11 @@ from flask_wtf.csrf import CSRFProtect, CSRFError
 from flask import jsonify
 from datetime import timedelta
 from blueprints.utils import login_manager
+from db import get_db_connection
 from flask_talisman import Talisman
 from authlib.integrations.flask_client import OAuth
 from flask_mailman import Mail
+import mysql
 
 # BLUEPRINTS
 from blueprints.__init__ import init_bp
@@ -144,6 +146,7 @@ def create_app(config_class=Config):
         response.headers['Cross-Origin-Embedder-Policy'] = 'require-corp'
         return response
 
+    coin_count = 0
     # Serve the game page
     @app.route('/game/index.html')
     def game():
@@ -154,19 +157,34 @@ def create_app(config_class=Config):
     def serve_static_file(path):
         return send_from_directory('game', path)
 
-    # API endpoint to update the coin count
     @app.route('/update_coins', methods=['GET'])
     def update_coins():
         global coin_count
         coin_count = int(request.args.get('coin_count', 0))
+        update_user_points(session['_user_id'], 1)  # Update points when coins are updated
         return jsonify({'status': 'success', 'coin_count': coin_count})
 
-    # API endpoint to get the current coin count
     @app.route('/get_coin_count', methods=['GET'])
     def get_coin_count():
         global coin_count
         return jsonify({'coin_count': coin_count})
 
+    @app.route('/update_user_points', methods=['POST'])
+    def update_user_points(user_id, points):
+        if user_id is None or points is None:
+            return jsonify({'status': 'error', 'message': 'Missing user_id or points'}), 400
+
+        try:
+            connection = get_db_connection()
+            cursor = connection.cursor()
+            cursor.execute("INSERT INTO user_points (user_id, points_balance) VALUES (%s, %s) ON DUPLICATE KEY UPDATE points_balance = points_balance + %s", (user_id, points, points))
+            connection.commit()
+            cursor.close()
+            connection.close()
+            return jsonify({'status': 'success'})
+        except mysql.connector.Error as err:
+            return jsonify({'status': 'error', 'message': str(err)}), 500
+    
     return app
 
 if __name__ == '__main__':
