@@ -29,14 +29,21 @@ SECURITY_QUESTIONS = {
 def unban_request():
     form = UnbanRequestForm()
 
-    if request.method == 'GET':
-        # Select a random security question
-        security_question = random.choice(list(SECURITY_QUESTIONS.keys()))
-        # Store the correct answer in session
-        session['SECURITY_ANSWER'] = SECURITY_QUESTIONS[security_question]
-        return render_template('user/unbanreq.html', form=form, security_question=security_question, recaptcha_site_key=current_app.config['RECAPTCHA_SITE_KEY'])
+    if request.method == 'POST' and form.validate_on_submit():
+        username = form.username.data
 
-    if form.validate_on_submit():
+        # Check if the user is banned
+        conn = get_db_connection()
+        cursor = conn.cursor(dictionary=True)
+        cursor.execute("SELECT acc_type FROM users WHERE username = %s", (username,))
+        user = cursor.fetchone()
+        cursor.close()
+        conn.close()
+
+        if not user or user['acc_type'] != 'banned':
+            flash('Only banned users can submit an unban request.', 'danger')
+            return redirect(url_for('unban.unban_request'))
+
         # Verify reCAPTCHA
         recaptcha_response = request.form.get('g-recaptcha-response')
         recaptcha_secret = current_app.config['RECAPTCHA_SECRET_KEY']
@@ -56,7 +63,6 @@ def unban_request():
         security_answer = request.form.get('security_answer')
         if security_answer and security_answer.lower() == session.get('SECURITY_ANSWER', '').lower():
             # Process the form data
-            username = form.username.data
             first_name = form.first_name.data
             last_name = form.last_name.data
             request_text = form.request.data
@@ -83,5 +89,7 @@ def unban_request():
             flash('Security question answer is incorrect.', 'danger')
             return redirect(url_for('unban.unban_request'))
 
-    return render_template('user/unbanreq.html', form=form, security_question=session.get('SECURITY_QUESTION'),
-                           recaptcha_site_key=current_app.config['RECAPTCHA_SITE_KEY'])
+    # Handle GET request or invalid POST submission
+    security_question = random.choice(list(SECURITY_QUESTIONS.keys()))
+    session['SECURITY_ANSWER'] = SECURITY_QUESTIONS[security_question]
+    return render_template('user/unbanreq.html', form=form, security_question=security_question, recaptcha_site_key=current_app.config['RECAPTCHA_SITE_KEY'])
