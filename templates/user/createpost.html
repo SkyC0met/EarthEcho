@@ -23,32 +23,40 @@
     </div>
     
     {% block body %}
-    <div class="form-container d-grid justify-content-center p-3" >
-      <form method="post" enctype="multipart/form-data" style="border: 3px solid black; border-radius: 25px; margin: 40px; padding: 10px">
-        {{ form.hidden_tag() }}
-        <div class="d-flex align-items-center">
-          <div>
-            <i class="fa-solid fa-user me-2 ms-1"></i>
-            <label for="{{ form.username.id }}" class="form-label">Username: </label>
-            <span>{{ form.username.data }}</span>
-            <label for="{{ form.date_created.id }}" class="form-label">Date Created: </label>
-            <span>{{ form.date_created.data }}</span>
+    <div class="container">
+      <form method="POST" enctype="multipart/form-data">
+        {{ form.csrf_token }}
+  
+        <div class="d-flex justify-content-between">
+          <div class="d-flex align-items-center">
+            <i class="fa-solid fa-user me-2 ms-1 fa-xl"></i>
+            <h4 class="fw-bold ms-3 me-2">Username:</h4>
+            {{ form.username(class="form-control border-0 shadow-none fs-4", style="background-color: transparent;") }}
           </div>
 
-
-          <div>
-            {{ form.csrf_token }}
-            <label for="{{ form.header.id }}" class="form-label">Header:</label><br>
-            {{ form.header(size=60) }}<br><br>
-            <label for="{{ form.image.id }}" class="form-label">Image:</label>
-            {{ form.image() }}
-            <label for="{{ form.topic.id }}" class="form-label">Topic:</label>
-            {{ form.topic() }}<br><br>
-            <label for="{{ form.body.id }}" class="form-label">Body:</label><br>
-            {{ form.body(rows=10,cols=60) }}<br><br>
-            {{ form.submit() }}
+          <div class="d-flex align-items-center">
+            <h4 class="fw-bold me-2 w-100">Date Created:</h4>
+            {{ form.date_created(class="form-control border-0 shadow-none fs-4", style="background-color: transparent;", placeholder="Enter Email") }}
           </div>
         </div>
+
+        <div class="mb-3 mx-auto">
+          {{ form.header(class="form-control border-0 shadow-none", placeholder="Enter Header") }}
+        </div>
+
+        <div class="mb-3 mx-auto">
+          {{ form.image(class="form-control border-0 shadow-none") }}
+        </div>
+
+        <div class="mb-3 mx-auto">
+          {{ form.topic(class="form-control form-select border-0 shadow-none") }}
+        </div>
+
+        <div class="mb-3 mx-auto">
+          {{ form.body(class="form-control border-0 shadow-none", placeholder="Enter Body") }}
+        </div>
+  
+        <button class="btn btn-rose" type="submit">Submit</button>
       </form>
     </div>
 

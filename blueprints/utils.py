@@ -60,7 +60,7 @@ def already_logged_in(f):
         if current_user.is_authenticated:
             if current_user.is_authenticated:
                 flash('Already logged in', "primary")
-                return redirect(url_for('homepage.home'))  # Redirect to dashboard or any other page
+                return redirect(url_for('homepage.home'))
         return f(*args, **kwargs)
     return decorated_function
 
