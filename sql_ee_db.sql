@@ -99,8 +99,6 @@ CREATE TABLE IF NOT EXISTS BANNED_USERS (
 );
 
 
--- DROP TABLE IF EXISTS review;
-
 -- Create the review table without foreign keys
 CREATE TABLE IF NOT EXISTS review (
     review_id INT AUTO_INCREMENT PRIMARY KEY,
@@ -111,11 +109,8 @@ CREATE TABLE IF NOT EXISTS review (
     timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-/*INSERT INTO review (review_id, review, rating, post_id, user_id, timestamp) VALUES
-(1, 'well written', 4, 1, 1, '2024-08-08 14:30:00'),
-(2, 'testing', 3, 2, 4, '2024-08-09 10:00:00');
 
-INSERT INTO users (username, phone_num, email, passwd, acc_type) VALUES
+/* INSERT INTO users (username, phone_num, email, passwd, acc_type) VALUES
 ('Tom', '12345678', 'tom@gmail.com', 'scrypt:32768:8:1$GB2hqTmVOBSHOW ZBXfGO$dcdfa47ebd93848e85079cd0eec0d20b55c48ae9f54cafc21f2085ef5acea53d830148710c17b95fd7003acb524074357c9c5b9ede32e970bdb6abe7f1f04774', 'user'),
 ('Jane', '12345378', 'jane@gmail.com', 'scrypt:32768:8:1$GB2hqTmVOBZBXfGO$dcdfa47ebd93848e85079cd0eec0d20b55c48ae9f54cafc21f2085ef5acea53d830148710c17b95fd7003acb524074357c9c5b9ede32e970bdb6abe7f1f04774', 'user'),
 ('Harry', '12325678', 'harry@gmail.com', 'scrypt:32768:8:1$GB2hqTmVOBZBXfGO$dcdfa47ebd93848e85079cd0eec0d20b55c48ae9f54cafc21f2085ef5acea53d830148710c17b95fd7003acb524074357c9c5b9ede32e970bdb6abe7f1f04774', 'user'),
