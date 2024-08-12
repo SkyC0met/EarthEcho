@@ -89,6 +89,50 @@
         "Collect rainwater for gardening and use drought-resistant plants in your landscaping.",
         "Only run dishwashers and washing machines with full loads."
       ]
+    },
+    {
+      "tag": "name_query",
+      "patterns": [
+        "What is your name?",
+        "Who are you?",
+        "Tell me your name",
+        "May I know your name?"
+      ],
+      "responses": [
+        "I'm Greeny, your eco-friendly assistant! How can I help you today?",
+        "My name is Greeny, and I'm here to assist you. What can I do for you?",
+        "You can call me Greeny! What do you need help with?"
+      ]
+    },
+    {
+      "tag": "help",
+      "patterns": [
+        "I need help",
+        "Can you assist me?",
+        "What can you do?",
+        "Help me with something",
+        "I need some assistance"
+      ],
+      "responses": [
+        "Of course! I'm here to help you with information on sustainable living, recycling, energy, and water conservation. What do you need assistance with?",
+        "Sure! I can provide tips on sustainability, recycling, energy conservation, and more. How can I assist you today?"
+      ]
+    },
+    {
+      "tag": "earthecho_info",
+      "patterns": [
+        "What is EarthEcho?",
+        "Can you tell me about EarthEcho?",
+        "What does EarthEcho do?",
+        "EarthEcho blog details",
+        "What is the purpose of EarthEcho?"
+      ],
+      "responses": [
+        "EarthEcho promotes sustainability and educates the public.",
+        "It's a blog focused on spreading awareness about sustainable living.",
+        "EarthEcho aims to inspire eco-friendly practices through education.",
+        "The blog shares tips and knowledge on living sustainably."
+      ]
     }
   ]
 }
