@@ -1,17 +1,31 @@
+import base64
+
 from flask import Blueprint, render_template, redirect, url_for, flash, session
 from blueprints.utils import *
 
 homepage_bp = Blueprint('homepage', __name__)
+
+
 def get_all_posts():
     db = get_db_connection()
     cursor = db.cursor()
-    cursor.execute("SELECT post_id, header, username, image_name FROM posts")
-    all_posts = [dict(post_id=row[0], header=row[1], username=row[2], image_name=row[3]) for row in cursor.fetchall()]
-    # Debug: Print the structure of all_posts
-    print("All Posts:", all_posts)
+    cursor.execute("SELECT post_id, header, username, image_data FROM posts")
+
+    all_posts = []
+    for row in cursor.fetchall():
+        post_id, header, username, image_data = row
+        base64_image = None
+        if image_data:
+            if isinstance(image_data, str):
+                image_data = image_data.encode('utf-8')  # Ensure it's in bytes
+            base64_image = base64.b64encode(image_data).decode('utf-8')
+        all_posts.append(dict(post_id=post_id, header=header, username=username, image_data=base64_image))
+
     cursor.close()
     db.close()
     return all_posts
+
+
 @homepage_bp.route('/')
 def home():
     all_posts = get_all_posts()
