@@ -1,9 +1,9 @@
-from flask import Flask, session, send_from_directory, request, render_template
+from flask import Flask, session, send_from_directory, request
 from config import Config
 from flask_wtf.csrf import CSRFProtect, CSRFError
 from flask import jsonify
 from datetime import timedelta
-from blueprints.utils import login_manager, send_otp
+from blueprints.utils import login_manager
 from flask_talisman import Talisman
 from authlib.integrations.flask_client import OAuth
 from flask_mailman import Mail
@@ -167,9 +167,7 @@ def create_app(config_class=Config):
         global coin_count
         return jsonify({'coin_count': coin_count})
 
-
     return app
-
 
 if __name__ == '__main__':
     app = create_app()

@@ -2,6 +2,7 @@ from flask import Blueprint, render_template, session, redirect, url_for, reques
 from db import get_db_connection
 from blueprints.sky_forms import AddFavouritesForm
 from blueprints.utils import *
+import base64
 
 fav_bp = Blueprint('fav', __name__)
 
@@ -25,12 +26,17 @@ def get_fav(user_id: int):
     conn = get_db_connection()
     cursor = conn.cursor(dictionary=True)
     cursor.execute("""
-        SELECT uf.user_id, uf.post_id, sp.header, sp.body, sp.image_path
+        SELECT uf.user_id, uf.post_id, p.header, p.body, p.image_data
         FROM user_favourites uf
-        INNER JOIN sky_posts_to_test_fav sp ON uf.post_id = sp.post_id
+        INNER JOIN posts p ON uf.post_id = p.post_id
         WHERE uf.user_id = %s;
     """, (user_id,))
     favourites = cursor.fetchall()
+
+    for favourite in favourites:
+        if favourite['image_data']:
+            favourite['image_data'] = base64.b64encode(favourite['image_data']).decode('utf-8')
+
     cursor.close()
     conn.close()
     return favourites
@@ -52,8 +58,9 @@ def add_favourite():
 
         if user_id and post_id:
             insert_into_fav(user_id, int(post_id))
+            return redirect(url_for('bp.post', post_id=post_id))
 
-    return redirect(url_for('init.blog'))
+    return redirect(url_for('fav.favourites'))
 
 @fav_bp.route('/remove_favourite', methods=['POST'])
 @user_required
@@ -65,5 +72,6 @@ def remove_favourite():
 
         if user_id and post_id:
             remove_from_fav(user_id, int(post_id))
+            return redirect(url_for('bp.post', post_id=post_id))
 
     return redirect(url_for('fav.favourites'))

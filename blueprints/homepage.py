@@ -45,16 +45,3 @@ def home():
         users = get_all_users(session['_user_id'])
         return render_template('user/homepage.html', users=users, all_posts=all_posts)
     return render_template('user/homepage.html', users=users, all_posts=all_posts)
-
-"""def homepage():
-    conn = get_db_connection()
-    cursor = conn.cursor(dictionary=True)
-
-    cursor.execute(
-        "SELECT * FROM posts ORDER BY timestamp")
-    all_posts = cursor.fetchall()
-
-    cursor.close()
-    conn.close()
-
-    return render_template('homepage.html', all_posts=all_posts)"""

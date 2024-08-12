@@ -11,9 +11,6 @@ import pyotp
 
 auth_bp = Blueprint('auth', __name__)
 
-key = pyotp.random_base32()
-totp = pyotp.TOTP(key)
-
 def forgot_passwd(user_id):
     passwd = secrets.token_hex(16)
     hashed_passwd = generate_password_hash(passwd)
@@ -77,10 +74,13 @@ def user_login():
                 flash('Your account is banned and cannot be accessed. Please submit an unban request form.', 'danger')
                 return redirect(url_for('auth.user_login'))
             if user_data['acc_type'] == 'user':
+                otp_secret = pyotp.random_base32()
+                totp = pyotp.TOTP(otp_secret, interval=60)
                 otp_code = totp.now()
                 send_otp(user_data['email'], otp_code)
                 session['otp_user_id'] = user_data['user_id']
                 session['otp_remember'] = remember
+                session['otp_secret'] = otp_secret
                 return redirect(url_for('auth.otp_verification'))
 
         flash('Invalid username/email or password.', 'warning')
@@ -94,13 +94,20 @@ def otp_verification():
         user_id = session.get('otp_user_id')
         remember = session.get('otp_remember', False)
         otp_code = otp_form.otp.data
+        otp_secret = session.get('otp_secret')
 
+        if not otp_secret:
+            flash('OTP verification failed. Please try again.', 'warning')
+            return redirect(url_for('auth.user_login'))
+
+        totp = pyotp.TOTP(otp_secret, interval=60)
         user_data = get_user_by_field('user_id', user_id)
-        if user_data and totp.verify(otp_code):
+        if user_data and totp.verify(otp_code, valid_window=1):
             user = User(user_data['user_id'], user_data['username'], user_data['passwd'], user_data['acc_type'])
             login_user(user, remember=remember)
             session.pop('otp_user_id', None)
             session.pop('otp_remember', None)
+            session.pop('otp_secret', None)
             next_page = request.args.get('next')
             if not is_safe_url(next_page):
                 return abort(400)

@@ -20,18 +20,37 @@
     {% block content %}
     <div class="container-md mt-sm-5 mt-4 mb-5">
         <div class="content">
-            <h1 class="fw-bold">{{ post.header }}</h1> <!-- Header -->
-            <div class="d-flex align-items-center mb-3">
-                <p class="fw-bold">Posted By:</p>
-                <p>{{ post.username }}</p> <!-- Username -->
-                <p class="fw-bold">On:</p>
-                <p>{{ post.timestamp }}</p> <!-- Date and time posted -->
-                <p class="fw-bold">Topic:</p>
-                <p>{{ post.topic }}</p> <!-- Topic of post -->
+            <h1 class="fw-bold">{{ post.header }}</h1>
+            <div class="d-flex mb-3">
+                <div class="d-flex me-4">
+                    <p class="fw-bold me-2">Posted By:</p>
+                    <p>{{ post.username }}</p>
+                </div>
+                <div class="d-flex me-4">
+                    <p class="fw-bold me-2">On:</p>
+                    <p>{{ post.timestamp }}</p>
+                </div>
+                <div class="d-flex me-4">
+                    <p class="fw-bold me-2">Topic:</p>
+                    <p>{{ post.topic }}</p>
+                </div>
+
+                <form id="favourite-form-{{ post.post_id }}" action="{{ url_for('fav.add_favourite') }}" method="POST">
+                    {{ add_favourites_form.csrf_token }}
+                    <input type="hidden" name="post_id" value="{{ post.post_id }}">
+                    {% if current_user.is_authenticated %}
+                        <i id="favourite-heart-{{ post.post_id }}"
+                           class="fa-heart fa-xl icon-red {% if is_favourite %}fa-solid{% else %}fa-regular{% endif %}"
+                           data-post-id="{{ post.post_id }}"
+                           data-add-url="{{ url_for('fav.add_favourite') }}"
+                           data-remove-url="{{ url_for('fav.remove_favourite') }}"
+                           type="button"></i>
+                    {% endif %}
+                </form>
             </div>
             <img src="data:image/png;base64,{{ post.image_data }}" alt="Post Image" style="height: 400px; width: 100%; object-fit: cover; object-position: top;"> <!-- Image -->
             <div class="my-4">
-                <p>{{ post.body }}</p> <!-- Body Text -->
+                <p>{{ post.body }}</p>
             </div>
 
             <!-- Reviews Section -->

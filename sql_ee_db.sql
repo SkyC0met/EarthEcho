@@ -52,15 +52,6 @@ CREATE TABLE IF NOT EXISTS user_points (
     FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
 );
 
-CREATE TABLE IF NOT EXISTS sky_posts_to_test_fav (
-    post_id INT AUTO_INCREMENT PRIMARY KEY,
-    user_id INT NOT NULL,
-    header TEXT NOT NULL,
-    body TEXT NOT NULL,
-    topic TEXT NOT NULL,
-    image_path VARCHAR(255) NOT NULL
-);
-
 CREATE TABLE IF NOT EXISTS user_favourites (
     favourite_id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT NOT NULL,
@@ -139,15 +130,6 @@ INSERT INTO user_points (user_id, points_balance) VALUES
 INSERT INTO user_redemption (user_id, reward_id) VALUES
 ('2', '3'),
 ('2', '7'),
-('4', '8');
+('4', '8');*/
 
-INSERT INTO sky_posts_to_test_fav (user_id, header, body, topic, image_path) VALUES 
-(1, 'Post 1', 'This is the body of the post.', 'Technology', 'images/fashion/fashion8.jpg'),
-(1, 'Post 2', 'This is the body of the post.', 'Technology', 'images/fashion/fashion7.jpg'),
-(1, 'Post 3', 'This is the body of the post.', 'Technology', 'images/fashion/fashion6.jpg');
-
-INSERT INTO user_favourites (user_id, post_id) VALUES 
-(2, 2),
-(2, 3);*/
-
-SELECT * FROM users;
+SELECT * FROM posts;

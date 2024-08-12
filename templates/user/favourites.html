@@ -20,12 +20,12 @@
         <div class="row align-items-center">
           {% for favourite in favourites %}
           <div class="col-xl-2 col-lg-3 col-sm-4 col-6 mb-3 d-flex justify-content-center">
-            <a href="{{ url_for('init.blog') }}">
+            <a href="{{ url_for('bp.post', post_id=favourite.post_id) }}">
               <div class="card fav-card">
                 <img
-                  src="{{ url_for('static', filename=favourite.image_path) }}"
+                  src="data:image/png;base64,{{ favourite.image_data }}"
                   class="card-img-top"
-                  alt="..."
+                  alt="{{ favourite.header }}"
                 />
                 <div class="card-body p-2">
                   <h5 class="fw-bold short-text my-2">{{ favourite.header }}</h5>

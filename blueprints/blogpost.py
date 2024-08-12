@@ -1,11 +1,16 @@
-from flask import render_template, Blueprint, abort, request, jsonify
+from flask import render_template, Blueprint, abort, request, jsonify, session
 from db import get_db_connection
+from blueprints.sky_forms import AddFavouritesForm
+from blueprints.utils import *
 import base64
 
 blogpost_bp = Blueprint('bp', __name__)
 
 @blogpost_bp.route('/post/<int:post_id>')
 def post(post_id):
+    add_favourites_form = AddFavouritesForm()
+    is_favourite = False
+
     conn = get_db_connection()
     cursor = conn.cursor(dictionary=True)
 
@@ -37,6 +42,16 @@ def post(post_id):
     for review in reviews:
         review['timestamp'] = review['timestamp'].strftime('%Y-%m-%d %H:%M:%S')
 
+    if current_user.is_authenticated:
+        user_id = session['_user_id']
+        is_favourite = False
+        if user_id:
+            cursor.execute('''
+                SELECT 1 FROM user_favourites
+                WHERE user_id = %s AND post_id = %s
+            ''', (user_id, post_id))
+            is_favourite = cursor.fetchone() is not None
+
     cursor.close()
     conn.close()
 
@@ -46,9 +61,10 @@ def post(post_id):
         total_reviews=len(reviews),
         reviews=reviews,
         current_page=1,
-        reviews_per_page=3
+        reviews_per_page=3,
+        add_favourites_form=add_favourites_form,
+        is_favourite=is_favourite
     )
-
 
 @blogpost_bp.route('/get_reviews', methods=['GET'])
 def get_reviews():
