@@ -43,10 +43,10 @@ def post(post_id):
     return render_template(
         'user/testpost2.html',
         post=post,
-        total_reviews=len(reviews),  # Assuming you want the number of reviews displayed
+        total_reviews=len(reviews),
         reviews=reviews,
-        current_page=1,  # Initial page
-        reviews_per_page=3  # Example value
+        current_page=1,
+        reviews_per_page=3
     )
 
 

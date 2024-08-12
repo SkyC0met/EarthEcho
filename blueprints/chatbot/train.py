@@ -128,6 +128,7 @@ data = {
 
 # if made changes to intents.json, change the below lines
 FILE = "blueprints/chatbot/data.pth"
+# FILE = "data.pth"
 torch.save(data, FILE)
 
 print(f"training complete, file saved to {FILE}")

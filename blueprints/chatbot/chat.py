@@ -18,6 +18,7 @@ with open(intents_file, 'r') as f:
 # if made changes to intents.json, change the below lines
 # retrieve file and load the data
 FILE = "blueprints/chatbot/data.pth"
+# FILE = "data.pth"
 data = torch.load(FILE)
 
 input_size = data["input_size"]
