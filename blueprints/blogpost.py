@@ -10,6 +10,7 @@ blogpost_bp = Blueprint('bp', __name__)
 def post(post_id):
     add_favourites_form = AddFavouritesForm()
     is_favourite = False
+    author_uuid = None  # Initialize the UUID variable
 
     conn = get_db_connection()
     cursor = conn.cursor(dictionary=True)
@@ -24,6 +25,9 @@ def post(post_id):
     # Fetch author data
     cursor.execute('SELECT * FROM users WHERE user_id = %s', (post['user_id'],))
     author = cursor.fetchone()
+
+    if author:
+        author_uuid = author['uuid']  # Get the UUID of the author
 
     # Convert the image data to a base64-encoded string
     if post['image_data']:
@@ -63,7 +67,8 @@ def post(post_id):
         current_page=1,
         reviews_per_page=3,
         add_favourites_form=add_favourites_form,
-        is_favourite=is_favourite
+        is_favourite=is_favourite,
+        uuid=author_uuid  # Pass the UUID to the template
     )
 
 @blogpost_bp.route('/get_reviews', methods=['GET'])

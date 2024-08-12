@@ -27,21 +27,11 @@ def get_all_posts():
 @homepage_bp.route('/')
 def home():
     all_posts = get_all_posts()
-    conn = get_db_connection()
-    cursor = conn.cursor(dictionary=True)
-
-    cursor.execute(
-        "SELECT * FROM users")
-    users = cursor.fetchall()
-
-    cursor.close()
-    conn.close()
 
     if current_user.is_authenticated:
         user = get_user_by_field('user_id', session['_user_id'])
         if user['acc_type'] == 'admin':
             flash("Unauthorized access.", 'danger')
             return redirect(url_for('admin.admin_profile'))
-        users = get_all_users(session['_user_id'])
-        return render_template('user/homepage.html', users=users, all_posts=all_posts)
-    return render_template('user/homepage.html', users=users, all_posts=all_posts)
+        return render_template('user/homepage.html', all_posts=all_posts)
+    return render_template('user/homepage.html', all_posts=all_posts)

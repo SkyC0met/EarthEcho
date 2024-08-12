@@ -24,7 +24,20 @@
             <div class="d-flex mb-3">
                 <div class="d-flex me-4">
                     <p class="fw-bold me-2">Posted By:</p>
-                    <p>{{ post.username }}</p>
+                    <div class="dropdown text-center me-3 ms-2">
+                        <p data-bs-toggle="dropdown">{{ post.username }}</p>
+
+                        <ul
+                        class="dropdown-menu position-absolute start-50 translate-middle-x"
+                        >
+                        <li>
+                            <a class="dropdown-item" href="{{ url_for('messaging.chat', receiver_id=uuid) }}"
+                            ><i class="fa-regular fa-comment-dots fa-xl icon-dark"></i>
+                            Message
+                            </a>
+                        </li>
+                        </ul>  
+                    </div>
                 </div>
                 <div class="d-flex me-4">
                     <p class="fw-bold me-2">On:</p>

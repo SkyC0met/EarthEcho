@@ -114,7 +114,6 @@ def chat(receiver_id):
     sender = get_user_by_field('uuid', sender_id)
     if not receiver:
         flash('User does not exist.', 'warning')
-        return redirect(url_for('messaging.messages'))
         
     message_form = MessageForm()
     message_form.receiver.data = receiver_id

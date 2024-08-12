@@ -29,7 +29,8 @@ def get_fav(user_id: int):
         SELECT uf.user_id, uf.post_id, p.header, p.body, p.image_data
         FROM user_favourites uf
         INNER JOIN posts p ON uf.post_id = p.post_id
-        WHERE uf.user_id = %s;
+        WHERE uf.user_id = %s
+        ORDER BY favourite_id desc;
     """, (user_id,))
     favourites = cursor.fetchall()
 
