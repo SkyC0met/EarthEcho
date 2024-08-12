@@ -45,6 +45,22 @@ class LoginForm(FlaskForm):
     ])
     remember_me = BooleanField('Remember Me')
 
+class OTPForm(FlaskForm):
+    otp = StringField('OTP', [
+        validators.InputRequired(message="Please enter an otp"),
+        validators.Length(max=6)
+    ])
+
+class ForgotPasswordForm(FlaskForm):
+    username = StringField('Username', [
+        validators.InputRequired(message="Please enter your username"),
+        validators.Length(min=3, max=50, message="Username must be more than 3 characters")
+    ])
+    email = EmailField('Email', [
+        validators.InputRequired(message="Please enter your email"),
+        validators.Email(message='Invalid email'),
+    ])
+
 class Searchbar(FlaskForm):
     search = StringField('Search', [
         validators.InputRequired(message="Please enter a message"),

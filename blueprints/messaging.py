@@ -1,5 +1,4 @@
 from flask import Blueprint, render_template, redirect, url_for, flash, session
-from flask_login import login_required
 from db import get_db_connection
 from blueprints.utils import *
 from blueprints.sky_forms import MessageForm
@@ -8,7 +7,7 @@ from blueprints.rate_limiter import *
 messaging_bp = Blueprint('messaging', __name__)
 
 # MESSAGING FUNCTIONS
-def get_users_with_messages(user_id: int):
+def get_users_with_messages(uuid):
     conn = get_db_connection()
     cursor = conn.cursor(dictionary=True)
     cursor.execute("""
@@ -19,13 +18,13 @@ def get_users_with_messages(user_id: int):
             END AS user_id
         FROM messages
         WHERE sender_user_id = %s OR receiver_user_id = %s
-        """, (user_id, user_id, user_id))
+        """, (uuid, uuid, uuid))
     users = cursor.fetchall()
     cursor.close()
     conn.close()
     return users
 
-def get_last_message_between_users(user_id1: int, user_id2: int):
+def get_last_message_between_users(uuid1, uuid2):
     conn = get_db_connection()
     cursor = conn.cursor(dictionary=True)
     cursor.execute("""
@@ -34,7 +33,7 @@ def get_last_message_between_users(user_id1: int, user_id2: int):
         WHERE (sender_user_id = %s AND receiver_user_id = %s) OR (sender_user_id = %s AND receiver_user_id = %s) 
         ORDER BY timestamp DESC 
         LIMIT 1
-    """, (user_id1, user_id2, user_id2, user_id1))
+    """, (uuid1, uuid2, uuid2, uuid1))
     last_message = cursor.fetchone()
     cursor.close()
     conn.close()
@@ -86,12 +85,13 @@ def clear_all_messages():
 @messaging_bp.route('/messages')
 @user_required
 def messages():
-    user_id = session['_user_id']
+    user = get_user_by_field('user_id', session['_user_id'])
+    user_id = user['uuid']
     users = get_users_with_messages(user_id)
     users_with_last_messages = []
     for user in users:
         last_message = get_last_message_between_users(user_id, user['user_id'])
-        user_info = get_user_by_field('user_id', user['user_id'])
+        user_info = get_user_by_field('uuid', user['user_id'])
         users_with_last_messages.append({
             'user_id': user['user_id'],
             'username': user_info['username'],
@@ -104,13 +104,14 @@ def messages():
 @user_required
 @rate_limit(2)
 def chat(receiver_id):
-    sender_id = session['_user_id']
+    sender = get_user_by_field('user_id', session['_user_id'])
+    sender_id = sender['uuid']
     if sender_id == receiver_id:
         flash('You cannot message yourself.', 'warning')
         return redirect(url_for('messaging.messages'))
 
-    receiver = get_user_by_field('user_id', receiver_id)
-    sender = get_user_by_field('user_id', sender_id)
+    receiver = get_user_by_field('uuid', receiver_id)
+    sender = get_user_by_field('uuid', sender_id)
     if not receiver:
         flash('User does not exist.', 'warning')
         return redirect(url_for('messaging.messages'))

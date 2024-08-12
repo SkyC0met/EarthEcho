@@ -3,9 +3,10 @@ from config import Config
 from flask_wtf.csrf import CSRFProtect, CSRFError
 from flask import jsonify
 from datetime import timedelta
-from blueprints.utils import login_manager
+from blueprints.utils import login_manager, send_otp
 from flask_talisman import Talisman
 from authlib.integrations.flask_client import OAuth
+from flask_mailman import Mail
 
 # BLUEPRINTS
 from blueprints.__init__ import init_bp
@@ -42,11 +43,20 @@ hsts = {
     'preload': True
 }
 
-
 def create_app(config_class=Config):
     app = Flask(__name__)
     app.config.from_object(config_class)
     app.secret_key = app.config['SECRET_KEY']
+
+    app.config["MAIL_SERVER"] = "smtp.gmail.com"
+    app.config["MAIL_PORT"] = 465
+    app.config["MAIL_USERNAME"] = app.config['MAIL_USERNAME']
+    app.config["MAIL_PASSWORD"] = app.config['MAIL_PASSWORD']
+    app.config["MAIL_USE_TLS"] = False
+    app.config["MAIL_USE_SSL"] = True
+
+    mail = Mail(app)
+    mail.init_app(app)
 
     app.config['UPLOAD_FOLDER'] = 'static/images/user_post_images'
 

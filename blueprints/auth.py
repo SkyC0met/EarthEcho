@@ -5,10 +5,25 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from urllib.parse import urlparse, urljoin
 from db import get_db_connection
 from blueprints.utils import *
-from blueprints.sky_forms import RegistrationForm, LoginForm
+from blueprints.sky_forms import RegistrationForm, LoginForm, OTPForm, ForgotPasswordForm
 from blueprints.models import User
+import pyotp
 
 auth_bp = Blueprint('auth', __name__)
+
+key = pyotp.random_base32()
+totp = pyotp.TOTP(key)
+
+def forgot_passwd(user_id):
+    passwd = secrets.token_hex(16)
+    hashed_passwd = generate_password_hash(passwd)
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    cursor.execute("UPDATE users SET passwd = %s WHERE user_id = %s", (hashed_passwd, user_id))
+    conn.commit()
+    cursor.close()
+    conn.close()
+    return passwd
 
 def get_oauth():
     return current_app.extensions['authlib']['oauth']
@@ -58,18 +73,63 @@ def user_login():
             user_data = get_user_by_field('username', identifier)
 
         if user_data and check_password_hash(user_data['passwd'], passwd):
+            if user_data['acc_type'] == 'banned':
+                flash('Your account is banned and cannot be accessed. Please submit an unban request form.', 'danger')
+                return redirect(url_for('auth.user_login'))
             if user_data['acc_type'] == 'user':
-                user = User(user_data['user_id'], user_data['username'], user_data['passwd'], user_data['acc_type'])
-                login_user(user, remember=remember)
-                next_page = request.args.get('next')
-                if not is_safe_url(next_page):
-                    return abort(400)
-                return redirect(next_page or url_for('homepage.home'))
+                otp_code = totp.now()
+                send_otp(user_data['email'], otp_code)
+                session['otp_user_id'] = user_data['user_id']
+                session['otp_remember'] = remember
+                return redirect(url_for('auth.otp_verification'))
+
         flash('Invalid username/email or password.', 'warning')
     return render_template('user/user_login.html', login_form=login_form)
 
+@auth_bp.route('/otp_verification', methods=['GET', 'POST'])
+@already_logged_in
+def otp_verification():
+    otp_form = OTPForm()
+    if otp_form.validate_on_submit():
+        user_id = session.get('otp_user_id')
+        remember = session.get('otp_remember', False)
+        otp_code = otp_form.otp.data
+
+        user_data = get_user_by_field('user_id', user_id)
+        if user_data and totp.verify(otp_code):
+            user = User(user_data['user_id'], user_data['username'], user_data['passwd'], user_data['acc_type'])
+            login_user(user, remember=remember)
+            session.pop('otp_user_id', None)
+            session.pop('otp_remember', None)
+            next_page = request.args.get('next')
+            if not is_safe_url(next_page):
+                return abort(400)
+            return redirect(next_page or url_for('homepage.home'))
+        else:
+            flash('OTP is incorrect or has expired, please try again.', 'warning')
+            return redirect(url_for('auth.user_login'))
+
+    return render_template('misc/otp_verify.html', otp_form=otp_form)
+
+@auth_bp.route('/forgot_password', methods=['GET', 'POST'])
+def forgot_password():
+    forgot_password_form = ForgotPasswordForm()
+    if forgot_password_form.validate_on_submit():
+        username = forgot_password_form.username.data
+        email = forgot_password_form.email.data
+        user = get_user_by_field('username', username)
+        if user and user['email'] == email:
+            passwd = forgot_passwd(user['user_id'])
+            send_forgot_passwd(email, passwd)
+            flash('Email sent', 'success')
+            return redirect(url_for('auth.user_login'))
+        else:
+            flash('Invalid username or email', 'danger')
+    return render_template('misc/forgot_passwd.html', forgot_password_form=forgot_password_form)
+
 @auth_bp.route('/login/google')
 def google_login():
+
     google = get_oauth().create_client('google')
     state = secrets.token_urlsafe(16)
     nonce = secrets.token_urlsafe(16)
@@ -77,6 +137,7 @@ def google_login():
     session['oauth_nonce'] = nonce
     print(f'Session before redirect: {session}')
     return google.authorize_redirect(url_for('auth.google_authorized', _external=True), state=state, nonce=nonce)
+
 @auth_bp.route('/login/google/authorized')
 def google_authorized():
     google = get_oauth().create_client('google')

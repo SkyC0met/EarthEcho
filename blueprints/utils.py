@@ -3,8 +3,27 @@ from flask_login import LoginManager, current_user
 from functools import wraps
 from db import get_db_connection
 from blueprints.models import User
+from flask_mailman import EmailMessage
 
 login_manager = LoginManager()
+
+def send_otp(email, otp):
+    msg = EmailMessage(
+        "Your OTP Code",
+        f"Your OTP code is: {otp}.",
+        "earth3cho@gmail.com",
+        [email]
+    )
+    msg.send()
+
+def send_forgot_passwd(email, passwd):
+    msg = EmailMessage(
+        "Your New Password",
+        f"Your new password is: {passwd}\nPlease reset your password after logging in.",
+        "earth3cho@gmail.com",
+        [email]
+    )
+    msg.send()
 
 @login_manager.user_loader
 def load_user(user_id):

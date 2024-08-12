@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  {% extends 'user/user_base.html' %}
+
+{% block content %}
+<div class="container-md mt-sm-5 mt-4 mb-4">
+    <h1 class="fw-bold mb-5">Enter OTP</h1>
+    <form method="POST" class="needs-validation" novalidate>
+        {{ otp_form.csrf_token }}
+
+        <div class="mb-3 mx-auto">
+            {{ otp_form.otp(class="form-control border-0 shadow-none", placeholder="Enter OTP") }}
+            {% for error in otp_form.otp.errors %}
+                <div class="invalid-feedback d-block text-start">{{ error }}</div>
+            {% endfor %}
+        </div>
+
+        <button class="btn btn-primary" type="submit">Submit</button>
+    </form>
+</div>
+{% endblock content %}
+
+</body>
+</html>

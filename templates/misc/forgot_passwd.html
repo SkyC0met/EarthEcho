@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  {% extends 'user/user_base.html' %}
+
+{% block content %}
+<div class="container-md mt-sm-5 mt-4 mb-4">
+    <h1 class="fw-bold mb-5">Reset Password</h1>
+
+    <form method="POST" class="needs-validation" novalidate>
+      {{ forgot_password_form.csrf_token }}
+
+      <div class="mb-3 mx-auto">
+        {{ forgot_password_form.username(class="form-control border-0 shadow-none", placeholder="Enter Username") }}
+        {% for error in forgot_password_form.username.errors %}
+          <div class="invalid-feedback d-block text-start">{{ error }}</div>
+        {% endfor %}
+      </div>
+
+      <div class="mb-3 mx-auto">
+        {{ forgot_password_form.email(class="form-control border-0 shadow-none", placeholder="Enter Email") }}
+        {% for error in forgot_password_form.email.errors %}
+          <div class="invalid-feedback d-block text-start">{{ error }}</div>
+        {% endfor %}
+      </div>
+
+      <button class="btn btn-rose" type="submit">Submit</button>
+  </form>
+</div>
+{% endblock content %}
+
+</body>
+</html>

@@ -1,4 +1,4 @@
--- DROP DATABASE earthecho_db;
+DROP DATABASE earthecho_db;
 
 CREATE DATABASE IF NOT EXISTS earthecho_db;
 
@@ -6,22 +6,24 @@ USE earthecho_db;
 
 CREATE TABLE IF NOT EXISTS users (
     user_id INT AUTO_INCREMENT PRIMARY KEY,
+    uuid CHAR(36) NOT NULL DEFAULT (UUID()),
     username VARCHAR(50) COLLATE utf8_bin UNIQUE NOT NULL,
     phone_num INT NOT NULL DEFAULT 0,
     email VARCHAR(100) UNIQUE NOT NULL,
     passwd VARCHAR(255) NOT NULL,
-    acc_type VARCHAR(100) NOT NULL
+    acc_type VARCHAR(10) NOT NULL,
+    is_banned BOOLEAN DEFAULT FALSE,
+    UNIQUE KEY idx_users_uuid (uuid)
 );
-ALTER TABLE users ADD COLUMN is_banned BOOLEAN DEFAULT FALSE;
 
 CREATE TABLE IF NOT EXISTS messages (
     message_id INT AUTO_INCREMENT PRIMARY KEY,
-    sender_user_id INT NOT NULL,
-    receiver_user_id INT NOT NULL,
+    sender_user_id VARCHAR(100) NOT NULL,
+    receiver_user_id VARCHAR(100) NOT NULL,
     message TEXT,
     timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (sender_user_id) REFERENCES users(user_id) ON DELETE CASCADE,
-    FOREIGN KEY (receiver_user_id) REFERENCES users(user_id) ON DELETE CASCADE
+    FOREIGN KEY (sender_user_id) REFERENCES users(uuid) ON DELETE CASCADE,
+    FOREIGN KEY (receiver_user_id) REFERENCES users(uuid) ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS points_shop (
@@ -80,7 +82,6 @@ CREATE TABLE IF NOT EXISTS posts (
     image_name VARCHAR(255)
 );
 
--- Create the unban_requests table
 CREATE TABLE IF NOT EXISTS unban_requests (
     username VARCHAR(255) PRIMARY KEY,
     first_name VARCHAR(255) NOT NULL,
@@ -89,7 +90,6 @@ CREATE TABLE IF NOT EXISTS unban_requests (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- Create a table for banned users if it doesn't exist
 CREATE TABLE IF NOT EXISTS BANNED_USERS (
     ban_id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT,
@@ -98,10 +98,6 @@ CREATE TABLE IF NOT EXISTS BANNED_USERS (
     FOREIGN KEY (user_id) REFERENCES users(user_id)
 );
 
-
--- DROP TABLE IF EXISTS review;
-
--- Create the review table without foreign keys
 CREATE TABLE IF NOT EXISTS review (
     review_id INT AUTO_INCREMENT PRIMARY KEY,
     review TEXT NOT NULL,
@@ -111,15 +107,12 @@ CREATE TABLE IF NOT EXISTS review (
     timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-/*INSERT INTO review (review_id, review, rating, post_id, user_id, timestamp) VALUES
-(1, 'well written', 4, 1, 1, '2024-08-08 14:30:00'),
-(2, 'testing', 3, 2, 4, '2024-08-09 10:00:00');
-
 INSERT INTO users (username, phone_num, email, passwd, acc_type) VALUES
-('Tom', '12345678', 'tom@gmail.com', 'scrypt:32768:8:1$GB2hqTmVOBSHOW ZBXfGO$dcdfa47ebd93848e85079cd0eec0d20b55c48ae9f54cafc21f2085ef5acea53d830148710c17b95fd7003acb524074357c9c5b9ede32e970bdb6abe7f1f04774', 'user'),
+('Tom', '12345678', 'tom@gmail.com', 'scrypt:32768:8:1$GB2hqTmVOBZBXfGO$dcdfa47ebd93848e85079cd0eec0d20b55c48ae9f54cafc21f2085ef5acea53d830148710c17b95fd7003acb524074357c9c5b9ede32e970bdb6abe7f1f04774', 'user'),
 ('Jane', '12345378', 'jane@gmail.com', 'scrypt:32768:8:1$GB2hqTmVOBZBXfGO$dcdfa47ebd93848e85079cd0eec0d20b55c48ae9f54cafc21f2085ef5acea53d830148710c17b95fd7003acb524074357c9c5b9ede32e970bdb6abe7f1f04774', 'user'),
 ('Harry', '12325678', 'harry@gmail.com', 'scrypt:32768:8:1$GB2hqTmVOBZBXfGO$dcdfa47ebd93848e85079cd0eec0d20b55c48ae9f54cafc21f2085ef5acea53d830148710c17b95fd7003acb524074357c9c5b9ede32e970bdb6abe7f1f04774', 'user'),
 ('Richard', '12345648', 'richard@gmail.com', 'scrypt:32768:8:1$GB2hqTmVOBZBXfGO$dcdfa47ebd93848e85079cd0eec0d20b55c48ae9f54cafc21f2085ef5acea53d830148710c17b95fd7003acb524074357c9c5b9ede32e970bdb6abe7f1f04774', 'user'),
+('Joe', '67548591', 'j09936099@gmail.com', 'scrypt:32768:8:1$GB2hqTmVOBZBXfGO$dcdfa47ebd93848e85079cd0eec0d20b55c48ae9f54cafc21f2085ef5acea53d830148710c17b95fd7003acb524074357c9c5b9ede32e970bdb6abe7f1f04774', 'user'),
 ('Admin', '19045678', 'admin@gmail.com', 'scrypt:32768:8:1$GB2hqTmVOBZBXfGO$dcdfa47ebd93848e85079cd0eec0d20b55c48ae9f54cafc21f2085ef5acea53d830148710c17b95fd7003acb524074357c9c5b9ede32e970bdb6abe7f1f04774', 'admin');
 
 INSERT INTO points_shop (reward_name, reward, reward_desc, points_required, valid_until, image_path, points_type) VALUES 
@@ -158,13 +151,4 @@ INSERT INTO user_favourites (user_id, post_id) VALUES
 (2, 2),
 (2, 3);
 
-SELECT uf.user_id, uf.post_id, sp.header, sp.body, sp.image_path
-FROM user_favourites uf
-INNER JOIN sky_posts_to_test_fav sp ON uf.post_id = sp.post_id
-WHERE uf.user_id = 2;*/
-
-/*SELECT ur.user_id, ur.reward_id, ur.redemption_date, ps.reward_name, ps.reward, ps.reward_desc, ps.valid_until, ps.image_path
-FROM user_redemption ur
-INNER JOIN points_shop ps ON ur.reward_id = ps.reward_id
-WHERE ur.user_id = 2;*/
-
+SELECT * FROM users;

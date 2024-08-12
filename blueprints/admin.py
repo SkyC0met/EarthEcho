@@ -8,7 +8,6 @@ from blueprints.utils import *
 from blueprints.profile import handle_edit_form, delete_account
 from blueprints.sky_forms import LoginForm, EditUsernameForm, EditPhoneNumForm, EditEmailForm, ResetPasswordForm, DeleteAccountForm
 from blueprints.models import User
-from datetime import datetime
 
 admin_bp = Blueprint('admin', __name__)
 
@@ -35,18 +34,14 @@ def admin_login():
             user_data = get_user_by_field('username', identifier)
 
         if user_data and check_password_hash(user_data['passwd'], passwd):
-            if user_data['is_banned']:
-                flash('Your account is banned and cannot be accessed.', 'danger')
-            elif user_data['acc_type'] == 'admin':
+            if user_data['acc_type'] == 'admin':
                 user = User(user_data['user_id'], user_data['username'], user_data['passwd'], user_data['acc_type'])
                 login_user(user, remember=remember)
                 next_page = request.args.get('next')
                 if not is_safe_url(next_page):
                     return abort(400)
                 return redirect(next_page or url_for('admin.admin_profile'))
-            else:
-                flash('You do not have admin privileges.', 'warning')
-        else:
+            
             flash('Invalid username/email or password.', 'warning')
     return render_template('admin/admin_login.html', login_form=login_form)
 
