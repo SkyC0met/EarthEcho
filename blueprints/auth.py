@@ -136,13 +136,18 @@ def forgot_password():
 
 @auth_bp.route('/login/google')
 def google_login():
-
     google = get_oauth().create_client('google')
+
+    # generate a secure state and nonce for CSRF protection
     state = secrets.token_urlsafe(16)
     nonce = secrets.token_urlsafe(16)
+
+    # for later validation
     session['oauth_state'] = state
     session['oauth_nonce'] = nonce
     print(f'Session before redirect: {session}')
+
+    # redirect to google's authorization page
     return google.authorize_redirect(url_for('auth.google_authorized', _external=True), state=state, nonce=nonce)
 
 @auth_bp.route('/login/google/authorized')
@@ -156,7 +161,6 @@ def google_authorized():
     print(f'Session data at authorization callback: {session}')
     print(f'Request state: {request_state}')
     print(f'Saved state: {saved_state}')
-    print(f'Nonce: {nonce}')
 
     if saved_state != request_state:
         flash('CSRF token mismatch. Possible attack detected.', 'danger')
@@ -176,7 +180,7 @@ def google_authorized():
         return redirect(url_for('auth.user_login'))
 
     email = user_info.get('email')
-    username = user_info.get('name', email)  # If 'name' is not present, use email as fallback
+    username = user_info.get('name', email)
 
     conn = get_db_connection()
     cursor = conn.cursor(dictionary=True)
