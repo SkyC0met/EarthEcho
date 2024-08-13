@@ -8,15 +8,14 @@ document.addEventListener('DOMContentLoaded', function () {
     const reviewsPerPageInput = document.getElementById('reviewsPerPage');
     const averageRatingElem = document.getElementById('averageRating');
     const ratingChartElem = document.getElementById('ratingChart');
-    const postIdInput = document.getElementById('postId'); // Hidden input for post ID
+    const postIdInput = document.getElementById('postId');
 
     let currentPage = parseInt(currentPageInput?.value) || 1;
     const reviewsPerPage = parseInt(reviewsPerPageInput?.value) || 3;
     let totalReviews = 0;
     let reviewsDisplayed = 0;
-    const postId = postIdInput?.value; // Get the post ID
+    const postId = postIdInput?.value;
 
-    // Log postId to verify
     console.log('Post ID:', postId);
     console.log('Show More Button:', showMoreBtn);
 
@@ -81,7 +80,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function fetchReviews(page) {
-        if (!postId) return; // Ensure postId is present
+        if (!postId) return;
 
         fetch(`/get_reviews?page=${page}&limit=${reviewsPerPage}&post_id=${postId}`)
             .then(response => {
@@ -145,7 +144,6 @@ document.addEventListener('DOMContentLoaded', function () {
             const formData = new FormData(this);
             const csrfToken = document.querySelector('input[name="csrf_token"]').value;
 
-            // Log FormData to verify
             console.log('FormData:', Array.from(formData.entries()));
 
             fetch(this.action, {
@@ -191,6 +189,5 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    // Initial load
     fetchReviews(currentPage);
 });
