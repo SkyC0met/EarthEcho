@@ -19,22 +19,20 @@
         {% endif %}
     {% endwith %}
 
-
-
-
-
-
     {% block content %}
       <div class="container-md mt-sm-5 mt-4 mb-5">
             <h1 class="fw-bold">{{ post.header }}</h1><!-- Header -->
-            <div class="d-flex align-items-center mb-3">
-                <p class="fw-bold">Posted By:</p>
-                <p>{{ post.username }} (you)</p>
-                <p class="fw-bold">On</p>
-                <p>{{ post.timestamp }}</p>
-                <p class="fw-bold">Topic:</p>
-                <p>{{ post.topic }}</p>
+            <div class="d-flex justify-content-between">
+                        <p class="fw-bold">Posted By:</p>
+                        <p>{{ post.username }} (you)</p>
+                        <p class="fw-bold">On</p>
+                        <p>{{ post.timestamp }}</p>
+                        <p class="fw-bold">Topic:</p>
+                        <p>{{ post.topic }}</p>
+                </div>
             </div>
+      </div>
+
 
             <img src="data:image/png;base64,{{ post.image_data }}" alt="Post Image" alt style="height: 400px; width: 100%; object-fit: cover; object-position: top;"> <!-- Image -->
             <div class="my-4">

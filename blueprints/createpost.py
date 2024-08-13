@@ -16,8 +16,8 @@ class PostForm(FlaskForm):
     date_created = DateField('Date', default=date.today, render_kw={'readonly': True})
     header = StringField('Header', validators=[DataRequired(), Length(max=120)])
     image = FileField('Image', validators=[DataRequired()])
-    topic = SelectField('Topic', choices=[(1, 'Sustainability'), (2, 'Pollution'), (3, 'Recycling'), (4, 'Water/Oceans'), (5, 'DIY'), (6, 'Energy'), (7, 'Composting'), (8, 'Others')], validators=[DataRequired()])
-    body = TextAreaField('Body', validators=[DataRequired()])
+    topic = SelectField('Topic', choices=[('Sustainability', 'Sustainability'), ('Pollution', 'Pollution'), ('Recycling', 'Recycling'), ('Water/Oceans', 'Water/Oceans'), ('DIY', 'DIY'), ('Energy', 'Energy'), ('Composting', 'Composting'), ('Others', 'Others')], validators=[DataRequired()])
+    body = TextAreaField('Body', validators=[DataRequired(), Length(min=120)])
     submit = SubmitField('Post!')
 
     def validate_image(form, field):
