@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, redirect, url_for, flash, session, request
 from db import get_db_connection
-from blueprints.sky_forms import RedeemVoucherForm, AddPointsForm, SpendVoucherForm
+from blueprints.sky_forms import RedeemVoucherForm, AddPointsForm, SpendVoucherForm, SearchbarForm
 from blueprints.utils import *
 
 reward_bp = Blueprint('reward', __name__)
@@ -85,6 +85,7 @@ def spend_voucher(user_id: int, reward_id: int):
 @reward_bp.route('/points-shop', methods=['GET', 'POST'])
 @user_required
 def points_shop():
+    searchbar_form = SearchbarForm()
     redeem_voucher_form = RedeemVoucherForm()
     add_points_form = AddPointsForm()
 
@@ -106,11 +107,12 @@ def points_shop():
     all_rewards = get_points_shop_rewards()
     food_rewards = [reward for reward in all_rewards if reward['points_type'] == 'food']
     fashion_rewards = [reward for reward in all_rewards if reward['points_type'] == 'fashion']
-    return render_template('user/points_shop.html', points_balance=points_balance, food_rewards=food_rewards, fashion_rewards=fashion_rewards, redeem_voucher_form=redeem_voucher_form, add_points_form=add_points_form)
+    return render_template('user/points_shop.html', points_balance=points_balance, food_rewards=food_rewards, fashion_rewards=fashion_rewards, redeem_voucher_form=redeem_voucher_form, add_points_form=add_points_form, searchbar_form=searchbar_form)
 
 @reward_bp.route('/vouchers', methods=['GET', 'POST'])
 @user_required
 def vouchers():
+    searchbar_form = SearchbarForm()
     spend_voucher_form = SpendVoucherForm()
     if spend_voucher_form.validate_on_submit():
         voucher_id = request.form.get("voucher")
@@ -120,7 +122,7 @@ def vouchers():
         return redirect(url_for('reward.vouchers'))
 
     vouchers = get_vouchers(session['_user_id'])
-    return render_template('user/vouchers.html', vouchers=vouchers, spend_voucher_form=spend_voucher_form)
+    return render_template('user/vouchers.html', vouchers=vouchers, spend_voucher_form=spend_voucher_form, searchbar_form=searchbar_form)
 
 def add_points_to_user(user_id: int):
     points_to_add = 1000

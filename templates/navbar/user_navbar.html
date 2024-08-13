@@ -105,7 +105,7 @@
               class="dropdown-menu position-absolute start-50 translate-middle-x mt-1"
             >
               <li>
-                <a class="dropdown-item" href="{{ url_for('game') }}"
+                <a class="dropdown-item" href="{{ url_for('game.game') }}"
                   >Game</a
                 >
               </li>
@@ -185,7 +185,7 @@
               </div>
               <ul class="dropdown-menu">
                 <li>
-                  <a class="dropdown-item" href="{{ url_for('game') }}"
+                  <a class="dropdown-item" href="{{ url_for('game.game') }}"
                     >Game</a
                   >
                 </li>
@@ -207,13 +207,13 @@
 
         <!--SEARCHBAR-->
         <div class="order-first search-container order-2">
-          <input
-            class="form-control rounded-pill"
-            type="search"
-            placeholder="Type here for search"
-            aria-label="Search"
-          />
-          <i class="fa-solid fa-magnifying-glass icon-dark"></i>
+          <form action="{{ url_for('homepage.search') }}" method="POST" class="d-flex">
+            {{ searchbar_form.csrf_token }}
+            {{ searchbar_form.search(class="form-control rounded-pill me-2 py-2 px-3", placeholder="Type here to search", aria_label="Search") }}
+            <button class="border border-0" type="submit">
+              <i class="fa-solid fa-magnifying-glass icon-dark"></i>
+            </button>
+          </form>
         </div>
         <!--SEARCHBAR-->
       </div>

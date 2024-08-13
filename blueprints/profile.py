@@ -3,7 +3,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import logout_user, login_required
 from db import get_db_connection
 from blueprints.utils import *
-from blueprints.sky_forms import EditUsernameForm, EditPhoneNumForm, EditEmailForm, ResetPasswordForm, DeleteAccountForm
+from blueprints.sky_forms import EditUsernameForm, EditPhoneNumForm, EditEmailForm, ResetPasswordForm, DeleteAccountForm, SearchbarForm
 
 profile_bp = Blueprint('profile', __name__)
 
@@ -61,6 +61,7 @@ def delete_account(user_id: int):
 @profile_bp.route('/user/profile', methods=['GET', 'POST'])
 @user_required
 def my_profile():
+    searchbar_form = SearchbarForm()
     user = get_user_by_field('user_id', session['_user_id'])
 
     edit_username_form = EditUsernameForm()
@@ -86,7 +87,7 @@ def my_profile():
         if handle_edit_form(reset_password_form, user, 'passwd', 'new_passwd', message, is_password=True):
             return redirect(url_for('profile.my_profile'))
 
-    return render_template('user/my_profile.html', user=user, edit_username_form=edit_username_form, edit_phone_num_form=edit_phone_num_form, edit_email_form=edit_email_form, reset_password_form=reset_password_form, delete_account_form=delete_account_form)
+    return render_template('user/my_profile.html', user=user, edit_username_form=edit_username_form, edit_phone_num_form=edit_phone_num_form, edit_email_form=edit_email_form, reset_password_form=reset_password_form, delete_account_form=delete_account_form, searchbar_form=searchbar_form)
 
 @profile_bp.route('/profile/delete', methods=['POST'])
 @login_required

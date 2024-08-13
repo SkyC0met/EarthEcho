@@ -1,25 +1,28 @@
 from flask import render_template, Blueprint, session
 from blueprints.utils import *
 from flask_login import login_required
+from blueprints.sky_forms import SearchbarForm
 
 misc_bp = Blueprint('misc', __name__)
 
 @misc_bp.app_errorhandler(404)
 # Page not found
 def four_o_four(e):
+    searchbar_form = SearchbarForm()
     if '_user_id' in session:
         user = get_user_by_field('user_id', session['_user_id'])
         if user['acc_type'] == 'admin':
-            return render_template('misc/admin_404.html'), 404
+            return render_template('misc/admin_404.html', searchbar_form=searchbar_form), 404
         else:
-            return render_template('misc/user_404.html'), 404
+            return render_template('misc/user_404.html', searchbar_form=searchbar_form), 404
     else:
-        return render_template('misc/user_404.html'), 404
+        return render_template('misc/user_404.html', searchbar_form=searchbar_form), 404
 
 @misc_bp.app_errorhandler(500)
 # Internal server error
 def five_o_o(e):
-    return render_template('misc/500.html'), 500
+    searchbar_form = SearchbarForm()
+    return render_template('misc/500.html', searchbar_form=searchbar_form), 500
 
 # Route to simulate a 500 error
 @misc_bp.route('/error')

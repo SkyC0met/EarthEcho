@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Search Results</title>
+  </head>
+  <body>
+    {% extends 'user/user_base.html' %}
+
+    {% block content %}
+
+    <div class="container-md mt-sm-5 mt-4 mb-5">
+      <h2 class="fw-bold mb-4">Search Results for "{{ query }}"</h2>
+
+      <div class="row align-items-center">
+        {% for post in results %}
+          <div class="col-xl-2 col-lg-3 col-sm-4 col-6 mb-3 d-flex justify-content-center">
+            <a href="{{ url_for('bp.post', post_id=post.post_id) }}">
+              <div class="card fav-card">
+                <img
+                  src="data:image/png;base64,{{ post.image_data }}"
+                  class="card-img-top"
+                  alt="{{ post.header }}"
+                />
+                <div class="card-body p-2">
+                  <h5 class="fw-bold short-text my-2">{{ post.header }}</h5>
+                  <p class="mt-4 short-text">{{ post.body }}</p>
+                </div>
+              </div>
+            </a>
+          </div>
+        {% else %}
+          <p>No results found.</p>
+        {% endfor %}
+      </div>
+    </div>
+
+    {% endblock content %}
+  </body>
+</html>
