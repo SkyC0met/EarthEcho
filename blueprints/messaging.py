@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, redirect, url_for, flash, session
 from db import get_db_connection
 from blueprints.utils import *
-from blueprints.sky_forms import MessageForm
+from blueprints.sky_forms import MessageForm, SearchbarForm
 from blueprints.rate_limiter import *
 
 messaging_bp = Blueprint('messaging', __name__)
@@ -85,6 +85,7 @@ def clear_all_messages():
 @messaging_bp.route('/messages')
 @user_required
 def messages():
+    searchbar_form = SearchbarForm()
     user = get_user_by_field('user_id', session['_user_id'])
     user_id = user['uuid']
     users = get_users_with_messages(user_id)
@@ -98,12 +99,13 @@ def messages():
             'last_message': last_message['message'],
             'timestamp': last_message['timestamp']
         })
-    return render_template('user/messages.html', users=users_with_last_messages)
+    return render_template('user/messages.html', users=users_with_last_messages, searchbar_form=searchbar_form)
 
 @messaging_bp.route('/chat/<receiver_id>', methods=['GET', 'POST'])
 @user_required
 @rate_limit(2)
 def chat(receiver_id):
+    searchbar_form = SearchbarForm()
     sender = get_user_by_field('user_id', session['_user_id'])
     sender_id = sender['uuid']
     if sender_id == receiver_id:
@@ -122,6 +124,6 @@ def chat(receiver_id):
         insert_message(sender_id, receiver_id, message)
         return redirect(url_for('messaging.chat', receiver_id=receiver_id))
     messages = get_messages_between_users(sender_id, receiver_id)
-    return render_template('user/chat.html', sender=sender['username'], receiver=receiver['username'], message_form=message_form, messages=messages)
+    return render_template('user/chat.html', sender=sender['username'], receiver=receiver['username'], message_form=message_form, messages=messages, searchbar_form=searchbar_form)
 
 # MESSAGING ROUTES

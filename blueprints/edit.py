@@ -1,17 +1,15 @@
 import os
-from datetime import datetime
-from flask import Blueprint, flash, url_for, redirect, render_template, current_app, request, jsonify
-from flask_login import login_required, current_user
+from flask import Blueprint, flash, url_for, redirect, render_template, current_app
+from flask_login import login_required
 from flask_wtf import FlaskForm
 from werkzeug.utils import secure_filename
 from wtforms import StringField, TextAreaField, SubmitField, FileField, SelectField
-from wtforms.fields.datetime import DateField
 from wtforms.validators import DataRequired, Length, ValidationError
 from flask_wtf.file import FileAllowed
 from db import get_db_connection
+from blueprints.sky_forms import SearchbarForm
 
 edit_bp = Blueprint('edit', __name__)
-
 
 class EditPostForm(FlaskForm):
     header = StringField('Header', validators=[DataRequired(), Length(max=120)])
@@ -31,6 +29,7 @@ class EditPostForm(FlaskForm):
 @edit_bp.route('/editpost/<int:post_id>', methods=['GET', 'POST'])
 @login_required
 def edit_post(post_id):
+    searchbar_form = SearchbarForm()
     conn = get_db_connection()
     cursor = conn.cursor(dictionary=True)
     cursor.execute("SELECT * FROM posts WHERE post_id = %s", (post_id,))
@@ -78,8 +77,7 @@ def edit_post(post_id):
         flash("Post updated successfully!", "success")
         return redirect(url_for('view.view_post', post_id=post_id))
 
-    return render_template('user/editpost.html', form=form, post=post)
-
+    return render_template('user/editpost.html', form=form, post=post, searchbar_form=searchbar_form)
 
 @edit_bp.route('/delete_post/<int:post_id>', methods=['POST'])
 @login_required

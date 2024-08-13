@@ -6,11 +6,9 @@ import bleach
 
 review_bp = Blueprint('review', __name__)
 
-
 def sanitize_input(input_str):
     allowed_tags = ['b', 'i', 'u', 'em', 'strong', 'a']
     return bleach.clean(input_str, tags=allowed_tags)
-
 
 @review_bp.route('/submit_review', methods=['POST'])
 def submit_review():

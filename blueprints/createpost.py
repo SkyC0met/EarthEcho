@@ -9,6 +9,7 @@ from wtforms.fields.datetime import DateField
 from wtforms.validators import DataRequired, Length, ValidationError
 from flask_wtf.file import FileAllowed
 from db import get_db_connection
+from blueprints.sky_forms import SearchbarForm
 
 create_bp = Blueprint('create', __name__)
 class PostForm(FlaskForm):
@@ -28,6 +29,7 @@ class PostForm(FlaskForm):
 @create_bp.route('/createpost', methods=['GET', 'POST'])
 @login_required
 def create_post():
+    searchbar_form = SearchbarForm()
     form = PostForm()
     if form.username.data is None:
         form.username.data = current_user.username
@@ -62,4 +64,4 @@ def create_post():
 
         flash("Post created!", "success")
         return redirect(url_for('myposts.my_posts'))
-    return render_template('user/createpost.html', form=form)
+    return render_template('user/createpost.html', form=form, searchbar_form=searchbar_form)

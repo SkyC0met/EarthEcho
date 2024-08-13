@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, session, redirect, url_for, request, flash
 from db import get_db_connection
-from blueprints.sky_forms import AddFavouritesForm
+from blueprints.sky_forms import AddFavouritesForm, SearchbarForm
 from blueprints.utils import *
 import base64
 
@@ -45,9 +45,10 @@ def get_fav(user_id: int):
 @fav_bp.route('/favourites')
 @user_required
 def favourites():
+    searchbar_form = SearchbarForm()
     add_favourites_form = AddFavouritesForm()
     favourites = get_fav(session['_user_id'])
-    return render_template('user/favourites.html', favourites=favourites, add_favourites_form=add_favourites_form)
+    return render_template('user/favourites.html', favourites=favourites, add_favourites_form=add_favourites_form, searchbar_form=searchbar_form)
 
 @fav_bp.route('/add_favourite', methods=['POST'])
 @user_required

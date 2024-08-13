@@ -56,7 +56,7 @@
         <span class="navbar-toggler-icon"></span>
       </button>
       <div
-        class="collapse navbar-collapse justify-content-between"
+        class="collapse navbar-collapse flex-row-reverse"
         id="navbarSupportedContent"
       >
         <!--NOT DROPDOWN BIG SCREEN-->
@@ -124,18 +124,6 @@
           </ul>
         </div>
         <!--DROPDOWN SMALL SCREEN-->
-
-        <!--SEARCHBAR-->
-        <div class="order-first search-container order-2">
-          <form action="{{ url_for('homepage.search') }}" method="POST" class="d-flex">
-            {{ searchbar_form.csrf_token }}
-            {{ searchbar_form.search(class="form-control rounded-pill me-2 py-2 px-3", placeholder="Type here to search", aria_label="Search") }}
-            <button class="border border-0" type="submit">
-              <i class="fa-solid fa-magnifying-glass icon-dark"></i>
-            </button>
-          </form>
-        </div>
-        <!--SEARCHBAR-->
       </div>
     </div>
   </nav>

@@ -132,4 +132,4 @@ INSERT INTO user_redemption (user_id, reward_id) VALUES
 ('2', '7'),
 ('4', '8');*/
 
-SELECT * FROM user_favourites;
+SELECT header FROM posts;

@@ -1,6 +1,6 @@
 from flask import render_template, Blueprint, abort, request, jsonify, session
 from db import get_db_connection
-from blueprints.sky_forms import AddFavouritesForm
+from blueprints.sky_forms import AddFavouritesForm, SearchbarForm
 from blueprints.utils import *
 import base64
 
@@ -8,6 +8,7 @@ blogpost_bp = Blueprint('bp', __name__)
 
 @blogpost_bp.route('/post/<int:post_id>')
 def post(post_id):
+    searchbar_form = SearchbarForm()
     add_favourites_form = AddFavouritesForm()
     is_favourite = False
     author_uuid = None  # Initialize the UUID variable
@@ -68,7 +69,8 @@ def post(post_id):
         reviews_per_page=3,
         add_favourites_form=add_favourites_form,
         is_favourite=is_favourite,
-        uuid=author_uuid  # Pass the UUID to the template
+        uuid=author_uuid,
+        searchbar_form=searchbar_form
     )
 
 @blogpost_bp.route('/get_reviews', methods=['GET'])

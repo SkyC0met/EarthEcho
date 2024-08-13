@@ -16,9 +16,9 @@
   </style>
 </head>
 <body>
-  {% extends 'user/user_base.html' %}
+  {% include "navbar/no_searchbar.html" %}
+  {% include "user/customerBase.html" %}
 
-  {% block content %}
   <div class="container form-container mt-5">
     <h2 class="fw-bold mb-3">Unban Request Form</h2>
 
@@ -137,6 +137,5 @@
       $('#security-answer').val('');
     });
   </script>
-  {% endblock content %}
 </body>
 </html>

@@ -61,7 +61,7 @@ class ForgotPasswordForm(FlaskForm):
         validators.Email(message='Invalid email'),
     ])
 
-class Searchbar(FlaskForm):
+class SearchbarForm(FlaskForm):
     search = StringField('Search', [
         validators.InputRequired(message="Please enter a message"),
         validators.Length(min=1, max=160)
@@ -73,7 +73,7 @@ class MessageForm(FlaskForm):
     ])
     message = StringField('Message', [
         validators.InputRequired(message="Please enter a message"),
-        validators.Length(min=1, max=160)
+        validators.Length(min=1, max=100)
     ])
 
 class EditUsernameForm(FlaskForm):

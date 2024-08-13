@@ -8,9 +8,9 @@
   </head>
 
   <body>
-    {% extends 'user/user_base.html' %}
+    {% include "navbar/no_searchbar.html" %}
+    {% include "user/customerBase.html" %}
 
-    {% block content %}
     <!-- REGISTER -->
     <div class="container-md mt-sm-5 mt-4 mb-4 register-top">
       <!-- REGISTER TOP -->
@@ -153,6 +153,5 @@
       </div>
     </div>
     <!-- REGISTER -->
-    {% endblock content %}
   </body>
 </html>

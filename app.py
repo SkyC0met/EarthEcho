@@ -1,14 +1,11 @@
-from flask import Flask, session, send_from_directory, request
+from flask import Flask, jsonify, session
 from config import Config
 from flask_wtf.csrf import CSRFProtect, CSRFError
-from flask import jsonify
 from datetime import timedelta
 from blueprints.utils import login_manager
-from db import get_db_connection
 from flask_talisman import Talisman
 from authlib.integrations.flask_client import OAuth
 from flask_mailman import Mail
-import mysql
 
 # BLUEPRINTS
 from blueprints.__init__ import init_bp
@@ -18,6 +15,7 @@ from blueprints.auth import auth_bp
 from blueprints.profile import profile_bp
 from blueprints.messaging import messaging_bp
 from blueprints.favourites import fav_bp
+from blueprints.game import game_bp
 from blueprints.reward import reward_bp
 from blueprints.misc import misc_bp
 from blueprints.review import review_bp
@@ -120,6 +118,7 @@ def create_app(config_class=Config):
     app.register_blueprint(profile_bp)
     app.register_blueprint(messaging_bp)
     app.register_blueprint(fav_bp)
+    app.register_blueprint(game_bp)
     app.register_blueprint(reward_bp)
     app.register_blueprint(misc_bp)
     app.register_blueprint(review_bp)
@@ -133,57 +132,13 @@ def create_app(config_class=Config):
     @app.errorhandler(CSRFError)
     def handle_csrf_error(e):
         return jsonify({"error": "CSRF token missing or incorrect."}), 400
-
-    @app.route('/check-session')
-    def check_session():
-        print(session)
-        return 'Check the console for session data'
-
+    
     # Middleware to set the necessary headers
     @app.after_request
     def add_security_headers(response):
         response.headers['Cross-Origin-Opener-Policy'] = 'same-origin'
         response.headers['Cross-Origin-Embedder-Policy'] = 'require-corp'
         return response
-
-    coin_count = 0
-    # Serve the game page
-    @app.route('/game/index.html')
-    def game():
-        return send_from_directory('game', 'index.html')
-
-    # Serve static files (JavaScript, images, etc.)
-    @app.route('/game/<path:path>')
-    def serve_static_file(path):
-        return send_from_directory('game', path)
-
-    @app.route('/update_coins', methods=['GET'])
-    def update_coins():
-        global coin_count
-        coin_count = int(request.args.get('coin_count', 0))
-        update_user_points(session['_user_id'], 1)  # Update points when coins are updated
-        return jsonify({'status': 'success', 'coin_count': coin_count})
-
-    @app.route('/get_coin_count', methods=['GET'])
-    def get_coin_count():
-        global coin_count
-        return jsonify({'coin_count': coin_count})
-
-    @app.route('/update_user_points', methods=['POST'])
-    def update_user_points(user_id, points):
-        if user_id is None or points is None:
-            return jsonify({'status': 'error', 'message': 'Missing user_id or points'}), 400
-
-        try:
-            connection = get_db_connection()
-            cursor = connection.cursor()
-            cursor.execute("INSERT INTO user_points (user_id, points_balance) VALUES (%s, %s) ON DUPLICATE KEY UPDATE points_balance = points_balance + %s", (user_id, points, points))
-            connection.commit()
-            cursor.close()
-            connection.close()
-            return jsonify({'status': 'success'})
-        except mysql.connector.Error as err:
-            return jsonify({'status': 'error', 'message': str(err)}), 500
     
     return app
 

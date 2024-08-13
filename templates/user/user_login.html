@@ -8,9 +8,8 @@
   </head>
 
   <body>
-    {% extends 'user/user_base.html' %}
-
-    {% block content %}
+    {% include "navbar/no_searchbar.html" %}
+    {% include "user/customerBase.html" %}
 
     {% with messages = get_flashed_messages(with_categories=true) %}
       {% if messages %}
@@ -151,6 +150,5 @@
       </div>
     </div>
     <!--LOGIN USER-->
-    {% endblock content %}
   </body>
 </html>
