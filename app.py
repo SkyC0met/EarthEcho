@@ -107,8 +107,8 @@ def create_app(config_class=Config):
     app.config['SESSION_COOKIE_SAMESITE'] = 'Lax'
 
     # reCAPTCHA
-    app.config['RECAPTCHA_SITE_KEY'] = '6LeDmxsqAAAAAIQKTcChogPkiUnenRppl4WiXGh0'
-    app.config['RECAPTCHA_SECRET_KEY'] = '6LeDmxsqAAAAALGcfuu8CLdH92N_SHfM5T1xvGTK'
+    app.config['RECAPTCHA_SITE_KEY'] = app.config['RECAPTCHA_SITE_KEY']
+    app.config['RECAPTCHA_SECRET_KEY'] = app.config['RECAPTCHA_SECRET_KEY']
 
     # Register your blueprints
     app.register_blueprint(init_bp)

@@ -45,7 +45,7 @@ def admin_login():
             flash('Invalid username/email or password.', 'warning')
     return render_template('admin/admin_login.html', login_form=login_form)
 
-@admin_bp.route('/admin/profile', methods=['GET', 'POST'])
+@admin_bp.route('/profile', methods=['GET', 'POST'])
 @admin_required
 def admin_profile():
     user = get_user_by_field('user_id', session['_user_id'])

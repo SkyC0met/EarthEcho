@@ -58,12 +58,18 @@ def insert_message(sender_user_id: int, receiver_user_id: int, message: str):
         rate_limit_store[sender_user_id][0].append(current_time)
         rate_limit_store[sender_user_id][1] += 1
 
-def get_messages_between_users(user_id1: int, user_id2: int):
+def get_messages_between_users(sender_id, receiver_id):
     conn = get_db_connection()
     cursor = conn.cursor(dictionary=True)
     cursor.execute(
-        "SELECT * FROM messages WHERE (sender_user_id = %s AND receiver_user_id = %s) OR (sender_user_id = %s AND receiver_user_id = %s) ORDER BY timestamp",
-        (user_id1, user_id2, user_id2, user_id1)
+        '''SELECT messages.message_id, messages.message, messages.timestamp, users.username AS sender_username
+            FROM messages
+            JOIN users ON messages.sender_user_id = users.uuid
+            WHERE (messages.sender_user_id = %s AND messages.receiver_user_id = %s)
+            OR (messages.sender_user_id = %s AND messages.receiver_user_id = %s)
+            ORDER BY messages.timestamp ASC
+            ''',
+        (sender_id, receiver_id, receiver_id, sender_id)
     )
     messages = cursor.fetchall()
     cursor.close()
@@ -113,9 +119,9 @@ def chat(receiver_id):
         return redirect(url_for('messaging.messages'))
 
     receiver = get_user_by_field('uuid', receiver_id)
-    sender = get_user_by_field('uuid', sender_id)
     if not receiver:
         flash('User does not exist.', 'warning')
+        return redirect(url_for('messaging.messages'))
         
     message_form = MessageForm()
     message_form.receiver.data = receiver_id
@@ -123,7 +129,14 @@ def chat(receiver_id):
         message = message_form.message.data
         insert_message(sender_id, receiver_id, message)
         return redirect(url_for('messaging.chat', receiver_id=receiver_id))
+    
     messages = get_messages_between_users(sender_id, receiver_id)
-    return render_template('user/chat.html', sender=sender['username'], receiver=receiver['username'], message_form=message_form, messages=messages, searchbar_form=searchbar_form)
+    
+    return render_template('user/chat.html', 
+                           sender=sender['username'], 
+                           receiver=receiver['username'], 
+                           message_form=message_form, 
+                           messages=messages, 
+                           searchbar_form=searchbar_form)
 
 # MESSAGING ROUTES
